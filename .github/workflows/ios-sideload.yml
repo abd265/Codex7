@@ -1,0 +1,40 @@
+name: Build RiseBake iPhone IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ios-sideload.yml'
+      - 'scripts/build_device.sh'
+      - 'RiseBake/**'
+      - 'RiseBake.xcodeproj/**'
+      - 'Sources/**'
+      - 'Tests/**'
+      - 'Package.swift'
+      - 'Docs/WINDOWS-IPHONE.md'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Test native business logic
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build unsigned physical-iPhone IPA
+        run: bash scripts/build_device.sh
+      - name: Upload IPA, instructions, and build logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: RiseBake-iPhone
+          path: artifacts/**
+          if-no-files-found: error
+          retention-days: 14

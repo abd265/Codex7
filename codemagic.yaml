@@ -42,3 +42,19 @@ workflows:
         script: python3 scripts/publish_appetize.py
     artifacts:
       - artifacts/**
+  ios-sideload:
+    name: RiseBake · Build iPhone IPA for Windows
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+    scripts:
+      - name: Test native business logic
+        script: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build unsigned physical-iPhone IPA
+        script: bash scripts/build_device.sh
+    artifacts:
+      - artifacts/**

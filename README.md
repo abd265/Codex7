@@ -19,7 +19,11 @@ Open `RiseBake.xcodeproj` in current Xcode, select the shared **RiseBake** schem
 
 The separate `ios-build` workflow compiles and produces `RiseBake-simulator.zip` without Appetize credentials. This is also useful for diagnosing the native build before publishing. The source ZIP itself cannot run in Appetize: Appetize requires the compiled simulator `.app` bundle.
 
-The pipeline sets the Appetize app's **run** permission to public so anyone with the returned link can try this fictional-data preview. It does not grant public debugging or network-inspection permissions. Your Codemagic and Appetize account limits still apply. This simulator route does not require Apple distribution signing. Physical-device installation, TestFlight and the App Store require a separate signing/release setup.
+The pipeline sets the Appetize app's **run** permission to public so anyone with the returned link can try this fictional-data preview. It does not grant public debugging or network-inspection permissions. Your Codemagic and Appetize account limits still apply. This simulator route does not require Apple distribution signing. For physical-device testing from Windows, use the separate `ios-sideload` workflow below. TestFlight and the App Store require a paid signing/release setup.
+
+## Test on your iPhone from Windows
+
+Run **Build RiseBake iPhone IPA** in GitHub Actions (it also runs when relevant files change on `main`), or select **ios-sideload** in Codemagic. Both produce **RiseBake-unsigned.ipa** for an iPhone running iOS 17+. Install it using Sideloadly on Windows with a free Apple Account. Signing happens in Sideloadly; the build services need no Apple credentials. Free signing lasts seven days and can be refreshed while the PC can reach your phone. See [the Windows installation steps](Docs/WINDOWS-IPHONE.md).
 
 ## Native screens and workflows
 
