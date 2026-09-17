@@ -1,0 +1,44 @@
+workflows:
+  ios-build:
+    name: RiseBake · Build iOS simulator
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+    scripts:
+      - name: Test native business logic
+        script: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build and smoke-test native iOS app
+        script: bash scripts/build_simulator.sh
+    artifacts:
+      - artifacts/**
+  ios-appetize:
+    name: RiseBake · Codemagic → Appetize
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+      groups:
+        - appetize_credentials
+    scripts:
+      - name: Check publishing credentials
+        script: |
+          set -eu
+          if [ -z "${APPETIZE_API_TOKEN:-}" ]; then
+            echo "Add APPETIZE_API_TOKEN as a secret in the appetize_credentials group."
+            exit 1
+          fi
+      - name: Test native business logic
+        script: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build and smoke-test native iOS app
+        script: bash scripts/build_simulator.sh
+      - name: Publish native app to Appetize
+        script: python3 scripts/publish_appetize.py
+    artifacts:
+      - artifacts/**

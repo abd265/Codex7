@@ -1,0 +1,1365 @@
+{
+  "version": 1,
+  "day": "2025-04-10",
+  "products": [
+    {
+      "id": "p0",
+      "name": "Sourdough Loaf",
+      "category": "Breads",
+      "price": 1200,
+      "cost": 420,
+      "capacity": 48,
+      "image": 0,
+      "unit": "loaf",
+      "description": "Slow-fermented. Golden crust. A daily ritual.",
+      "allergens": "Wheat / gluten",
+      "recipe": {
+        "Flour": 350,
+        "Water": 250,
+        "Salt": 7
+      },
+      "steps": [
+        "Mix",
+        "Shape",
+        "Bake"
+      ]
+    },
+    {
+      "id": "p1",
+      "name": "Croissant",
+      "category": "Pastries",
+      "price": 450,
+      "cost": 135,
+      "capacity": 60,
+      "image": 1,
+      "unit": "piece",
+      "description": "Buttery layers, baked fresh each morning.",
+      "allergens": "Wheat, dairy, eggs",
+      "recipe": {
+        "Flour": 65,
+        "Butter": 30,
+        "Milk": 20
+      },
+      "steps": [
+        "Laminate",
+        "Proof",
+        "Bake"
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "Custom Cake",
+      "category": "Cakes",
+      "price": 12000,
+      "cost": 4200,
+      "capacity": 6,
+      "image": 2,
+      "unit": "cake",
+      "description": "Vanilla buttercream, fresh berries, a little joy.",
+      "allergens": "Wheat, dairy, eggs",
+      "recipe": {
+        "Flour": 300,
+        "Butter": 250,
+        "Sugar": 300
+      },
+      "steps": [
+        "Bake",
+        "Decorate",
+        "Pack"
+      ]
+    },
+    {
+      "id": "p3",
+      "name": "Morning Buns",
+      "category": "Pastries",
+      "price": 600,
+      "cost": 185,
+      "capacity": 36,
+      "image": 3,
+      "unit": "piece",
+      "description": "A golden swirl of cinnamon and brown sugar.",
+      "allergens": "Wheat, dairy, eggs",
+      "recipe": {
+        "Flour": 90,
+        "Butter": 25,
+        "Sugar": 35
+      },
+      "steps": [
+        "Mix",
+        "Shape",
+        "Bake"
+      ]
+    },
+    {
+      "id": "p4",
+      "name": "Baguette",
+      "category": "Breads",
+      "price": 600,
+      "cost": 140,
+      "capacity": 48,
+      "image": 4,
+      "unit": "loaf",
+      "description": "Crisp outside, beautifully soft within.",
+      "allergens": "Wheat / gluten",
+      "recipe": {
+        "Flour": 220,
+        "Water": 150,
+        "Salt": 5
+      },
+      "steps": [
+        "Mix",
+        "Shape",
+        "Bake"
+      ]
+    },
+    {
+      "id": "p5",
+      "name": "Chocolate Cake",
+      "category": "Cakes",
+      "price": 4200,
+      "cost": 1400,
+      "capacity": 8,
+      "image": 5,
+      "unit": "cake",
+      "description": "Rich chocolate layers for your sweet moments.",
+      "allergens": "Wheat, dairy, eggs",
+      "recipe": {
+        "Flour": 180,
+        "Butter": 180,
+        "Sugar": 180,
+        "Chocolate": 220
+      },
+      "steps": [
+        "Bake",
+        "Decorate",
+        "Pack"
+      ]
+    }
+  ],
+  "customers": [
+    {
+      "id": "c0",
+      "name": "Sarah Kim",
+      "email": "sarah@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "Pastel buttercream and fresh berries. Confirm final design before baking.",
+      "created": "2024-12-11",
+      "messages": []
+    },
+    {
+      "id": "c1",
+      "name": "Emily Chen",
+      "email": "emily@example.test",
+      "phone": "",
+      "preferred": "Afternoons · 3:00–6:00 PM",
+      "vip": true,
+      "notes": "",
+      "created": "2024-11-27",
+      "messages": []
+    },
+    {
+      "id": "c2",
+      "name": "Michael Torres",
+      "email": "michael@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "",
+      "created": "2024-11-13",
+      "messages": []
+    },
+    {
+      "id": "c3",
+      "name": "James Wilson",
+      "email": "james@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "",
+      "created": "2024-10-30",
+      "messages": []
+    },
+    {
+      "id": "c4",
+      "name": "Priya Patel",
+      "email": "priya@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "",
+      "created": "2024-10-16",
+      "messages": []
+    },
+    {
+      "id": "c5",
+      "name": "Marcus Lee",
+      "email": "marcus@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "",
+      "created": "2024-10-02",
+      "messages": []
+    },
+    {
+      "id": "c6",
+      "name": "Ava Martinez",
+      "email": "ava@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": false,
+      "notes": "",
+      "created": "2024-09-18",
+      "messages": []
+    },
+    {
+      "id": "c7",
+      "name": "River & Oak Café",
+      "email": "river@example.test",
+      "phone": "",
+      "preferred": "Morning pickup · 9:00 AM–12:00 PM",
+      "vip": true,
+      "notes": "",
+      "created": "2024-09-04",
+      "messages": []
+    }
+  ],
+  "orders": [
+    {
+      "id": "1042",
+      "customer": "c0",
+      "lines": [
+        {
+          "product": "p2",
+          "qty": 1,
+          "price": 12000
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "10:00",
+      "status": "In production",
+      "paid": 6000,
+      "deposit": 6000,
+      "type": "Custom",
+      "notes": "Happy 30th birthday! Pastel colors and fresh berries on top.",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1041",
+      "customer": "c1",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "11:30",
+      "status": "Ready for pickup",
+      "paid": 2400,
+      "deposit": 2400,
+      "type": "Recurring",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-10T09:30:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0,
+      "series": "r0"
+    },
+    {
+      "id": "1040",
+      "customer": "c2",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 1,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "12:00",
+      "status": "Ready for pickup",
+      "paid": 1200,
+      "deposit": 1200,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-10T09:30:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1039",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 3,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "13:00",
+      "status": "Confirmed",
+      "paid": 1800,
+      "deposit": 1800,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1038",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 6,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "14:00",
+      "status": "In production",
+      "paid": 2700,
+      "deposit": 2700,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1037",
+      "customer": "c5",
+      "lines": [
+        {
+          "product": "p5",
+          "qty": 1,
+          "price": 4200
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "14:30",
+      "status": "Awaiting deposit",
+      "paid": 0,
+      "deposit": 2100,
+      "type": "Custom",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1036",
+      "customer": "c6",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 4,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "15:00",
+      "status": "In production",
+      "paid": 2400,
+      "deposit": 2400,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1035",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 12,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "15:30",
+      "status": "Confirmed",
+      "paid": 7200,
+      "deposit": 7200,
+      "type": "Wholesale",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1034",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "16:00",
+      "status": "Confirmed",
+      "paid": 2400,
+      "deposit": 2400,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1033",
+      "customer": "c2",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 4,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "16:30",
+      "status": "Confirmed",
+      "paid": 1800,
+      "deposit": 1800,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1032",
+      "customer": "c6",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 3,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "17:00",
+      "status": "Confirmed",
+      "paid": 1800,
+      "deposit": 1800,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1031",
+      "customer": "c5",
+      "lines": [
+        {
+          "product": "p2",
+          "qty": 1,
+          "price": 12000
+        }
+      ],
+      "date": "2025-04-10",
+      "time": "17:30",
+      "status": "Confirmed",
+      "paid": 6000,
+      "deposit": 6000,
+      "type": "Custom",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-09T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1030",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p5",
+          "qty": 1,
+          "price": 4200
+        }
+      ],
+      "date": "2025-04-11",
+      "time": "11:00",
+      "status": "Confirmed",
+      "paid": 4200,
+      "deposit": 2100,
+      "type": "Custom",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1029",
+      "customer": "c1",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-03",
+      "time": "11:30",
+      "status": "Picked up",
+      "paid": 2400,
+      "deposit": 2400,
+      "type": "Recurring",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-02T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-02T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-03T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-03T11:30:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1028",
+      "customer": "c0",
+      "lines": [
+        {
+          "product": "p2",
+          "qty": 1,
+          "price": 12000
+        }
+      ],
+      "date": "2025-04-04",
+      "time": "10:00",
+      "status": "Picked up",
+      "paid": 12000,
+      "deposit": 6000,
+      "type": "Custom",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-03T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-03T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-04T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-04T10:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1027",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 16,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-05",
+      "time": "09:00",
+      "status": "Picked up",
+      "paid": 9600,
+      "deposit": 9600,
+      "type": "Wholesale",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-04T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-04T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-05T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-05T09:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1026",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 10,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-06",
+      "time": "11:00",
+      "status": "Picked up",
+      "paid": 4500,
+      "deposit": 4500,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-05T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-05T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-06T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-06T11:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1025",
+      "customer": "c6",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 8,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-07",
+      "time": "13:00",
+      "status": "Picked up",
+      "paid": 4800,
+      "deposit": 4800,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-06T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-06T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-07T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-07T13:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1024",
+      "customer": "c2",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 5,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-08",
+      "time": "12:00",
+      "status": "Picked up",
+      "paid": 6000,
+      "deposit": 6000,
+      "type": "Retail",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-07T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-07T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-08T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-08T12:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1023",
+      "customer": "c5",
+      "lines": [
+        {
+          "product": "p5",
+          "qty": 2,
+          "price": 4200
+        }
+      ],
+      "date": "2025-04-09",
+      "time": "15:00",
+      "status": "Picked up",
+      "paid": 8400,
+      "deposit": 4200,
+      "type": "Custom",
+      "notes": "",
+      "allergy": "",
+      "created": "2025-03-31T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-08T08:00:00"
+        },
+        {
+          "status": "In production",
+          "at": "2025-04-08T08:00:00"
+        },
+        {
+          "status": "Ready for pickup",
+          "at": "2025-04-09T09:30:00"
+        },
+        {
+          "status": "Picked up",
+          "at": "2025-04-09T15:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1043",
+      "customer": "c1",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-17",
+      "time": "11:30",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r0",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1044",
+      "customer": "c1",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-04-24",
+      "time": "11:30",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r0",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1045",
+      "customer": "c1",
+      "lines": [
+        {
+          "product": "p0",
+          "qty": 2,
+          "price": 1200
+        }
+      ],
+      "date": "2025-05-01",
+      "time": "11:30",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r0",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1046",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 12,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-11",
+      "time": "09:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r1",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1047",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 12,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-18",
+      "time": "09:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r1",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1048",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 12,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-25",
+      "time": "09:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r1",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1049",
+      "customer": "c7",
+      "lines": [
+        {
+          "product": "p4",
+          "qty": 12,
+          "price": 600
+        }
+      ],
+      "date": "2025-05-02",
+      "time": "09:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r1",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1050",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 6,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-12",
+      "time": "10:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r2",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1051",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 6,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-19",
+      "time": "10:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r2",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1052",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 6,
+          "price": 450
+        }
+      ],
+      "date": "2025-04-26",
+      "time": "10:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r2",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1053",
+      "customer": "c3",
+      "lines": [
+        {
+          "product": "p1",
+          "qty": 6,
+          "price": 450
+        }
+      ],
+      "date": "2025-05-03",
+      "time": "10:00",
+      "status": "Confirmed",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r2",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [
+        {
+          "status": "Confirmed",
+          "at": "2025-04-10T08:00:00"
+        }
+      ],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1054",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 4,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-13",
+      "time": "14:00",
+      "status": "Paused",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r3",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1055",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 4,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-20",
+      "time": "14:00",
+      "status": "Paused",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r3",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1056",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 4,
+          "price": 600
+        }
+      ],
+      "date": "2025-04-27",
+      "time": "14:00",
+      "status": "Paused",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r3",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [],
+      "rating": 0,
+      "rev": 0
+    },
+    {
+      "id": "1057",
+      "customer": "c4",
+      "lines": [
+        {
+          "product": "p3",
+          "qty": 4,
+          "price": 600
+        }
+      ],
+      "date": "2025-05-04",
+      "time": "14:00",
+      "status": "Paused",
+      "paid": 0,
+      "deposit": 0,
+      "type": "Recurring",
+      "series": "r3",
+      "notes": "Standing order · payment on pickup in this demo.",
+      "allergy": "",
+      "created": "2025-04-10T08:00:00",
+      "history": [],
+      "rating": 0,
+      "rev": 0
+    }
+  ],
+  "recurring": [
+    {
+      "id": "r0",
+      "customer": "c1",
+      "product": "p0",
+      "qty": 2,
+      "start": "2025-04-10",
+      "time": "11:30",
+      "paused": false,
+      "exceptions": {}
+    },
+    {
+      "id": "r1",
+      "customer": "c7",
+      "product": "p4",
+      "qty": 12,
+      "start": "2025-04-11",
+      "time": "09:00",
+      "paused": false,
+      "exceptions": {}
+    },
+    {
+      "id": "r2",
+      "customer": "c3",
+      "product": "p1",
+      "qty": 6,
+      "start": "2025-04-12",
+      "time": "10:00",
+      "paused": false,
+      "exceptions": {}
+    },
+    {
+      "id": "r3",
+      "customer": "c4",
+      "product": "p3",
+      "qty": 4,
+      "start": "2025-04-13",
+      "time": "14:00",
+      "paused": true,
+      "exceptions": {}
+    }
+  ],
+  "tasks": {},
+  "cart": {},
+  "settings": {
+    "bakery": "The Little Bread Co.",
+    "owner": "Baker",
+    "cakeDeposit": 50,
+    "otherDeposit": 100
+  },
+  "nextOrder": 1058
+}
