@@ -2,7 +2,7 @@
 
 A SwiftUI iOS 17+ app converted from the latest available RiseBake deployment: `risebake-s4otbp`, source version `1789473015082` (15 September 2026). The Xcode target contains Swift, an asset catalog, sample JSON and a privacy manifest. It has no web view, HTML app, screenshot UI or invisible button overlays.
 
-The earlier ZIP contained only a README. This package contains the actual Xcode project and source.
+The actual native project has now passed its first Codemagic build: all 14 tests passed, Xcode compiled the app, and it installed and launched in an iPhone simulator. `RiseBake-simulator.zip` is available in the [successful build's artifacts](https://codemagic.io/app/6aaa9d3dd3d3257933be7676/build/6aab44aa259504239f650740?open-step=build-step-3). Appetize upload and visual acceptance testing are still pending.
 
 ## Open the app
 

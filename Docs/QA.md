@@ -15,4 +15,15 @@ Before treating the native conversion as release-ready, run the resulting simula
 - Add a demo message, share a receipt, export JSON/CSV, then restore a valid backup. Invalid backups must leave current data unchanged.
 - Open the Appetize link in a second browser and interact with real native controls. Export any changes you want to keep before ending a session.
 
-Known validation boundary at preparation: native SwiftUI has not yet been compiled by Xcode or visually reviewed on an iPhone simulator. Codemagic access is required for that gate in this Linux workspace.
+## Verified native build — 17 September 2026
+
+Codemagic build `6aab44aa259504239f650740` finished successfully in 2m 40s on a Mac mini M2, using source commit `4da568d84764e9a575685a7267a5943965802e89`.
+
+- All 14 domain tests passed on macOS with zero failures.
+- Xcode 26.6 compiled the SwiftUI app for the ARM iOS Simulator.
+- The build script verified the binary architecture and simulator platform, installed the app, launched `com.risebake.preview`, and verified that it remained running.
+- Codemagic produced `RiseBake-simulator.zip` (1.28 MB) plus an artifact archive containing the real launch screenshot and logs.
+
+[Open the verified Codemagic build](https://codemagic.io/app/6aaa9d3dd3d3257933be7676/build/6aab44aa259504239f650740?open-step=build-step-3).
+
+Remaining validation: interactive and visual acceptance checks above, including matching the eight design references. The launch screenshot has been generated but has not yet been inspected. Appetize upload remains pending authenticated account access; no Appetize preview URL is claimed.
