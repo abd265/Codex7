@@ -26,4 +26,17 @@ Codemagic build `6aab44aa259504239f650740` finished successfully in 2m 40s on a 
 
 [Open the verified Codemagic build](https://codemagic.io/app/6aaa9d3dd3d3257933be7676/build/6aab44aa259504239f650740?open-step=build-step-3).
 
-Remaining validation: interactive and visual acceptance checks above, including matching the eight design references. The launch screenshot has been generated but has not yet been inspected. Appetize upload remains pending authenticated account access; no Appetize preview URL is claimed.
+## Verified Appetize deployment — 17 September 2026
+
+The compiled Codemagic artifact was uploaded through the Appetize UI as RiseBake 1.2, build 1. Bundle ID: `com.risebake.preview`. Uploaded ZIP SHA-256: `20967104085c9787d8a8bf03c3e923a2c876ab4f7a3aba486b46fb86612c2654`.
+
+[Launch the native preview](https://appetize.io/app/b_u7avwqivgfdqgcodbz6cl3wooy?device=iphone14pro&osVersion=17.2&toolbar=true) and choose **Tap to Start**.
+
+Confirmed in Appetize on an iPhone 14 Pro running iOS 17.2:
+
+- The native app launches and displays the Today dashboard.
+- All five tabs open: Today, Orders, Bake, Customers and More.
+- An order row opens its native detail screen, including items, payment summary and receipt control.
+- A production checklist item changes state when tapped.
+
+These were live simulator interactions. Full visual comparison against the eight design references, landscape/accessibility checks and the remaining end-to-end scenarios above have not been completed. Payments and messages remain simulated. The automated Appetize publishing workflow is prepared, but its API credentials have not been configured; this deployment used the successful Codemagic build and an Appetize UI upload.
