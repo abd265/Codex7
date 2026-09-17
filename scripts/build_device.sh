@@ -16,7 +16,7 @@ xcodebuild build \
 app_path="$PWD/build/device/Build/Products/Release-iphoneos/RiseBake.app"
 test -x "$app_path/RiseBake"
 # ARM64 alone is insufficient: Apple Silicon simulator binaries are also ARM64.
-xcrun lipo -verify_arch arm64 "$app_path/RiseBake"
+xcrun lipo "$app_path/RiseBake" -verify_arch arm64
 xcrun lipo -info "$app_path/RiseBake" | tee artifacts/device-architecture.txt
 xcrun vtool -show-build "$app_path/RiseBake" | tee artifacts/device-platform.txt
 python3 - "$app_path" <<'PY'
