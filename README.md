@@ -2,7 +2,7 @@
 
 A SwiftUI iOS 17+ app converted from the latest available RiseBake deployment: `risebake-s4otbp`, source version `1789473015082` (15 September 2026). The Xcode target contains Swift, an asset catalog, sample JSON and a privacy manifest. It has no web view, HTML app, screenshot UI or invisible button overlays.
 
-The actual native project has now passed its first Codemagic build: all 14 tests passed, Xcode compiled the app, and it installed and launched in an iPhone simulator. `RiseBake-simulator.zip` is available in the [successful build's artifacts](https://codemagic.io/app/6aaa9d3dd3d3257933be7676/build/6aab44aa259504239f650740?open-step=build-step-3). Appetize upload and visual acceptance testing are still pending.
+The actual native project has now passed its first Codemagic build: all 14 tests passed, Xcode compiled the app, and it installed and launched in an iPhone simulator. `RiseBake-simulator.zip` is available in the [successful build's artifacts](https://codemagic.io/app/6aaa9d3dd3d3257933be7676/build/6aab44aa259504239f650740?open-step=build-step-3). The compiled bundle is now deployed to Appetize. [Launch the native RiseBake preview](https://appetize.io/app/b_u7avwqivgfdqgcodbz6cl3wooy?device=iphone14pro&osVersion=17.2&toolbar=true), then choose **Tap to Start**. This upload was made from the Codemagic artifact through Appetize's upload UI; API credentials for automatic future publishing have not been configured.
 
 ## Open the app
 
@@ -49,6 +49,6 @@ This remains a functional preview with **simulated payments and messages**. No a
 
 ## Validation
 
-`swift test` runs the Foundation domain tests. All 14 domain tests passed locally; local compiler and test logs are excluded from the public repository. UI Swift files also passed Swift syntax parsing. These checks do not replace compiling and running SwiftUI with the iOS SDK: the Codemagic workflow performs that build and simulator launch when account/repository access is connected. No compiled iOS binary or Appetize URL is claimed until that workflow succeeds.
+`swift test` runs the Foundation domain tests. All 14 tests passed locally and on Codemagic. Xcode compilation and simulator launch succeeded. The uploaded app also launched on Appetize's iPhone 14 Pro running iOS 17.2. Native tab navigation, order details and a production checklist toggle were checked interactively. Full visual matching to the eight design references and the remaining end-to-end acceptance checks are still pending.
 
 See `Docs/QA.md` for simulator acceptance checks and `Docs/SOURCE.md` for provenance and official deployment documentation.
