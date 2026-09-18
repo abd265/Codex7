@@ -1,4 +1,19 @@
-# RiseBake 2.0 validation
+# Rise & Bake 2.1 validation
+
+## Release evidence — 18 September 2026
+
+- Version 2.1, build 23 uses the Home Screen name **Rise & Bake** and retains `com.risebake.preview` and the existing Application Support data folder.
+- All 23 core tests passed, including old-backup compatibility, branding/logo round-trip, invalid profile rejection, agreed prices, correct paid/balance/quote labels and exclusion of private notes. The ARM64 physical-iPhone Release IPA compiled and passed archive, display-name, bundle-ID and platform checks.
+- Native iPhone 16 Pro / iOS 18.5 evidence verifies editing/saving the bakery name, relaunching with the logo intact, branded receipt details and the native PDF preview. The existing recipe/timer/background/basket journey also passed.
+- The first sharing assertion looked for buttons; the captured accessibility hierarchy showed a working system share sheet with **Save to Files** and **Print** exposed as cells. The test now checks those actual cell elements. The corrected test passed with the baking regression journey (2 tests, 0 failures): [final native/device run](https://github.com/abd265/Codex7/actions/runs/35363417228), commit `2a17e8d`.
+- The same UIKit renderer used by the app generated a one-page branded receipt, an unpaid order summary without a logo, and a ten-page / 99-item receipt. PDF text checks confirmed every item and the correct totals/balances. All text stayed within page margins. The exported pages and native profile/receipt screens were visually reviewed.
+- Logo checks verify 1600×800 input downsampling to transparent PNG at 1024×512, no change in proportions, rejection of non-images and survival through JSON backup/restore.
+- Final IPA SHA-256: `e6657c3898cf7c0d8d4b8d95b6436db22aab16cb316823b11887f91c5ed970cb`.
+- CI fixtures are inside `#if DEBUG`. The Release executable was checked to exclude the fixture launch switch.
+
+Printing uses the iPhone system print dialog. A physical AirPrint printer and installation over the user's specific Sideloadly app still require their device; neither is represented as tested by CI. Currency remains CAD and the optional business/tax ID does not add a tax calculation.
+
+## Previous RiseBake 2.0 validation
 
 ## Verified release evidence — 18 September 2026
 
