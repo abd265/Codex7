@@ -143,7 +143,9 @@ final class RiseBakeUITests: XCTestCase {
         let recipe = app.buttons["cost.recipe.recipe-p0"]
         for _ in 0..<8 { if recipe.isHittable { break }; app.swipeUp() }
         XCTAssertTrue(recipe.isHittable); recipe.tap()
-        XCTAssertTrue(app.staticTexts["$17.40"].firstMatch.waitForExistence(timeout: 5))
+        let total = app.staticTexts["costing.total"]
+        XCTAssertTrue(total.waitForExistence(timeout: 5))
+        XCTAssertEqual(total.label, "Estimated total, $17.40")
         capture("Recipe-costing")
         app.navigationBars.buttons.firstMatch.tap()
         app.navigationBars.buttons.firstMatch.tap()
