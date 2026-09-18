@@ -5,6 +5,7 @@ final class CostingTests: XCTestCase {
     private func fixture() throws -> BakeryState {
         var s = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "catalog", withExtension: "json")!))
         s.day = Clock.today; s.orders = []; s.recurring = []; s.shopping = nil
+        s.customers = [Customer(id: "costing-customer", name: "Test baker", email: "", phone: "", preferred: "", vip: false, notes: "", created: Clock.today, messages: [])]
         s.pantry = [PantryItem(id: "flour", name: "Bread flour", packageAmount: 2, unit: "kg", priceCents: 1200, stock: 0.25), PantryItem(id: "eggs", name: "Eggs", packageAmount: 12, unit: "piece", priceCents: 600, stock: 0)]
         s.recipes = [BakeRecipe(id: "bread", productID: "p0", name: "Test bread", yield: 4, yieldUnit: "loaves", ingredients: [RecipeIngredient(id: "f", name: "Flour", amount: 500, pantryID: "flour"), RecipeIngredient(id: "e", name: "Eggs", amount: 2, unit: "piece", pantryID: "eggs")], method: [RecipeStep(title: "Mix", instruction: "Mix", minutes: 10)], costing: RecipeCostSettings(packagingPerItemCents: 50, labourMinutes: 30, hourlyRateCents: 2000, overheadPerBatchCents: 100, wastePercent: 10, targetMarginPercent: 30))]
         return s
