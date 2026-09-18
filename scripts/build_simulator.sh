@@ -27,9 +27,10 @@ PY
 # Boot an available iPhone, launch the actual app and keep a real screenshot artifact.
 xcrun simctl list devices available --json > build/simulators.json
 simulator_id="$(python3 - <<'PY'
-import json
+import json,os
 s=json.load(open('build/simulators.json'))
-phones=[d for key,devices in sorted(s['devices'].items(),reverse=True) if 'iOS' in key for d in devices if d.get('isAvailable') and d['name'].startswith('iPhone')]
+wanted=os.environ.get('RISEBAKE_SIMULATOR_RUNTIME')
+phones=[d for key,devices in sorted(s['devices'].items(),reverse=True) if 'iOS' in key and (not wanted or key==wanted) for d in devices if d.get('isAvailable') and d['name'].startswith('iPhone')]
 if not phones:raise SystemExit('No iPhone simulator is installed on this Xcode image')
 print(phones[0]['udid'])
 PY
