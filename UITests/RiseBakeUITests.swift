@@ -41,7 +41,9 @@ final class RiseBakeUITests: XCTestCase {
         capture("Receipt-PDF")
         app.navigationBars.buttons.firstMatch.tap()
         app.buttons["receipt.share"].tap()
-        XCTAssertTrue(app.buttons["Copy"].waitForExistence(timeout: 8) || app.buttons["Save to Files"].exists, "The system share sheet must open for the real PDF")
+        // iOS exposes activity actions as cells, not buttons.
+        XCTAssertTrue(app.cells["Save to Files"].waitForExistence(timeout: 8), "The system share sheet must offer saving the PDF")
+        XCTAssertTrue(app.cells["Print"].exists, "The shared file must support printing")
         capture("Receipt-sharing")
         app.terminate()
     }
