@@ -131,7 +131,9 @@ final class BakingTests: XCTestCase {
         let id = try s.startBake(recipeID: r.id, quantity: 1, now: 1000)
         let step = r.method[0].id
         try s.changeStep(sessionID: id, stepID: step, action: "start", now: 1010)
+        s.bakeSessions[0].notes = "Cool overnight before slicing."
         s = try JSONDecoder().decode(BakeryState.self, from: JSONEncoder().encode(s))
+        XCTAssertEqual(s.bakeSessions[0].notes, "Cool overnight before slicing.")
         XCTAssertEqual(s.bakeSessions[0].steps[0].elapsed(at: 1070), 60)
         try s.changeStep(sessionID: id, stepID: step, action: "pause", now: 1070)
         XCTAssertEqual(s.bakeSessions[0].steps[0].elapsed(at: 2000), 60)

@@ -45,6 +45,7 @@ struct RecipeRow: View {
 struct RecipeDetailView: View {
     @EnvironmentObject private var store: BakeryStore
     var id: String
+    var initialQuantity: Int? = nil
     @State private var quantity = 1
     @State private var loaded = false
     @State private var editing = false
@@ -61,7 +62,7 @@ struct RecipeDetailView: View {
                 if !r.notes.isEmpty { Section("Recipe notes") { Text(r.notes) } }
             }
         }.bakeryBackground().navigationTitle(recipe?.name ?? "Recipe").navigationBarTitleDisplayMode(.inline)
-        .onAppear { if !loaded { quantity = recipe?.yield ?? 1; loaded = true } }
+        .onAppear { if !loaded { quantity = initialQuantity ?? recipe?.yield ?? 1; loaded = true } }
         .toolbar { Button("Edit") { editing = true } }
         .sheet(isPresented: $editing) { if let r = recipe { RecipeEditor(recipe: r) } }
         .navigationDestination(item: $newSession) { BakeSessionView(id: $0) }
@@ -156,6 +157,9 @@ struct BakeSessionView: View {
     @State private var loaded = false
     @State private var finish = false
     @State private var notesSaved = false
+    @State private var savedNotes = ""
+    @State private var savedRating = 0
+    private var notesChanged: Bool { notes != savedNotes || rating != savedRating }
     var session: BakeSession? { store.state.bakeSessions.first { $0.id == id } }
     var body: some View {
         List {
@@ -188,14 +192,17 @@ struct BakeSessionView: View {
                 if !b.complete { Section { Button("Finish bake") { finish = true }.font(.headline) } }
             }
         }.bakeryBackground().navigationTitle(session?.recipe.name ?? "Bake").navigationBarTitleDisplayMode(.inline)
-        .onAppear { if !loaded, let b = session { notes = b.notes; rating = b.rating; loaded = true } }
+        .onAppear { if (!loaded || !notesChanged), let b = session { notes = b.notes; rating = b.rating; savedNotes = b.notes; savedRating = b.rating; loaded = true } }
         .onChange(of: notes) { _, _ in notesSaved = false }.onChange(of: rating) { _, _ in notesSaved = false }
         .confirmationDialog("Finish this bake?", isPresented: $finish, titleVisibility: .visible) { Button("Save and finish bake") { if saveNotes() { store.perform { try $0.finishBake(id) } } } } message: { Text("Active timers will stop. Your ingredients, step times and notes will stay in the journal.") }
-        .onDisappear { if loaded { saveNotes() } }
+        .onDisappear { if loaded && notesChanged { saveNotes() } }
     }
     @discardableResult private func saveNotes() -> Bool {
+        if !notesChanged { notesSaved = true; return true }
         let ok = store.perform { s in if let i = s.bakeSessions.firstIndex(where: { $0.id == id }) { s.bakeSessions[i].notes = notes; s.bakeSessions[i].rating = rating } }
-        notesSaved = ok; return ok
+        notesSaved = ok
+        if ok { savedNotes = notes; savedRating = rating }
+        return ok
     }
 }
 struct BakeTimerRow: View {

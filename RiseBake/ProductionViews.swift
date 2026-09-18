@@ -23,7 +23,7 @@ struct ProductionView: View {
                         }.accessibilityLabel("\(step), \(store.state.tasks[batch.taskKey(step)] == true ? "complete" : "incomplete")")
                     }
                     if let recipe = store.state.recipes.first(where: { $0.productID == batch.product.id }) {
-                        NavigationLink("Recipe & timed bake") { RecipeDetailView(id: recipe.id) }
+                        NavigationLink("Recipe & timed bake") { RecipeDetailView(id: recipe.id, initialQuantity: batch.quantity) }
                         DisclosureGroup("Ingredients for \(batch.quantity) items") { ForEach(recipe.ingredients) { ingredient in LabeledContent(ingredient.name, value: "\(recipe.scaledAmount(ingredient, quantity: batch.quantity).formatted(.number.precision(.fractionLength(0...2)))) \(ingredient.unit)") } }
                     }
                     Button(batch.product.steps.allSatisfy { store.state.tasks[batch.taskKey($0)] == true } ? "Clear checklist" : "Complete batch") { store.perform { $0.toggleBatch(batch) } }
