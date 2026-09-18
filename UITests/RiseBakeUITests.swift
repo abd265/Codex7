@@ -1,6 +1,41 @@
 import XCTest
 
 final class RiseBakeUITests: XCTestCase {
+    func testAccountPagesValidateWithoutCreatingFakeAccounts() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 120
+        let app = XCUIApplication()
+        app.launchArguments = ["--account-preview"]
+        app.launch()
+        XCTAssertTrue(app.textFields["auth.email"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["auth.apple"].exists)
+        XCTAssertTrue(app.buttons["auth.google"].exists)
+        capture("Account-sign-in")
+        let submit = app.buttons["auth.submit"]
+        for _ in 0..<3 { if submit.isHittable { break }; app.swipeUp() }
+        submit.tap()
+        XCTAssertTrue(app.alerts.staticTexts["Enter a valid email address."].waitForExistence(timeout: 3))
+        app.alerts.buttons["OK"].tap()
+        let switcher = app.buttons["auth.switch"]
+        for _ in 0..<3 { if switcher.isHittable { break }; app.swipeUp() }
+        switcher.tap()
+        XCTAssertTrue(app.secureTextFields["auth.confirm"].exists)
+        app.swipeDown()
+        capture("Account-sign-up")
+        let email = app.textFields["auth.email"]
+        email.tap(); email.typeText("baker@example.com")
+        app.secureTextFields["auth.password"].tap(); app.secureTextFields["auth.password"].typeText("short")
+        app.swipeUp()
+        for _ in 0..<4 { if submit.isHittable { break }; app.swipeUp() }
+        submit.tap()
+        XCTAssertTrue(app.alerts.staticTexts["Use a password with 12–128 characters."].waitForExistence(timeout: 3))
+        app.alerts.buttons["OK"].tap()
+        let local = app.buttons["auth.local"]
+        for _ in 0..<5 { if local.isHittable { break }; app.swipeUp() }
+        local.tap()
+        XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 5))
+        app.terminate()
+    }
     func testBakeryProfileAndBrandedReceipt() throws {
         continueAfterFailure = false
         executionTimeAllowance = 180

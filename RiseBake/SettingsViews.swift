@@ -67,7 +67,7 @@ struct SettingsView: View {
                 Button("Start a new bakery", role: .destructive) { reset = true }
             }
             Section("About Rise & Bake") {
-                LabeledContent("Version", value: "2.1 · Native iOS")
+                LabeledContent("Version", value: "2.2 · Native iOS")
                 Text("Your everyday baking companion. Recipes, bake journals, orders and customer records are saved on this iPhone.")
             }.font(.footnote)
         }.bakeryBackground().navigationTitle("Settings")

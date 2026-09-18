@@ -5,20 +5,28 @@ import UniformTypeIdentifiers
     @Published private(set) var state: BakeryState
     @Published var error: String?
     private let fileURL: URL
-    init() {
-        let folder = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("RiseBake", isDirectory: true)
+    private let accountID: UUID?
+    static var rootFolder: URL { FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("RiseBake", isDirectory: true) }
+    static func deleteWorkspace(accountID: UUID) throws {
+        let folder = AccountPolicy.folder(root: rootFolder, accountID: accountID)
+        if FileManager.default.fileExists(atPath: folder.path) { try FileManager.default.removeItem(at: folder) }
+    }
+    init(accountID: UUID? = nil) {
+        self.accountID = accountID
+        let folder = AccountPolicy.folder(root: Self.rootFolder, accountID: accountID)
         fileURL = folder.appendingPathComponent("bakery.json")
         let seedURL = Bundle.main.url(forResource: "seed", withExtension: "json")!
-        let seed = try! JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: seedURL))
+        let catalog = try! JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: seedURL))
+        let seed = accountID == nil ? catalog : AccountPolicy.cleanBakery(from: catalog)
         state = seed
         do {
             try seed.validate()
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             #if DEBUG
-            if ProcessInfo.processInfo.arguments.contains("--receipt-fixture") {
+            if accountID == nil && ProcessInfo.processInfo.arguments.contains("--receipt-fixture") {
                 var fixture = seed
                 try ReceiptQA.prepare(&fixture)
-                try JSONEncoder().encode(fixture).write(to: fileURL, options: .atomic)
+                try JSONEncoder().encode(fixture).write(to: fileURL, options: [.atomic, .completeFileProtection])
             }
             #endif
             if FileManager.default.fileExists(atPath: fileURL.path) {
@@ -32,7 +40,7 @@ import UniformTypeIdentifiers
                 }
             }
             try state.upgrade(using: seed, today: Clock.today)
-            try JSONEncoder().encode(state).write(to: fileURL, options: .atomic)
+            try JSONEncoder().encode(state).write(to: fileURL, options: [.atomic, .completeFileProtection])
         } catch { self.error = "Storage could not be opened: \(error.localizedDescription)" }
     }
     @discardableResult func perform(_ action: (inout BakeryState) throws -> Void) -> Bool {
@@ -43,7 +51,7 @@ import UniformTypeIdentifiers
             next.day = Clock.today
             try next.validate()
             let data = try JSONEncoder().encode(next)
-            try data.write(to: fileURL, options: .atomic)
+            try data.write(to: fileURL, options: [.atomic, .completeFileProtection])
             state = next
             BakeNotifications.shared.sync(next.bakeSessions)
             return true
@@ -64,7 +72,7 @@ import UniformTypeIdentifiers
     func reset() {
         do {
             let next = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.main.url(forResource: "seed", withExtension: "json")!))
-            perform { $0 = next }
+            perform { $0 = accountID == nil ? next : AccountPolicy.cleanBakery(from: next) }
         } catch { self.error = error.localizedDescription }
     }
     func refreshDay() {

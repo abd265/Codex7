@@ -1,8 +1,8 @@
 import SwiftUI
 
 @main struct RiseBakeApp: App {
-    @StateObject private var store = BakeryStore()
-    var body: some Scene { WindowGroup { RootView().environmentObject(store).tint(.bakeTeal) } }
+    @StateObject private var account = AccountStore()
+    var body: some Scene { WindowGroup { AccountRouter().environmentObject(account).tint(.bakeTeal) } }
 }
 struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -74,6 +74,7 @@ struct OrderRow: View {
     }
 }
 struct MoreView: View {
+    @EnvironmentObject private var account: AccountStore
     @EnvironmentObject private var store: BakeryStore
     var body: some View {
         List {
@@ -87,6 +88,7 @@ struct MoreView: View {
                 NavigationLink { StorefrontView() } label: { Label("Menu", systemImage: "storefront") }
                 NavigationLink { InsightsView() } label: { Label("Insights", systemImage: "chart.bar") }
             }
+            if account.enabled { Section("Your account") { if account.authenticated { NavigationLink { AccountSettingsView() } label: { Label("Account & security", systemImage: "person.crop.circle") } } else { Button { account.route = .welcome } label: { Label("Sign in or create an account", systemImage: "person.crop.circle") } } } }
             Section { NavigationLink { SettingsView() } label: { Label("Settings & backups", systemImage: "gearshape") } }
         }.bakeryBackground().navigationTitle("More")
     }

@@ -22,7 +22,7 @@ permissions:
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - name: Test native business logic
@@ -44,14 +44,14 @@ jobs:
   native-ui:
     needs: build
     runs-on: macos-15
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       RISEBAKE_SIMULATOR_RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS-18-5
     steps:
       - uses: actions/checkout@v7
       - name: Verify native screens and persistence
-        timeout-minutes: 15
+        timeout-minutes: 25
         run: bash scripts/build_simulator.sh
       - name: Upload native verification evidence
         if: always()
