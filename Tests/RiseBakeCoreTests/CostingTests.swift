@@ -136,7 +136,7 @@ final class CostingTests: XCTestCase {
         let list = try s.makeShoppingList(orderIDs: [id], from: s.day, through: s.day, wholeBatches: false)
         let flour = try XCTUnwrap(list.items.first { $0.pantryID == "flour" })
         XCTAssertEqual(flour.toBuy, 0); XCTAssertEqual(flour.packages, 0); XCTAssertEqual(flour.budgetCents, 0)
-        XCTAssertFalse(list.text.contains("Bread flour:"))
+        XCTAssertFalse(list.text.contains("☐ Bread flour:")); XCTAssertEqual(list.buyCount, 1)
     }
     func testLegacyMigrationDoesNotInventPurchasePricesOrLoseOrders() throws {
         let catalog = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "catalog", withExtension: "json")!))

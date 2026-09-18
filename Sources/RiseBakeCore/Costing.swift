@@ -203,15 +203,14 @@ extension BakeryState {
     }
     func recipeCost(_ recipe: BakeRecipe, quantity: Int) -> RecipeCostReport {
         let count = max(1, quantity), options = recipe.costing ?? RecipeCostSettings()
-        let scale = Decimal(count) / Decimal(max(1, recipe.yield))
         var warnings: [String] = []
         let lines: [IngredientCostLine] = recipe.ingredients.map { ingredient in
-            let required = costDecimal(ingredient.amount) * scale
+            let required = costDecimal(ingredient.amount) * Decimal(count) / Decimal(max(1, recipe.yield))
             var line = IngredientCostLine(id: ingredient.id, name: ingredient.name, amount: NSDecimalNumber(decimal: required).doubleValue, unit: ingredient.unit)
             guard let item = pantry.first(where: { $0.id == ingredient.pantryID }) else { line.issue = "Link a pantry ingredient"; return line }
             guard let amount = IngredientUnits.convert(required, from: ingredient.unit, to: item.unit, item: item) else { line.issue = "Add a measured conversion or use matching units"; return line }
             guard let price = item.priceCents else { line.issue = "Enter the package price"; return line }
-            line.cents = amount / costDecimal(item.packageAmount) * Decimal(price)
+            line.cents = amount * Decimal(price) / costDecimal(item.packageAmount)
             line.source = "\(item.supplier.isEmpty ? "Purchase price" : item.supplier) · \(item.priceDate)"
             if item.priceIsOld(on: day) { warnings.append("\(item.name): price is more than 90 days old.") }
             return line
@@ -220,8 +219,8 @@ extension BakeryState {
         let subtotal = lines.reduce(Decimal(0)) { $0 + ($1.cents ?? 0) }
         return RecipeCostReport(lines: lines, ingredientSubtotal: subtotal, waste: subtotal * costDecimal(options.wastePercent) / 100,
             packaging: Decimal(options.packagingPerItemCents) * Decimal(count),
-            labour: costDecimal(options.labourMinutes) / 60 * Decimal(options.hourlyRateCents) * scale,
-            overhead: Decimal(options.overheadPerBatchCents) * scale, quantity: count, targetMargin: options.targetMarginPercent, warnings: Array(Set(warnings)).sorted())
+            labour: costDecimal(options.labourMinutes) * Decimal(options.hourlyRateCents) * Decimal(count) / (60 * Decimal(max(1, recipe.yield))),
+            overhead: Decimal(options.overheadPerBatchCents) * Decimal(count) / Decimal(max(1, recipe.yield)), quantity: count, targetMargin: options.targetMarginPercent, warnings: Array(Set(warnings)).sorted())
     }
     func orderCost(_ order: Order) -> OrderCostReport {
         OrderCostReport(lines: order.lines.enumerated().map { index, line in

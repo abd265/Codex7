@@ -13,13 +13,13 @@ struct InsightsView: View {
                 LabeledContent("Booked revenue", value: money(booked))
                 LabeledContent("Payments recorded", value: money(collected))
                 LabeledContent("Outstanding", value: money(booked - collected))
-                LabeledContent("Estimated ingredient cost", value: money(cost))
+                LabeledContent("Manual ingredient estimate", value: money(cost))
                 LabeledContent("Estimated contribution", value: money(booked - cost))
             }
             Section("Products by booked value") {
                 ForEach(store.state.products.sorted { value($0) > value($1) }) { p in VStack(alignment: .leading, spacing: 8) { HStack { Text(p.name); Spacer(); Text(money(value(p))).fontWeight(.semibold) }; ProgressView(value: Double(value(p)), total: Double(max(1, booked))) }.padding(.vertical, 6) }
             }
-            Section { Text("Contribution subtracts current ingredient estimates from booked value. It is not net profit: labor, rent, refunds, taxes and fees are excluded. Quotes, paused, skipped and cancelled orders are excluded.").font(.footnote).foregroundStyle(.secondary) }
+            Section { Text("Contribution uses the manual ingredient estimates in Products & pricing. Open each order’s Recipe cost & margin for the detailed current estimate. It is not net profit: labor, rent, refunds, taxes and fees are excluded. Quotes, paused, skipped and cancelled orders are excluded.").font(.footnote).foregroundStyle(.secondary) }
         }.navigationTitle("Insights")
     }
     func value(_ p: Product) -> Int { orders.flatMap(\.lines).filter { $0.product == p.id }.reduce(0) { $0 + $1.qty * $1.price } }
