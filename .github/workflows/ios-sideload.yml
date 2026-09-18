@@ -12,6 +12,7 @@ on:
       - 'RiseBake/**'
       - 'RiseBake.xcodeproj/**'
       - 'Sources/**'
+      - 'supabase/**'
       - 'Tests/**'
       - 'Package.swift'
       - 'Docs/WINDOWS-IPHONE.md'
@@ -20,6 +21,19 @@ permissions:
   contents: read
 
 jobs:
+  account-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Check account deletion service and security policy
+        run: |
+          deno check supabase/functions/delete-account/index.ts
+          deno test supabase/functions/delete-account/policy_test.ts
+
   build:
     runs-on: macos-latest
     timeout-minutes: 30

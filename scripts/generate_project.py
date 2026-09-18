@@ -66,5 +66,8 @@ ref=f'<BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ta
 # Enable with a correctly provisioned Apple Developer build, not the free sideload profile.
 (ROOT/'RiseBake/AppleSignIn.entitlements').write_bytes(plistlib.dumps({'com.apple.developer.applesignin':['Default']}))
 privacy={'NSPrivacyTracking':False,'NSPrivacyTrackingDomains':[],'NSPrivacyCollectedDataTypes':[],'NSPrivacyAccessedAPITypes':[{'NSPrivacyAccessedAPIType':'NSPrivacyAccessedAPICategoryUserDefaults','NSPrivacyAccessedAPITypeReasons':['CA92.1']}]}
+auth_config=json.loads((ROOT/'RiseBake/Resources/AuthConfig.json').read_text())
+if auth_config.get('enabled'):
+ privacy['NSPrivacyCollectedDataTypes']=[{'NSPrivacyCollectedDataType':kind,'NSPrivacyCollectedDataTypeLinked':True,'NSPrivacyCollectedDataTypeTracking':False,'NSPrivacyCollectedDataTypePurposes':['NSPrivacyCollectedDataTypePurposeAppFunctionality']} for kind in ['NSPrivacyCollectedDataTypeEmailAddress','NSPrivacyCollectedDataTypeUserID']]
 (ROOT/'RiseBake/PrivacyInfo.xcprivacy').write_bytes(plistlib.dumps(privacy))
 print(f'Generated Xcode project: {len(source_paths)} Swift files, {len(resources)} resources')

@@ -115,7 +115,7 @@ struct AccountWelcomeView: View {
                 guard !password.isEmpty else { account.error = "Enter your password."; return }
                 Task { await account.signIn(email: email, password: password, create: create); password = ""; confirmation = "" }
             }.accessibilityIdentifier("auth.submit")
-            HStack { Text(create ? "Already baking with us?" : "New here?").foregroundStyle(.secondary); Button(create ? "Sign in" : "Create an account") { create.toggle(); password = ""; confirmation = "" }.fontWeight(.semibold).accessibilityIdentifier("auth.switch") }.font(.subheadline).frame(maxWidth: .infinity)
+            HStack { Text(create ? "Already baking with us?" : "New here?").foregroundStyle(.secondary); Button(create ? "Sign in" : "Create an account") { create.toggle(); password = ""; confirmation = "" }.fontWeight(.semibold).accessibilityIdentifier("auth.switch").disabled(account.busy) }.font(.subheadline).frame(maxWidth: .infinity)
             if let config = account.configuration, let privacy = URL(string: config.privacyURL), let terms = URL(string: config.termsURL) {
                 HStack { Link("Privacy", destination: privacy); Text("·"); Link("Terms", destination: terms) }.font(.caption).frame(maxWidth: .infinity)
             }
@@ -236,7 +236,7 @@ struct AccountDeleteView: View {
     @State private var confirmation = ""
     var body: some View {
         NavigationStack { Form {
-            Section { Text("Permanently delete your account and its bakery records on this iPhone. Export any records you want to keep before continuing. This cannot be undone."); Text("You must have signed in recently and completed any enabled two-factor check.").font(.footnote).foregroundStyle(.secondary); TextField("Type DELETE to confirm", text: $confirmation).autocorrectionDisabled().textInputAutocapitalization(.characters) }
+            Section { Text("Permanently delete your account and its bakery records on this iPhone. Export any records you want to keep before continuing. This cannot be undone."); Text("Sign in again using Google if it is linked to your account, otherwise use your usual method. Complete any enabled two-factor check, then return here within five minutes.").font(.footnote).foregroundStyle(.secondary); TextField("Type DELETE to confirm", text: $confirmation).autocorrectionDisabled().textInputAutocapitalization(.characters) }
             Section {
                 if account.user?.identities?.contains(where: { $0.provider == "apple" }) == true {
                     Text("Confirm with Apple to revoke the account’s Apple authorization.").font(.footnote)

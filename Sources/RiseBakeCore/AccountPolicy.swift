@@ -11,7 +11,7 @@ enum AccountPolicy {
         return .allowed
     }
     static func validEmail(_ value: String) -> Bool {
-        value.count <= 254 && value.range(of: #"^[^\s@]+@[^\s@]+\.[^\s@]+$"#, options: .regularExpression) != nil
+        value.count <= 254 && value.range(of: #"\A[^\s@]+@[^\s@]+\.[^\s@]+\z"#, options: .regularExpression) != nil
     }
     static func validCode(_ value: String) -> Bool {
         value.count == 6 && value.utf8.allSatisfy { (48...57).contains($0) }

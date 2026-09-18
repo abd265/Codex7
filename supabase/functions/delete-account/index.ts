@@ -1,6 +1,8 @@
 // Deploy inside the bakery owner's Supabase project. Never bundle these secrets in iOS.
-import { createClient } from "npm:@supabase/supabase-js@2.57.4";
-import { createRemoteJWKSet, importPKCS8, jwtVerify, SignJWT } from "npm:jose@6.1.0";
+import { createClient } from "npm:@supabase/supabase-js@2.116.0";
+import { createRemoteJWKSet, importPKCS8, jwtVerify, SignJWT } from "npm:jose@6.2.12";
+
+import { deletionAllowed } from "./policy.ts";
 
 const appleKeys = createRemoteJWKSet(new URL("https://appleid.apple.com/auth/keys"));
 const failure = (status: number) => new Response(JSON.stringify({ error: "Account deletion could not be completed. Reauthenticate and retry." }), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
@@ -21,13 +23,19 @@ Deno.serve(async (request: Request) => {
     if (error || !user) return failure(401);
     const encoded = token.split(".")[1];
     const claims = JSON.parse(atob(encoded.replace(/-/g, "+").replace(/_/g, "/")));
-    if (claims.sub !== user.id || claims.role !== "authenticated") return failure(401);
     const now = Math.floor(Date.now() / 1000);
-    const recent = (claims.amr ?? []).some((entry: { method: string; timestamp: number }) => ["password", "oauth", "otp", "id_token"].includes(entry.method) && Number.isFinite(entry.timestamp) && entry.timestamp >= now - 300 && entry.timestamp <= now + 30);
-    if (!recent) return failure(403);
-    const hasMFA = (user.factors ?? []).some(f => f.status === "verified");
-    if (hasMFA && (claims.aal !== "aal2" || !(claims.amr ?? []).some((entry: { method: string; timestamp: number }) => entry.method === "totp" && entry.timestamp >= now - 300 && entry.timestamp <= now + 30))) return failure(403);
+    if (!deletionAllowed(claims, user, now)) return failure(403);
 
+    const googleIdentity = user.identities?.find(identity => identity.provider === "google");
+    if (googleIdentity) {
+      if (typeof body.googleAccessToken !== "string" || !body.googleAccessToken) return failure(400);
+      const googleUser = await fetch("https://openidconnect.googleapis.com/v1/userinfo", { headers: { Authorization: `Bearer ${body.googleAccessToken}` } });
+      if (!googleUser.ok) return failure(403);
+      const profile = await googleUser.json();
+      if (typeof profile.sub !== "string" || (profile.sub !== googleIdentity.identity_data?.sub && profile.sub !== googleIdentity.id)) return failure(403);
+      const revoke = await fetch("https://oauth2.googleapis.com/revoke", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ token: body.googleAccessToken }) });
+      if (!revoke.ok) return failure(502);
+    }
     const appleIdentity = user.identities?.find(identity => identity.provider === "apple");
     if (appleIdentity) {
       if (typeof body.appleAuthorizationCode !== "string" || !body.appleAuthorizationCode) return failure(400);

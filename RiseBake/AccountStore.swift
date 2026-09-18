@@ -23,6 +23,7 @@ enum AccountRoute: Equatable {
     private var listener: Task<Void, Never>?
     private var recovering = false
     private var appleNonce: String?
+    private var googleAccessToken: String?
     var enabled: Bool { client != nil || designPreview }
     var authenticated: Bool { if case .account = route { return true }; return false }
 
@@ -35,7 +36,7 @@ enum AccountRoute: Equatable {
         let config = Bundle.main.url(forResource: "AuthConfig", withExtension: "json").flatMap { try? Data(contentsOf: $0) }.flatMap { try? JSONDecoder().decode(AccountConfiguration.self, from: $0) }
         configuration = config
         if let config, config.enabled, (try? config.validate()) != nil, let url = config.url {
-            client = AuthClient(configuration: .init(url: url.appendingPathComponent("auth/v1"), headers: ["apikey": config.publishableKey], flowType: .pkce, redirectTo: AccountConfiguration.callback, storageKey: "risebake.\(url.host ?? "auth")", localStorage: AccountKeychain(), emitLocalSessionAsInitialSession: false))
+            client = AuthClient(configuration: .init(url: url.appendingPathComponent("auth/v1"), headers: ["apikey": config.publishableKey], flowType: .pkce, redirectToURL: AccountConfiguration.callback, storageKey: "risebake.\(url.host ?? "auth")", localStorage: AccountKeychain(), emitLocalSessionAsInitialSession: false))
         } else { client = nil }
         route = enabled ? .welcome : .local
         if let client {
@@ -78,7 +79,7 @@ enum AccountRoute: Equatable {
     }
     private func reconcile() async throws {
         let client = try service()
-        route = .checking
+        if !authenticated { route = .checking }
         do {
             let session = try await client.session
             let verified = try await client.user(jwt: session.accessToken)
@@ -114,7 +115,8 @@ enum AccountRoute: Equatable {
             let client = try service()
             guard configuration?.googleEnabled == true else { throw AccountError.message("Google sign-in is not enabled yet.") }
             recovering = false
-            _ = try await client.signInWithOAuth(provider: .google, redirectTo: AccountConfiguration.callback) { $0.prefersEphemeralWebBrowserSession = true }
+            let session = try await client.signInWithOAuth(provider: .google, redirectTo: AccountConfiguration.callback) { $0.prefersEphemeralWebBrowserSession = true }
+            googleAccessToken = session.providerToken
             try await reconcile()
         }
     }
@@ -204,7 +206,7 @@ enum AccountRoute: Equatable {
         }
     }
     private func clearSessionUI() {
-        user = nil; factors = []; enrollment = nil; recovering = false
+        user = nil; factors = []; enrollment = nil; recovering = false; googleAccessToken = nil
         BakeNotifications.shared.sync([])
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         route = .welcome
@@ -222,7 +224,7 @@ enum AccountRoute: Equatable {
         request.setValue("Bearer \(session.accessToken)", forHTTPHeaderField: "Authorization")
         request.setValue(config.publishableKey, forHTTPHeaderField: "apikey")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: ["appleAuthorizationCode": appleCode ?? ""])
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["appleAuthorizationCode": appleCode ?? "", "googleAccessToken": googleAccessToken ?? ""])
         let (_, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 204 else { throw AccountError.message("Your account was not deleted. Sign out and sign in again, complete two-factor verification, then retry.") }
         let deletedID = user.id
