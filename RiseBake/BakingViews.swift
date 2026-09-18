@@ -57,6 +57,7 @@ struct RecipeDetailView: View {
                 Section { RecipeRow(recipe: r); Stepper("Make \(quantity) \(r.yieldUnit)", value: $quantity, in: 1...9999)
                     Button { var result = ""; if store.perform({ result = try $0.startBake(recipeID: r.id, quantity: quantity) }) { newSession = result } } label: { Label("Start this bake", systemImage: "play.circle.fill").font(.headline) }.accessibilityIdentifier("bake.start")
                 }
+                Section { NavigationLink { RecipeCostView(id: r.id) } label: { Label("Recipe costing", systemImage: "scalemass") } }
                 Section("Ingredients · scaled to your yield") { ForEach(r.ingredients) { i in LabeledContent(i.name, value: "\(r.scaledAmount(i, quantity: quantity).formatted(.number.precision(.fractionLength(0...2)))) \(i.unit)") } }
                 Section("Method") { ForEach(Array(r.method.enumerated()), id: \.element.id) { index, step in MethodRow(step: step, number: index + 1) } }
                 if !r.notes.isEmpty { Section("Recipe notes") { Text(r.notes) } }

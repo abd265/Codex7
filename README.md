@@ -20,6 +20,16 @@ For an update, use the same Apple Account and bundle-ID settings, and install ov
 
 The app is a local bakery manager. Online customer checkout, card processing, automatic messaging, cloud synchronization and tax accounting require separate integrations. The menu records orders on the device. Insight figures represent contribution after ingredient costs, not net profit.
 
+## Purchase-based costing and shopping (2.3)
+
+- Pantry purchase prices, package quantities, supplier/date notes, manual stock counts and explicit measured ingredient conversions.
+- Recipe cost breakdowns covering ingredients, an extra-ingredient allowance, packaging, hands-on labour and overhead; missing prices stay incomplete.
+- Current order cost/margin estimates using agreed sales prices, and suggested menu prices based on a target margin.
+- Shopping lists from selected pickup orders: combine recipe quantities, optionally round to whole batches, subtract stock, estimate whole-package purchases, add extras, check off and share.
+- Version 3 backups preserve these records and safely migrate earlier data. No live grocery feeds, guessed prices or automatic stock consumption are used.
+
+See [costing and shopping instructions](Docs/COSTING-AND-SHOPPING.md) for accuracy assumptions, unit conventions, historical-cost limits and the distinction between recipe cost and package budgets.
+
 ## Accounts and launch pricing
 
 Version 2.2 adds native sign-up/sign-in screens and an optional Supabase Auth integration for Google, Apple, email/password, email confirmation/recovery and authenticator-based two-factor authentication. It isolates on-device bakery records by account and includes a server-side account-deletion function with recent authentication and provider revocation.

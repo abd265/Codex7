@@ -56,6 +56,7 @@ struct OrderDetailView: View {
                         LabeledContent("Remaining balance", value: money(o.balance))
                         if o.balance > 0 { LabeledContent("Deposit due", value: money(max(0, o.deposit - o.paid))) }
                     }
+                    Section { NavigationLink { OrderCostView(id: o.id) } label: { Label("Recipe cost & margin", systemImage: "scalemass") }.accessibilityIdentifier("order.costing") }
                     if !o.notes.isEmpty || !o.allergy.isEmpty {
                         Section("Baker’s notes") { if !o.notes.isEmpty { Text(o.notes) }; if !o.allergy.isEmpty { Label(o.allergy, systemImage: "exclamationmark.triangle").foregroundStyle(.orange) } }
                     }

@@ -28,6 +28,11 @@ import UniformTypeIdentifiers
                 try ReceiptQA.prepare(&fixture)
                 try JSONEncoder().encode(fixture).write(to: fileURL, options: [.atomic, .completeFileProtection])
             }
+            if accountID == nil && ProcessInfo.processInfo.arguments.contains("--costing-fixture") {
+                var fixture = seed
+                try CostingQA.prepare(&fixture)
+                try JSONEncoder().encode(fixture).write(to: fileURL, options: [.atomic, .completeFileProtection])
+            }
             #endif
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 do {
@@ -46,6 +51,7 @@ import UniformTypeIdentifiers
     @discardableResult func perform(_ action: (inout BakeryState) throws -> Void) -> Bool {
         do {
             var next = state
+            next.version = 3
             next.day = Clock.today
             try action(&next)
             next.day = Clock.today

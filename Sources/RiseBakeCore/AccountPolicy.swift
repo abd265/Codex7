@@ -28,6 +28,7 @@ enum AccountPolicy {
         var result = catalog
         result.customers = []; result.orders = []; result.recurring = []
         result.tasks = [:]; result.cart = [:]; result.bakeSessions = []; result.nextOrder = 1
+        result.pantry = []; result.shopping = nil
         result.settings.bakery = "My bakery"; result.settings.owner = "Baker"; result.settings.profile = nil
         return result
     }

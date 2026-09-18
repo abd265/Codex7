@@ -8,7 +8,7 @@ struct ProductsView: View {
         List {
             ForEach(BakeryCatalog.categories, id: \.self) { category in
                 Section(category) { ForEach(store.state.products.filter { $0.category == category }) { p in Button { editing = p } label: {
-                    HStack { ProductPhoto(product: p); VStack(alignment: .leading, spacing: 5) { Text(p.name).font(.headline).foregroundStyle(.primary); Text("\(p.capacity) / day · Cost \(money(p.cost))").font(.caption).foregroundStyle(.secondary) }; Spacer(); Text(money(p.price)).fontWeight(.semibold) }
+                    HStack { ProductPhoto(product: p); VStack(alignment: .leading, spacing: 5) { Text(p.name).font(.headline).foregroundStyle(.primary); Text("\(p.capacity) / day · Manual ingredient estimate \(money(p.cost))").font(.caption).foregroundStyle(.secondary) }; Spacer(); Text(money(p.price)).fontWeight(.semibold) }
                 } } }
             }
         }.bakeryBackground().navigationTitle("Products & pricing").toolbar { Button { adding = true } label: { Image(systemName: "plus") }.accessibilityLabel("New product") }
@@ -25,8 +25,9 @@ struct ProductEditor: View {
     @State private var error: String?
     var body: some View {
         NavigationStack { Form {
-            Section { TextField("Product name", text: $draft.name); Picker("Category", selection: $draft.category) { ForEach(BakeryCatalog.categories, id: \.self) { Text($0).tag($0) } }; LabeledContent("Price ($)") { TextField("6.00", text: $price).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; LabeledContent("Ingredient cost ($)") { TextField("1.50", text: $cost).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; Stepper("Daily capacity: \(draft.capacity)", value: $draft.capacity, in: 1...9999) }
+            Section { TextField("Product name", text: $draft.name); Picker("Category", selection: $draft.category) { ForEach(BakeryCatalog.categories, id: \.self) { Text($0).tag($0) } }; LabeledContent("Price ($)") { TextField("6.00", text: $price).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; LabeledContent("Manual ingredient estimate ($)") { TextField("1.50", text: $cost).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; Stepper("Daily capacity: \(draft.capacity)", value: $draft.capacity, in: 1...9999) }
             Section { TextField("Description", text: $draft.description, axis: .vertical); TextField("Allergens", text: $draft.allergens); TextField("Unit", text: $draft.unit); Picker("Photo", selection: $draft.image) { ForEach(BakeryCatalog.photos.indices, id: \.self) { Text(BakeryCatalog.photos[$0]).tag($0) } }; ProductPhoto(product: draft, size: 130) }
+            Section { Text("The manual ingredient estimate is used in Insights. Detailed recipe costing is available from More and does not overwrite this field.").font(.footnote).foregroundStyle(.secondary) }
             Section { Text("Price changes apply to new orders. Existing orders keep their agreed prices.").font(.footnote).foregroundStyle(.secondary) }
             if let error { Text(error).foregroundStyle(.red) }
         }.navigationTitle(product == nil ? "New product" : "Edit product").navigationBarTitleDisplayMode(.inline).toolbar {

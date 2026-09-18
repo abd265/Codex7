@@ -13,6 +13,7 @@ struct Product: Codable, Identifiable, Equatable {
     var allergens: String
     var recipe: [String: Int]
     var steps: [String]
+    var costingRecipeID: String? = nil
 }
 struct Message: Codable, Identifiable, Equatable {
     var id: String = UUID().uuidString
@@ -104,6 +105,8 @@ struct BakeryState: Codable, Equatable {
     var nextOrder: Int
     var recipes: [BakeRecipe] = []
     var bakeSessions: [BakeSession] = []
+    var pantry: [PantryItem] = []
+    var shopping: ShoppingList? = nil
     func product(_ id: String) -> Product? { products.first { $0.id == id } }
     func customer(_ id: String) -> Customer? { customers.first { $0.id == id } }
     func order(_ id: String) -> Order? { orders.first { $0.id == id } }

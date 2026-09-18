@@ -170,7 +170,7 @@ final class BakingTests: XCTestCase {
         let orders = old.orders, customers = old.customers
         try old.upgrade(using: catalog, today: "2026-09-18")
         XCTAssertEqual(old.orders, orders); XCTAssertEqual(old.customers, customers)
-        XCTAssertEqual(old.products[0].price, 1999); XCTAssertEqual(old.version, 2)
+        XCTAssertEqual(old.products[0].price, 1999); XCTAssertEqual(old.version, 3)
         XCTAssertEqual(old.day, "2026-09-18"); XCTAssertEqual(old.recipes.count, 16)
         let migrated = old; try old.upgrade(using: catalog, today: "2026-09-18")
         XCTAssertEqual(old, migrated)

@@ -131,6 +131,58 @@ final class RiseBakeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["Basket (1)"].exists)
         capture("Menu")
     }
+    func testCostingShoppingAndPantryPersist() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 180
+        let app = XCUIApplication()
+        app.launchArguments = ["--costing-fixture"]
+        app.launch()
+        XCTAssertTrue(app.tabBars.buttons["More"].waitForExistence(timeout: 10))
+        app.tabBars.buttons["More"].tap()
+        app.buttons["costing.home"].tap()
+        let recipe = app.buttons["cost.recipe.recipe-p0"]
+        for _ in 0..<8 { if recipe.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(recipe.isHittable); recipe.tap()
+        XCTAssertTrue(app.staticTexts["$17.40"].firstMatch.waitForExistence(timeout: 5))
+        capture("Recipe-costing")
+        app.navigationBars.buttons.firstMatch.tap()
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["shopping.home"].tap()
+        app.buttons["shopping.plan"].tap()
+        XCTAssertTrue(app.buttons["shopping.generate"].waitForExistence(timeout: 5))
+        app.buttons["shopping.generate"].tap()
+        let flour = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'shopping.item.' AND label CONTAINS 'Bread flour'")).firstMatch
+        for _ in 0..<5 { if flour.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(flour.isHittable)
+        XCTAssertTrue(flour.label.contains("0.3 kg"))
+        flour.tap()
+        XCTAssertTrue(flour.label.hasSuffix("checked"))
+        XCTAssertFalse(flour.label.hasSuffix("not checked"))
+        capture("Shopping-list")
+        app.terminate()
+        app.launchArguments = []
+        app.launch()
+        app.tabBars.buttons["More"].tap()
+        app.buttons["shopping.home"].tap()
+        for _ in 0..<5 { if flour.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(flour.exists); XCTAssertFalse(flour.label.hasSuffix("not checked"))
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["costing.home"].tap()
+        app.buttons["costing.pantry"].tap()
+        app.buttons["pantry.item.qa-flour"].tap()
+        XCTAssertEqual(app.textFields["pantry.stock"].value as? String, "0.25", "Checking a shopping item must not silently change stock")
+        app.buttons["Cancel"].tap()
+        app.buttons["pantry.add"].tap()
+        let name = app.textFields["pantry.name"]
+        XCTAssertTrue(name.waitForExistence(timeout: 5)); name.tap(); name.typeText("Unsalted butter")
+        let price = app.textFields["pantry.price"]
+        price.tap(); price.typeText("5.00")
+        app.buttons["pantry.save"].tap()
+        app.terminate(); app.launch()
+        app.tabBars.buttons["More"].tap(); app.buttons["costing.home"].tap(); app.buttons["costing.pantry"].tap()
+        XCTAssertTrue(app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'pantry.item.' AND label CONTAINS 'Unsalted butter'")).firstMatch.waitForExistence(timeout: 5))
+        capture("Ingredient-prices")
+    }
     private func capture(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name; shot.lifetime = .keepAlways

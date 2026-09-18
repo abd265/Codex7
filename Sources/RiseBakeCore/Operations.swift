@@ -2,7 +2,8 @@ import Foundation
 
 extension BakeryState {
     func validate() throws {
-        try require((1...2).contains(version) && Clock.validDay(day), "Unsupported or invalid Rise & Bake backup.")
+        try require((1...3).contains(version) && Clock.validDay(day), "Unsupported or invalid Rise & Bake backup.")
+        try validateCosting()
         try require(products.count <= 1000 && customers.count <= 10000 && orders.count <= 50000, "Backup is too large.")
         try require(Set(products.map(\.id)).count == products.count && Set(customers.map(\.id)).count == customers.count && Set(orders.map(\.id)).count == orders.count && Set(recurring.map(\.id)).count == recurring.count, "Duplicate IDs in backup.")
         try require(nextOrder > (orders.compactMap { Int($0.id) }.max() ?? 0) && nextOrder < 1_000_000_000, "Invalid order counter.")

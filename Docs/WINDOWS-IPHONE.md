@@ -20,3 +20,7 @@ Open **More > Bakery profile & logo**. Choose a logo from Photos or Files, enter
 Open an order and tap **View receipt**. **Preview PDF**, **Share PDF** (including Save to Files) and **Print receipt** use the same branded receipt. Unpaid orders are labeled Order summary; quotes remain quotes. All totals retain the agreed order prices, amounts already recorded as paid, and remaining balance in CAD. A business/tax ID is a display field, not an added tax charge.
 
 The Home Screen name is now **Rise & Bake**. The internal bundle ID and data folder are unchanged to preserve existing installations. Install this update over RiseBake with the same Sideloadly account and bundle-ID settings.
+
+## Recipe costing and shopping (2.3)
+
+Open **More → Recipe costing** to enter your ingredient purchase prices and link them to recipes. Open **More → Shopping list** to combine selected orders and subtract manually entered stock. See [the costing guide](COSTING-AND-SHOPPING.md). Prices are based on your entries, not a live grocery feed. Export a JSON backup before updating; install over the current app with the same Sideloadly account and bundle-ID settings.

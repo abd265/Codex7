@@ -10,6 +10,7 @@ struct RecipeIngredient: Codable, Identifiable, Equatable {
     var name: String
     var amount: Double
     var unit: String = "g"
+    var pantryID: String? = nil
     static let units = ["g", "kg", "ml", "L", "tsp", "tbsp", "cup", "piece"]
 }
 struct RecipeStep: Codable, Identifiable, Equatable {
@@ -28,6 +29,7 @@ struct BakeRecipe: Codable, Identifiable, Equatable {
     var ingredients: [RecipeIngredient]
     var method: [RecipeStep]
     var notes: String = ""
+    var costing: RecipeCostSettings? = nil
     var totalMinutes: Int { method.reduce(0) { $0 + $1.minutes } }
     func scaledAmount(_ ingredient: RecipeIngredient, quantity: Int) -> Double {
         ingredient.amount * Double(quantity) / Double(max(1, yield))
@@ -39,6 +41,7 @@ struct BakeRecipe: Codable, Identifiable, Equatable {
         for i in ingredients { try require(!i.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && i.name.count <= 100 && i.amount.isFinite && i.amount > 0 && i.amount <= 1_000_000 && RecipeIngredient.units.contains(i.unit), "Check each ingredient’s name, quantity and unit.") }
         for s in method { try require(!s.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && s.title.count <= 100 && s.instruction.count <= 4000 && (0...10080).contains(s.minutes) && (s.temperatureC == nil || (0...350).contains(s.temperatureC!)), "Check each method step, time and oven temperature.") }
         try require(notes.count <= 10000 && yieldUnit.count <= 30, "Recipe notes or yield unit are too long.")
+        try costing?.validate()
     }
 }
 struct BakeStepLog: Codable, Identifiable, Equatable {
@@ -75,7 +78,7 @@ struct BakeSession: Codable, Identifiable, Equatable {
 }
 extension BakeryState {
     // A v1 file has no recipes or sessions. Decode it without losing any orders.
-    private enum CodingKeys: String, CodingKey { case version, day, products, customers, orders, recurring, tasks, cart, settings, nextOrder, recipes, bakeSessions }
+    private enum CodingKeys: String, CodingKey { case version, day, products, customers, orders, recurring, tasks, cart, settings, nextOrder, recipes, bakeSessions, pantry, shopping }
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         version = try c.decode(Int.self, forKey: .version); day = try c.decode(String.self, forKey: .day)
@@ -85,6 +88,8 @@ extension BakeryState {
         settings = try c.decode(Settings.self, forKey: .settings); nextOrder = try c.decode(Int.self, forKey: .nextOrder)
         recipes = try c.decodeIfPresent([BakeRecipe].self, forKey: .recipes) ?? []
         bakeSessions = try c.decodeIfPresent([BakeSession].self, forKey: .bakeSessions) ?? []
+        pantry = try c.decodeIfPresent([PantryItem].self, forKey: .pantry) ?? []
+        shopping = try c.decodeIfPresent(ShoppingList.self, forKey: .shopping)
     }
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
@@ -100,6 +105,8 @@ extension BakeryState {
         try c.encode(nextOrder, forKey: .nextOrder)
         try c.encode(recipes, forKey: .recipes)
         try c.encode(bakeSessions, forKey: .bakeSessions)
+        try c.encode(pantry, forKey: .pantry)
+        try c.encodeIfPresent(shopping, forKey: .shopping)
     }
     mutating func upgrade(using catalog: BakeryState, today: String) throws {
         try validate()
@@ -110,10 +117,13 @@ extension BakeryState {
             version = 2
         }
         day = today
+        version = 3
         try validate()
     }
     mutating func saveRecipe(_ recipe: BakeRecipe) throws {
         try recipe.validate()
+        // Relinking a recipe must not leave the previous product pointing to it.
+        for i in products.indices where products[i].costingRecipeID == recipe.id && products[i].id != recipe.productID { products[i].costingRecipeID = nil }
         if let i = recipes.firstIndex(where: { $0.id == recipe.id }) { recipes[i] = recipe } else { recipes.append(recipe) }
     }
     @discardableResult mutating func startBake(recipeID: String, quantity: Int, now: Double = Date().timeIntervalSince1970) throws -> String {
