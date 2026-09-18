@@ -33,7 +33,7 @@ struct SettingsView: View {
     @State private var reset = false
     @State private var document = TextFile("")
     @State private var exportType: UTType = .json
-    @State private var filename = "RiseBake-backup"
+    @State private var filename = "Rise-and-Bake-backup"
     @State private var saved = false
     @State private var notificationStatus = ""
     @State private var pendingRestore: URL?
@@ -54,19 +54,19 @@ struct SettingsView: View {
             Section("Make it yours") { NavigationLink { AppearanceView() } label: { Label("Choose a background", systemImage: "paintpalette") } }
             Section("Baking reminders") {
                 Button("Enable timer notifications", systemImage: "bell") {
-                    Task { do { let allowed = try await BakeNotifications.shared.request(); notificationStatus = allowed ? "Timer reminders are enabled." : "Enable RiseBake notifications in iPhone Settings to receive reminders."; BakeNotifications.shared.sync(store.state.bakeSessions) } catch { notificationStatus = error.localizedDescription } }
+                    Task { do { let allowed = try await BakeNotifications.shared.request(); notificationStatus = allowed ? "Timer reminders are enabled." : "Enable Rise & Bake notifications in iPhone Settings to receive reminders."; BakeNotifications.shared.sync(store.state.bakeSessions) } catch { notificationStatus = error.localizedDescription } }
                 }
                 if !notificationStatus.isEmpty { Text(notificationStatus).font(.footnote) }
             }
             Section("Your data") {
                 Button("Export JSON backup", systemImage: "square.and.arrow.up") {
-                    do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; document = TextFile(data: try encoder.encode(store.state)); exportType = .json; filename = "RiseBake-backup"; export = true } catch { store.error = error.localizedDescription }
+                    do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; document = TextFile(data: try encoder.encode(store.state)); exportType = .json; filename = "Rise-and-Bake-backup"; export = true } catch { store.error = error.localizedDescription }
                 }
                 Button("Restore JSON backup", systemImage: "square.and.arrow.down") { restore = true }
-                Button("Export orders as CSV", systemImage: "tablecells") { document = TextFile(store.state.ordersCSV()); exportType = .commaSeparatedText; filename = "RiseBake-orders"; export = true }
+                Button("Export orders as CSV", systemImage: "tablecells") { document = TextFile(store.state.ordersCSV()); exportType = .commaSeparatedText; filename = "Rise-and-Bake-orders"; export = true }
                 Button("Start a new bakery", role: .destructive) { reset = true }
             }
-            Section("About RiseBake") {
+            Section("About Rise & Bake") {
                 LabeledContent("Version", value: "2.1 · Native iOS")
                 Text("Your everyday baking companion. Recipes, bake journals, orders and customer records are saved on this iPhone.")
             }.font(.footnote)

@@ -28,7 +28,7 @@ import UniformTypeIdentifiers
                 } catch {
                     let backup = folder.appendingPathComponent("recovery-\(UUID().uuidString).json")
                     try FileManager.default.copyItem(at: fileURL, to: backup)
-                    self.error = "Saved data could not be opened. A recovery copy was preserved in RiseBake’s files."
+                    self.error = "Saved data could not be opened. A recovery copy was preserved in Rise & Bake’s files."
                 }
             }
             try state.upgrade(using: seed, today: Clock.today)

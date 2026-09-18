@@ -30,6 +30,7 @@ info = plistlib.loads((app / 'Info.plist').read_bytes())
 assert info.get('CFBundleSupportedPlatforms') == ['iPhoneOS'], 'Not a physical-device app'
 assert info.get('CFBundleExecutable') == 'RiseBake', 'Unexpected executable'
 assert info.get('CFBundleIdentifier') == 'com.risebake.preview', 'Unexpected bundle ID'
+assert info.get('CFBundleDisplayName') == 'Rise & Bake', 'Unexpected Home Screen name'
 platform = Path('artifacts/device-platform.txt').read_text()
 assert re.search(r'^\s*platform\s+IOS\s*$', platform, re.MULTILINE), 'Missing iOS device platform'
 assert 'IOSSIMULATOR' not in platform, 'Simulator binaries cannot run on an iPhone'
