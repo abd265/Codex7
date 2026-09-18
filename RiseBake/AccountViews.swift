@@ -92,7 +92,7 @@ struct AccountWelcomeView: View {
         AccountCanvas(title: create ? "Your next chapter starts here" : "Welcome to your bakery", subtitle: create ? "Create an account for your baking business." : "Sign in and make room for something lovely.") {
             VStack(spacing: 12) {
                 if account.configuration?.appleEnabled == true || account.designPreview {
-                    SignInWithAppleButton(create ? .signUp : .signIn, onRequest: account.prepareApple) { result in Task { await account.apple(result) } }.signInWithAppleButtonStyle(.black).frame(height: 50).clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityIdentifier("auth.apple")
+                    SignInWithAppleButton(.signIn, onRequest: account.prepareApple) { result in Task { await account.apple(result) } }.signInWithAppleButtonStyle(.black).frame(height: 50).clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityIdentifier("auth.apple")
                 }
                 if account.configuration?.googleEnabled == true || account.designPreview {
                     Button { Task { await account.google() } } label: { Text("Continue with Google").font(.system(size: 17, weight: .medium)).foregroundStyle(.primary).frame(maxWidth: .infinity).frame(height: 50).background(.white, in: RoundedRectangle(cornerRadius: 12)).overlay(RoundedRectangle(cornerRadius: 12).stroke(.gray.opacity(0.5))) }.accessibilityIdentifier("auth.google")
