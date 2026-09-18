@@ -10,7 +10,11 @@ func costMoney(_ cents: Decimal) -> String {
     let f = NumberFormatter(); f.numberStyle = .currency; f.currencyCode = "CAD"; f.locale = Locale(identifier: "en_CA")
     return f.string(from: NSDecimalNumber(decimal: cents / 100)) ?? "—"
 }
-func quantityText(_ value: Double) -> String { value.formatted(.number.precision(.fractionLength(0...3))) }
+func quantityText(_ value: Double) -> String {
+    let f = NumberFormatter(); f.numberStyle = .decimal; f.usesGroupingSeparator = false
+    f.usesSignificantDigits = true; f.minimumSignificantDigits = 1; f.maximumSignificantDigits = 12
+    return f.string(from: NSNumber(value: value)) ?? "—"
+}
 
 struct PantryItem: Codable, Identifiable, Equatable {
     var id: String = UUID().uuidString

@@ -95,7 +95,7 @@ struct PantryEditor: View {
                 }
                 Section {
                     CostQuantityField(title: "Package quantity", value: $draft.packageAmount, identifier: "pantry.package")
-                    Picker("Package unit", selection: $draft.unit) { ForEach(RecipeIngredient.units, id: \.self) { Text($0).tag($0) } }
+                    Picker("Package unit", selection: Binding(get: { draft.unit }, set: { newUnit in if draft.unit != newUnit { draft.unit = newUnit; draft.stock = 0; draft.stockDate = Clock.today; unitChanged = true } })) { ForEach(RecipeIngredient.units, id: \.self) { Text($0).tag($0) } }
                     CostAmountField(title: "Package price (CAD)", text: $price, identifier: "pantry.price")
                     CostDayField(title: "Price checked", day: $draft.priceDate)
                 } header: { Text("Your purchase") } footer: { Text("Enter the total package price after discounts, including any costs you want allocated. Leave the price blank if unknown; enter 0 only when genuinely free. A 2 kg bag uses quantity 2 and unit kg.") }
@@ -119,7 +119,6 @@ struct PantryEditor: View {
                 ToolbarItem(placement: .confirmationAction) { Button("Save", action: save).accessibilityIdentifier("pantry.save") }
             }
             .onAppear { if !loaded { if let item { draft = item; price = item.priceCents.map { String(format: "%.2f", Double($0) / 100) } ?? "" }; loaded = true } }
-            .onChange(of: draft.unit) { old, new in if loaded && old != new { draft.stock = 0; draft.stockDate = Clock.today; unitChanged = true } }
         }
     }
     private func save() {
