@@ -67,7 +67,7 @@ struct SettingsView: View {
                 Button("Start a new bakery", role: .destructive) { reset = true }
             }
             Section("About Rise & Bake") {
-                LabeledContent("Version", value: "2.2 · Native iOS")
+                LabeledContent("Version", value: (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "2.3") + " · Native iOS")
                 Text("Your everyday baking companion. Recipes, bake journals, orders and customer records are saved on this iPhone.")
             }.font(.footnote)
         }.bakeryBackground().navigationTitle("Settings")
@@ -75,7 +75,7 @@ struct SettingsView: View {
         .fileExporter(isPresented: $export, document: document, contentType: exportType, defaultFilename: filename) { result in if case .failure(let error) = result { store.error = error.localizedDescription } }
         .fileImporter(isPresented: $restore, allowedContentTypes: [.json]) { result in switch result { case .success(let url): pendingRestore = url; confirmRestore = true; case .failure(let error): store.error = error.localizedDescription } }
         .confirmationDialog("Clear bakery records and start fresh?", isPresented: $reset, titleVisibility: .visible) { Button("Start a new bakery", role: .destructive) { store.reset(); cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } message: { Text("Export a backup first if you want to keep your changes.") }
-        .confirmationDialog("Replace current records with this file?", isPresented: $confirmRestore, titleVisibility: .visible) { Button("Import and replace records", role: .destructive) { if let url = pendingRestore { store.restore(url); cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } } message: { Text("This replaces orders, customers, recipes and bake journals with the selected file.") }
+        .confirmationDialog("Replace current records with this file?", isPresented: $confirmRestore, titleVisibility: .visible) { Button("Import and replace records", role: .destructive) { if let url = pendingRestore { store.restore(url); cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } } message: { Text("This replaces orders, customers, recipes, bake journals, ingredient prices and the shopping list with the selected file.") }
         .alert("Preferences saved", isPresented: $saved) { Button("OK", role: .cancel) {} }
     }
 }

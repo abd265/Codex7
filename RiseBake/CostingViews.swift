@@ -234,7 +234,7 @@ struct RecipeCostEditor: View {
             }
             .onAppear { if !loaded { draft = recipe; options = recipe.costing ?? RecipeCostSettings(); packaging = moneyText(options.packagingPerItemCents); hourly = moneyText(options.hourlyRateCents); overhead = moneyText(options.overheadPerBatchCents); forOrders = recipe.productID.flatMap { store.state.costingRecipe(for: $0)?.id } == recipe.id; loaded = true } }
             .sheet(item: $addingIngredient) { ingredient in
-                PantryEditor(item: PantryItem(name: ingredient.name, packageAmount: ingredient.unit == "piece" ? 12 : 1000, unit: ingredient.unit)) { id in
+                PantryEditor(item: PantryItem(name: ingredient.name, packageAmount: ingredient.unit == "piece" ? 12 : (["kg", "L", "cup", "tbsp", "tsp"].contains(ingredient.unit) ? 1 : 1000), unit: ingredient.unit)) { id in
                     if let i = draft.ingredients.firstIndex(where: { $0.id == ingredient.id }) { draft.ingredients[i].pantryID = id }
                 }
             }
