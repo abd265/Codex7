@@ -36,7 +36,10 @@ PY
 )"
 trap 'xcrun simctl shutdown "$simulator_id" >/dev/null 2>&1 || true' EXIT
 xcrun simctl boot "$simulator_id" || true
-xcrun simctl bootstatus "$simulator_id" -b
+python3 - "$simulator_id" <<'PYBOOT'
+import subprocess,sys
+subprocess.run(['xcrun','simctl','bootstatus',sys.argv[1],'-b'],check=True,timeout=180)
+PYBOOT
 xcrun simctl install "$simulator_id" "$app_path"
 xcrun simctl launch "$simulator_id" com.risebake.preview | tee artifacts/simulator-launch.txt
 sleep 4
@@ -47,12 +50,6 @@ if ! grep -q 'com.risebake.preview' build/processes.txt; then
   exit 1
 fi
 xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-iPhone.png
-# Exercise persistent native navigation, a timer, theme selection and the basket.
-xcodebuild test -project RiseBake.xcodeproj -scheme RiseBake \
-  -configuration Debug -destination "platform=iOS Simulator,id=$simulator_id" \
-  -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
-  CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-  2>&1 | tee artifacts/ui-tests.log
 # Appetize expects a zip whose root contains RiseBake.app (not an .ipa or source zip).
 ditto -c -k --sequesterRsrc --keepParent "$app_path" artifacts/RiseBake-simulator.zip
 python3 - <<'PY'
@@ -62,3 +59,17 @@ with ZipFile('artifacts/RiseBake-simulator.zip') as z:
     assert 'RiseBake.app/RiseBake' in z.namelist()
 print('Native simulator bundle is ready.')
 PY
+
+# Exercise persistent native navigation, a timer, theme selection and the basket.
+set +e
+xcodebuild test -project RiseBake.xcodeproj -scheme RiseBake \
+  -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id" \
+  -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
+  CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  2>&1 | tee artifacts/ui-tests.log
+test_status=${PIPESTATUS[0]}
+set -e
+if [ -d artifacts/RiseBake-UI.xcresult ]; then
+  xcrun xcresulttool export attachments --path artifacts/RiseBake-UI.xcresult --output-path artifacts/ui-screenshots || true
+fi
+exit "$test_status"

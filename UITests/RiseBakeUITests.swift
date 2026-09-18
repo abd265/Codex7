@@ -3,6 +3,7 @@ import XCTest
 final class RiseBakeUITests: XCTestCase {
     func testRecipeJournalAndBackgroundPersist() throws {
         continueAfterFailure = false
+        executionTimeAllowance = 180
         let app = XCUIApplication()
         app.launch()
         XCTAssertTrue(app.tabBars.buttons["Bake"].waitForExistence(timeout: 10))
