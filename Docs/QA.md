@@ -3,9 +3,9 @@
 ## Verified release evidence — 18 September 2026
 
 - Build 21: all 19 core tests passed, the Release ARM64 iPhone app compiled, and its unsigned IPA passed archive, platform, bundle-ID and checksum checks. [Device build](https://github.com/abd265/Codex7/actions/runs/35358018001).
-- The native interaction journey passed on iPhone 16 Pro / iOS 18.5: recipe navigation, starting a timer, relaunch persistence, pause, background selection/relaunch persistence and adding an item to the basket. [Passing native UI run](https://github.com/abd265/Codex7/actions/runs/35356908015), build 20, commit `38eab7e`.
+- The native interaction journey passed on iPhone 16 Pro / iOS 18.5: recipe navigation, starting a timer, relaunch persistence, pause, background selection/relaunch persistence and adding an item to the basket. [Passing native UI run](https://github.com/abd265/Codex7/actions/runs/35358018001), final build 21, commit `90ef020`.
 - The Today, Menu, Backgrounds and baking timer screens were reviewed from actual native screenshots. An iOS 26.5 launch was also verified. The newer simulator image intermittently stalled during Apple's own LaunchServices migration; UI CI now pins the installed Xcode 16.4 / iOS 18.5 combination.
-- Build 21 adds notes preservation when switching between tabs and carries production quantities into timed bakes. Its UI regression run is linked with the device build above; the build-20 passing UI result is recorded separately rather than presented as a build-21 result.
+- Build 21 adds notes preservation when switching between tabs and carries production quantities into timed bakes. Its final native UI regression run passed with no failures. The earlier build-20 journey also passed before these fixes.
 - Final IPA SHA-256: `3a8f2b928537b0fef7e6b8fa0bc03bde42b3bdcd0e21ca1ccab9674fc976013f`.
 
 ## Automated gates
