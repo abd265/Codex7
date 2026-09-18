@@ -56,7 +56,6 @@ jobs:
           retention-days: 14
 
   native-ui:
-    needs: build
     runs-on: macos-15
     timeout-minutes: 30
     env:

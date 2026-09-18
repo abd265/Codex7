@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p artifacts
 xcodebuild -version > artifacts/xcode-version.txt
-xcodebuild build \
+xcodebuild build-for-testing \
   -project RiseBake.xcodeproj \
   -scheme RiseBake \
   -configuration Debug \
@@ -51,6 +51,12 @@ if ! grep -q 'com.risebake.preview' build/processes.txt; then
   exit 1
 fi
 xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-iPhone.png
+# Capture the actual native account screen independently of UI-test assertions.
+xcrun simctl terminate "$simulator_id" com.risebake.preview
+xcrun simctl launch "$simulator_id" com.risebake.preview --account-preview
+sleep 2
+xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-sign-in.png
+xcrun simctl terminate "$simulator_id" com.risebake.preview
 # Appetize expects a zip whose root contains RiseBake.app (not an .ipa or source zip).
 ditto -c -k --sequesterRsrc --keepParent "$app_path" artifacts/RiseBake-simulator.zip
 python3 - <<'PY'
@@ -63,9 +69,10 @@ PY
 
 # Exercise persistent native navigation, a timer, theme selection and the basket.
 set +e
-xcodebuild test -project RiseBake.xcodeproj -scheme RiseBake \
-  -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id" \
+xcodebuild test-without-building -project RiseBake.xcodeproj -scheme RiseBake \
+  -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id,arch=$(uname -m)" \
   -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
+  ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/ui-tests.log
 test_status=${PIPESTATUS[0]}
