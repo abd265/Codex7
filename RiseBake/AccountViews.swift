@@ -138,6 +138,8 @@ struct AccountEmailCodeView: View {
         AccountCanvas(title: "Check your inbox", subtitle: "If a message can be sent to \(email), it will contain a six-digit code. Check your spam folder too.") {
             AccountCodeField(code: $code)
             AccountPrimaryButton(title: recovery ? "Verify reset code" : "Verify email", busy: account.busy) { Task { await account.emailCode(email: email, code: code, recovery: recovery); code = "" } }.disabled(!AccountPolicy.validCode(code))
+            Button("Send a new code") { Task { await account.resendCode(email: email, recovery: recovery) } }.disabled(account.busy)
+            if let notice = account.notice { Text(notice).font(.footnote).foregroundStyle(.secondary) }
             Text("Email verification is separate from your authenticator’s two-factor code.").font(.footnote).foregroundStyle(.secondary)
             Button("Back to sign in") { Task { await account.continueLocally(); account.route = .welcome } }.disabled(account.busy)
         }

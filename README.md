@@ -1,4 +1,4 @@
-# RiseBake 2.0 — native iPhone baking companion
+# Rise & Bake — native iPhone baking companion
 
 A component-based SwiftUI app for iOS 17 and later. Its screens use native controls, editable forms and persistent records. No web view, screenshot interface or invisible button overlays.
 
@@ -6,7 +6,7 @@ A component-based SwiftUI app for iOS 17 and later. Its screens use native contr
 
 The [iPhone build workflow](https://github.com/abd265/Codex7/actions/workflows/ios-sideload.yml) produces an unsigned physical-device IPA. Download the **RiseBake-iPhone** artifact from a successful run and install its IPA with Sideloadly using your Apple Account. See [Windows installation instructions](Docs/WINDOWS-IPHONE.md).
 
-For an update, use the same Apple Account and bundle-ID settings, and install over the existing app. Do not uninstall first. The bundle ID stays `com.risebake.preview` to preserve existing records; the app displays RiseBake 2.0. Free-account signing still follows Apple's expiry rules.
+For an update, use the same Apple Account and bundle-ID settings, and install over the existing app. Do not uninstall first. The bundle ID stays `com.risebake.preview` to preserve existing records; the app displays Rise & Bake. Free-account signing still follows Apple's expiry rules.
 
 ## Features
 
@@ -20,9 +20,17 @@ For an update, use the same Apple Account and bundle-ID settings, and install ov
 
 The app is a local bakery manager. Online customer checkout, card processing, automatic messaging, cloud synchronization and tax accounting require separate integrations. The menu records orders on the device. Insight figures represent contribution after ingredient costs, not net profit.
 
+## Accounts and launch pricing
+
+Version 2.2 adds native sign-up/sign-in screens and an optional Supabase Auth integration for Google, Apple, email/password, email confirmation/recovery and authenticator-based two-factor authentication. It isolates on-device bakery records by account and includes a server-side account-deletion function with recent authentication and provider revocation.
+
+**Account services are not activated in the default build.** An owner-controlled Supabase project, provider settings, SMTP delivery and legal pages are required. Native Apple sign-in additionally requires an appropriately provisioned Apple Developer build. Existing phone-only records remain usable. Sign-in does not provide cloud sync, and no paywall or billing has been added.
+
+See [account setup and live acceptance checks](Docs/ACCOUNTS-SETUP.md) and the [pricing recommendation](Docs/PRICING.md).
+
 ## Development and verification
 
-Open `RiseBake.xcodeproj` and run the shared RiseBake scheme in Xcode. No external Swift dependencies are needed. Run `swift test` for core business-logic tests. The iPhone workflow builds the device IPA, runs the native simulator UI test, and saves logs, screenshots and the test result bundle. The UI journey checks a running bake timer across relaunch, background persistence and adding a menu item to the basket.
+Open `RiseBake.xcodeproj` and run the shared RiseBake scheme in Xcode. The account integration uses the official Supabase Auth Swift SDK, pinned to 2.55.2. Run `swift test` for core business-logic tests. The iPhone workflow builds the device IPA, runs native simulator UI tests, and saves logs, screenshots and the test result bundle. The UI journeys check account-screen validation, branded receipt generation/sharing, a running bake timer across relaunch, background persistence and adding a menu item to the basket. The server deletion-policy checks cover ownership, recent authentication, MFA, recovery and malformed claims.
 
 Run `python3 scripts/generate_project.py` after adding Swift files. `scripts/expand_catalog.py` regenerates the bundled catalog and test fixture. Preserve existing product and recipe IDs when editing starter content.
 

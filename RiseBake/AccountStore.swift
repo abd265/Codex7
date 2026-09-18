@@ -36,7 +36,7 @@ enum AccountRoute: Equatable {
         let config = Bundle.main.url(forResource: "AuthConfig", withExtension: "json").flatMap { try? Data(contentsOf: $0) }.flatMap { try? JSONDecoder().decode(AccountConfiguration.self, from: $0) }
         configuration = config
         if let config, config.enabled, (try? config.validate()) != nil, let url = config.url {
-            client = AuthClient(configuration: .init(url: url.appendingPathComponent("auth/v1"), headers: ["apikey": config.publishableKey], flowType: .pkce, redirectToURL: AccountConfiguration.callback, storageKey: "risebake.\(url.host ?? "auth")", localStorage: AccountKeychain(), emitLocalSessionAsInitialSession: false))
+            client = AuthClient(configuration: .init(url: url.appendingPathComponent("auth/v1"), headers: ["apikey": config.publishableKey], flowType: .pkce, redirectToURL: AccountConfiguration.callback, storageKey: "risebake.\(url.host ?? "auth")", localStorage: AccountKeychain(), emitLocalSessionAsInitialSession: true))
         } else { client = nil }
         route = enabled ? .welcome : .local
         if let client {
@@ -44,7 +44,7 @@ enum AccountRoute: Equatable {
                 for await (event, _) in client.authStateChanges {
                     guard let self else { return }
                     if event == .signedOut || event == .userDeleted {
-                        self.clearSessionUI()
+                        if client.currentSession == nil { self.clearSessionUI() }
                     } else if event == .tokenRefreshed && self.authenticated && !self.busy {
                         await self.run { try await self.reconcile() }
                     }
@@ -154,6 +154,13 @@ enum AccountRoute: Equatable {
             route = .recoveryCode(email)
         }
     }
+    func resendCode(email: String, recovery: Bool) async {
+        await run {
+            if recovery { try await service().resetPasswordForEmail(email) }
+            else { try await service().resend(email: email, type: .signup) }
+            notice = "If a message can be sent, a new code will arrive shortly."
+        }
+    }
     func emailCode(email: String, code: String, recovery: Bool) async {
         await run {
             guard AccountPolicy.validCode(code) else { throw AccountError.message("Enter the six-digit code from your email.") }
@@ -206,10 +213,11 @@ enum AccountRoute: Equatable {
         }
     }
     private func clearSessionUI() {
+        let wasLocal = route == .local
         user = nil; factors = []; enrollment = nil; recovering = false; googleAccessToken = nil
         BakeNotifications.shared.sync([])
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        route = .welcome
+        route = wasLocal ? .local : .welcome
     }
     func continueLocally() async {
         if client?.currentSession != nil { await signOut(); if error != nil { return } }
