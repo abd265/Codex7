@@ -2,6 +2,8 @@
 
 New: 16 full-resolution product photos, three illustrated backgrounds and a plain theme; an expanded 16-item menu; 16 editable starter recipes; ingredient quantities and unit-aware batch scaling; step instructions, times, oven temperatures in Celsius/Fahrenheit; saved baking sessions, checklists, pause/resume timers, tasting notes and ratings; opt-in local timer notifications.
 
+Build 21 also preserves newer notes when a bake is opened from different tabs and carries order batch quantities into the timed-bake screen.
+
 All core bakery records live on your iPhone. Starting a bake takes a snapshot of the recipe so later edits cannot rewrite your history. Timers use saved timestamps and continue when the app is closed. Alerts require notification permission and can be affected by Focus or device settings. Finishing a bake stops its timers while preserving unfinished steps honestly.
 
 Orders now use today's local date. Checkout creates an unpaid order. Payment buttons explicitly record payments already received; they do not run a card transaction. Mail and SMS use Apple's on-device composers and are logged as sent only when the composer reports success. A share sheet is available when Mail/SMS is not configured. Menu is an in-app ordering tool, not a publicly hosted customer checkout.
