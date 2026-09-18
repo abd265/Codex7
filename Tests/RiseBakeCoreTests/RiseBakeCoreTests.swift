@@ -6,7 +6,8 @@ final class RiseBakeCoreTests: XCTestCase {
         var old = try seed()
         XCTAssertNil(old.settings.profile)
         let orders = old.orders, customers = old.customers
-        try old.upgrade(using: catalog(), today: Clock.today)
+        let current = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "catalog", withExtension: "json")!))
+        try old.upgrade(using: current, today: Clock.today)
         XCTAssertEqual(old.orders, orders); XCTAssertEqual(old.customers, customers)
         let logo = Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9ZlS8AAAAASUVORK5CYII=")!
         old.settings.profile = BakeryProfile(address: "24 Garden Lane", email: "hello@example.com", logoData: logo)
