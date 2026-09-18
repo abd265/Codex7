@@ -28,6 +28,7 @@ extension BakeryState {
     }
     func validateSettings(_ s: Settings) throws {
         try require(!s.bakery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && s.bakery.count <= 60 && !s.owner.isEmpty && s.owner.count <= 30 && (0...100).contains(s.cakeDeposit) && (0...100).contains(s.otherDeposit), "Enter a bakery name, owner and deposit percentages from 0 to 100.")
+        try s.profile?.validate()
     }
     func validateProduct(_ p: Product) throws {
         try require(!p.id.isEmpty && !p.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && p.name.count <= 80 && (1...1_000_000).contains(p.price) && (0...1_000_000).contains(p.cost) && (1...9999).contains(p.capacity) && BakeryCatalog.photos.indices.contains(p.image) && BakeryCatalog.categories.contains(p.category), "Check the product name, price, cost and daily capacity.")
@@ -183,8 +184,7 @@ extension BakeryState {
         return id
     }
     func receipt(_ order: Order) -> String {
-        let items = order.lines.map { "\($0.qty) × \(product($0.product)?.name ?? "Item") — \(money($0.qty * $0.price))" }.joined(separator: "\n")
-        return "\(settings.bakery)\nRiseBake · Order #RB-\(order.id)\n\(customer(order.customer)?.name ?? "Customer")\nPickup: \(order.date) at \(order.time)\n\n\(items)\n\nTotal: \(money(order.total))\nPayments recorded: \(money(order.paid))\nBalance: \(money(order.balance))\nStatus: \(order.status)\n\nPayment record · amounts in CAD."
+        receiptDocument(order).text
     }
     func ordersCSV() -> String {
         func cell(_ s: String) -> String {

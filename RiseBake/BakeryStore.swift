@@ -14,6 +14,13 @@ import UniformTypeIdentifiers
         do {
             try seed.validate()
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--receipt-fixture") {
+                var fixture = seed
+                try ReceiptQA.prepare(&fixture)
+                try JSONEncoder().encode(fixture).write(to: fileURL, options: .atomic)
+            }
+            #endif
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 do {
                     let saved = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: fileURL))

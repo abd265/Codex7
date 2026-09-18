@@ -77,8 +77,9 @@ struct MoreView: View {
     @EnvironmentObject private var store: BakeryStore
     var body: some View {
         List {
-            Section { HStack(spacing: 14) { Image(systemName: "leaf.fill").font(.largeTitle).foregroundStyle(Color.bakeTeal); VStack(alignment: .leading, spacing: 4) { Text("RiseBake").font(.title2.bold()); Text(store.state.settings.bakery).foregroundStyle(.secondary) } }.padding(.vertical, 8) }
+            Section { HStack(spacing: 14) { BakeryLogoView(data: store.state.settings.profile?.logoData, size: 60); VStack(alignment: .leading, spacing: 4) { Text("RiseBake").font(.title2.bold()); Text(store.state.settings.bakery).foregroundStyle(.secondary) } }.padding(.vertical, 8) }
             Section("Your bakery") {
+                NavigationLink { BakeryProfileView(settings: store.state.settings) } label: { Label("Bakery profile & logo", systemImage: "building.2.crop.circle") }.accessibilityIdentifier("bakery.profile")
                 NavigationLink { RecipeBookView() } label: { Label("Recipe book", systemImage: "book.closed") }
                 NavigationLink { AppearanceView() } label: { Label("Backgrounds", systemImage: "paintpalette") }
                 NavigationLink { RecurringView() } label: { Label("Recurring orders", systemImage: "repeat") }

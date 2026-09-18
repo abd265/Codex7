@@ -2,6 +2,62 @@ import XCTest
 @testable import RiseBakeCore
 
 final class RiseBakeCoreTests: XCTestCase {
+    func testLegacyBackupsKeepRecordsAndAcceptOptionalBranding() throws {
+        var old = try seed()
+        XCTAssertNil(old.settings.profile)
+        let orders = old.orders, customers = old.customers
+        try old.upgrade(using: catalog(), today: Clock.today)
+        XCTAssertEqual(old.orders, orders); XCTAssertEqual(old.customers, customers)
+        let logo = Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9ZlS8AAAAASUVORK5CYII=")!
+        old.settings.profile = BakeryProfile(address: "24 Garden Lane", email: "hello@example.com", logoData: logo)
+        try old.validate()
+        let restored = try JSONDecoder().decode(BakeryState.self, from: JSONEncoder().encode(old))
+        XCTAssertEqual(restored, old)
+        XCTAssertEqual(restored.settings.profile?.logoData, logo)
+        old.settings.profile?.logoData = nil
+        XCTAssertNil(try JSONDecoder().decode(BakeryState.self, from: JSONEncoder().encode(old)).settings.profile?.logoData)
+    }
+    func testProfileRejectsInvalidLogoAndContactDetails() throws {
+        var profile = BakeryProfile(email: "invalid")
+        XCTAssertThrowsError(try profile.validate())
+        profile.email = ""; profile.logoData = Data("not a png".utf8)
+        XCTAssertThrowsError(try profile.validate())
+        profile.logoData = Data([137, 80, 78, 71, 13, 10, 26, 10]) + Data(repeating: 0, count: 2_000_000)
+        XCTAssertThrowsError(try profile.validate())
+        profile.logoData = nil; profile.address = String(repeating: "line\n", count: 7)
+        XCTAssertThrowsError(try profile.validate())
+        profile.address = ""; profile.footer = String(repeating: "x", count: 401)
+        XCTAssertThrowsError(try profile.validate())
+        profile.footer = ""; try profile.validate()
+    }
+    func testBrandedReceiptKeepsAgreedAmountsAndExcludesPrivateNotes() throws {
+        var s = try seed()
+        s.settings.profile = BakeryProfile(contactName: "Rose", address: "24 Garden Lane", email: "hello@example.com", registrationID: "ABC-123", footer: "Thank you, Jamie!")
+        var order = s.orders[0]
+        order.lines = [OrderLine(product: "p0", qty: 3, price: 1234)]
+        order.paid = 1000; order.notes = "Private baker note"; order.allergy = "Private allergy note"
+        s.products[0].price = 9999
+        let r = s.receiptDocument(order)
+        XCTAssertEqual(r.total, 3702); XCTAssertEqual(r.paid, 1000); XCTAssertEqual(r.balance, 2702)
+        XCTAssertEqual(r.title, "Receipt"); XCTAssertEqual(r.paymentStatus, "Part paid")
+        XCTAssertTrue(r.text.contains("24 Garden Lane")); XCTAssertTrue(r.text.contains("ABC-123"))
+        XCTAssertTrue(r.text.contains("Thank you, Jamie!")); XCTAssertTrue(r.text.contains("$12.34"))
+        XCTAssertFalse(r.text.contains("Private baker note")); XCTAssertFalse(r.text.contains("Private allergy note"))
+    }
+    func testReceiptLabelsUnpaidQuotePaidAndCancelledOrdersAccurately() throws {
+        let s = try seed(); var order = s.orders[0]
+        order.status = "Awaiting deposit"; order.paid = 0
+        XCTAssertEqual(s.receiptDocument(order).title, "Order summary")
+        XCTAssertEqual(s.receiptDocument(order).paymentStatus, "Unpaid")
+        order.status = "Quote requested"
+        XCTAssertEqual(s.receiptDocument(order).title, "Quote")
+        order.status = "Confirmed"; order.paid = order.total
+        XCTAssertEqual(s.receiptDocument(order).paymentStatus, "Paid in full")
+        XCTAssertEqual(s.receiptDocument(order).balance, 0)
+        order.status = "Cancelled"
+        XCTAssertTrue(s.receiptDocument(order).paymentStatus.contains("Cancelled"))
+        XCTAssertEqual(s.receiptDocument(order).paid, order.total)
+    }
     func seed() throws -> BakeryState {
         try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "seed", withExtension: "json")!))
     }

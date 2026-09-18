@@ -26,8 +26,6 @@ struct InsightsView: View {
 }
 struct SettingsView: View {
     @EnvironmentObject private var store: BakeryStore
-    @State private var bakery = ""
-    @State private var owner = ""
     @State private var cake = 50
     @State private var other = 100
     @State private var export = false
@@ -42,12 +40,15 @@ struct SettingsView: View {
     @State private var confirmRestore = false
     var body: some View {
         Form {
-            Section("Bakery preferences") {
-                TextField("Bakery name", text: $bakery)
-                TextField("Your first name", text: $owner)
+            Section("Your bakery") {
+                NavigationLink { BakeryProfileView(settings: store.state.settings) } label: {
+                    HStack { BakeryLogoView(data: store.state.settings.profile?.logoData, size: 48); VStack(alignment: .leading) { Text("Bakery profile & logo"); Text(store.state.settings.bakery).font(.caption).foregroundStyle(.secondary) } }
+                }
+            }
+            Section("Deposit preferences") {
                 Stepper("Cake deposit: \(cake)%", value: $cake, in: 0...100)
                 Stepper("Other products: \(other)%", value: $other, in: 0...100)
-                Button("Save preferences") { if store.perform({ $0.settings.bakery = bakery; $0.settings.owner = owner; $0.settings.cakeDeposit = cake; $0.settings.otherDeposit = other }) { saved = true } }
+                Button("Save preferences") { if store.perform({ $0.settings.cakeDeposit = cake; $0.settings.otherDeposit = other }) { saved = true } }
             }
             Section { Text("Deposit settings apply to new one-off orders. Existing orders keep their agreed deposits. Recurring orders remain payable at pickup.").font(.footnote).foregroundStyle(.secondary) }
             Section("Make it yours") { NavigationLink { AppearanceView() } label: { Label("Choose a background", systemImage: "paintpalette") } }
@@ -66,15 +67,15 @@ struct SettingsView: View {
                 Button("Start a new bakery", role: .destructive) { reset = true }
             }
             Section("About RiseBake") {
-                LabeledContent("Version", value: "2.0 · Native iOS")
+                LabeledContent("Version", value: "2.1 · Native iOS")
                 Text("Your everyday baking companion. Recipes, bake journals, orders and customer records are saved on this iPhone.")
             }.font(.footnote)
         }.bakeryBackground().navigationTitle("Settings")
-        .onAppear { bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit }
+        .onAppear { cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit }
         .fileExporter(isPresented: $export, document: document, contentType: exportType, defaultFilename: filename) { result in if case .failure(let error) = result { store.error = error.localizedDescription } }
         .fileImporter(isPresented: $restore, allowedContentTypes: [.json]) { result in switch result { case .success(let url): pendingRestore = url; confirmRestore = true; case .failure(let error): store.error = error.localizedDescription } }
-        .confirmationDialog("Clear bakery records and start fresh?", isPresented: $reset, titleVisibility: .visible) { Button("Start a new bakery", role: .destructive) { store.reset(); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } message: { Text("Export a backup first if you want to keep your changes.") }
-        .confirmationDialog("Replace current records with this file?", isPresented: $confirmRestore, titleVisibility: .visible) { Button("Import and replace records", role: .destructive) { if let url = pendingRestore { store.restore(url); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } } message: { Text("This replaces orders, customers, recipes and bake journals with the selected file.") }
+        .confirmationDialog("Clear bakery records and start fresh?", isPresented: $reset, titleVisibility: .visible) { Button("Start a new bakery", role: .destructive) { store.reset(); cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } message: { Text("Export a backup first if you want to keep your changes.") }
+        .confirmationDialog("Replace current records with this file?", isPresented: $confirmRestore, titleVisibility: .visible) { Button("Import and replace records", role: .destructive) { if let url = pendingRestore { store.restore(url); cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } } message: { Text("This replaces orders, customers, recipes and bake journals with the selected file.") }
         .alert("Preferences saved", isPresented: $saved) { Button("OK", role: .cancel) {} }
     }
 }

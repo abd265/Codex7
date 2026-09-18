@@ -17,7 +17,7 @@ struct OrdersView: View {
                 NavigationLink { RecurringView() } label: { Label("Recurring orders", systemImage: "repeat") }
             }
             ForEach(Array(Set(orders.map(\.date))).sorted(), id: \.self) { day in
-                Section(prettyDay(day)) { ForEach(orders.filter { $0.date == day }) { order in NavigationLink { OrderDetailView(id: order.id) } label: { OrderRow(order: order) } } }
+                Section(prettyDay(day)) { ForEach(orders.filter { $0.date == day }) { order in NavigationLink { OrderDetailView(id: order.id) } label: { OrderRow(order: order) }.accessibilityIdentifier("order.\(order.id)") } }
             }
         }.overlay { if orders.isEmpty { EmptyList(title: "No orders found", symbol: "bag") } }
         .bakeryBackground().navigationTitle("Orders").searchable(text: $query, prompt: "Name, product or order number")
@@ -154,13 +154,5 @@ struct OrderEditor: View {
             } else { try state.createOrder(customer: customer, lines: lines, date: date, time: time, type: type, notes: notes, allergy: allergy, payment: payment, quote: quoteOnly) }
         }
         if ok { dismiss() } else { formError = store.error; store.error = nil }
-    }
-}
-struct ReceiptView: View {
-    @EnvironmentObject private var store: BakeryStore
-    @Environment(\.dismiss) private var dismiss
-    var order: Order
-    var body: some View {
-        NavigationStack { ScrollView { VStack(alignment: .leading, spacing: 24) { Label("RiseBake", systemImage: "leaf.fill").font(.largeTitle.bold()).foregroundStyle(Color.bakeTeal); Text(store.state.receipt(order)).font(.body.monospaced()).textSelection(.enabled); ShareLink(item: store.state.receipt(order)) { Label("Share receipt", systemImage: "square.and.arrow.up").frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent) }.padding(24) }.navigationTitle("Receipt").navigationBarTitleDisplayMode(.inline).toolbar { Button("Done") { dismiss() } } }
     }
 }

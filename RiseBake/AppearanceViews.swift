@@ -47,7 +47,10 @@ struct BakeryHero: View {
     var subtitle: String
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label(store.state.settings.bakery, systemImage: "leaf.fill").font(.caption.weight(.semibold))
+            HStack(spacing: 10) {
+                if let logo = store.state.settings.profile?.logoData { BakeryLogoView(data: logo, size: 42) }
+                Text(store.state.settings.bakery).font(.caption.weight(.semibold))
+            }
             Text(title).font(.system(.largeTitle, design: .rounded).bold())
             Text(subtitle).font(.subheadline)
         }.foregroundStyle(.white).padding(24).frame(maxWidth: .infinity, minHeight: 225, alignment: .leading)

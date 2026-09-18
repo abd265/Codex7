@@ -89,6 +89,7 @@ struct Settings: Codable, Equatable {
     var cakeDeposit: Int
     var otherDeposit: Int
     var background: String? = "flourGarden"
+    var profile: BakeryProfile? = nil
 }
 struct BakeryState: Codable, Equatable {
     var version: Int

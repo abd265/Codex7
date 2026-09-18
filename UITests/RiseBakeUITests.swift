@@ -1,6 +1,50 @@
 import XCTest
 
 final class RiseBakeUITests: XCTestCase {
+    func testBakeryProfileAndBrandedReceipt() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 180
+        let app = XCUIApplication()
+        app.launchArguments = ["--receipt-fixture"]
+        app.launch()
+        XCTAssertTrue(app.tabBars.buttons["More"].waitForExistence(timeout: 10))
+        app.tabBars.buttons["More"].tap()
+        app.buttons["bakery.profile"].tap()
+        let field = app.textFields["profile.name"]
+        for _ in 0..<4 { if field.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(field.isHittable)
+        field.tap()
+        field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: (field.value as? String ?? "").count))
+        field.typeText("Rose & Flour Studio")
+        app.buttons["profile.save"].tap()
+        app.terminate()
+        app.launchArguments = []
+        app.launch()
+        app.tabBars.buttons["More"].tap()
+        XCTAssertTrue(app.staticTexts["Rose & Flour Studio"].waitForExistence(timeout: 5))
+        app.buttons["bakery.profile"].tap()
+        XCTAssertTrue(app.buttons["Remove logo"].waitForExistence(timeout: 5), "Logo must survive saving and relaunch")
+        capture("Bakery-profile")
+        app.buttons["Back"].tap()
+        app.tabBars.buttons["Orders"].tap()
+        app.buttons["order.1201"].tap()
+        let receipt = app.buttons["View receipt"]
+        for _ in 0..<6 { if receipt.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(receipt.isHittable); receipt.tap()
+        XCTAssertTrue(app.staticTexts["Rose & Flour Studio"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["hello@example.com"].exists)
+        capture("Branded-receipt")
+        let preview = app.buttons["receipt.preview"]
+        for _ in 0..<8 { if preview.isHittable { break }; app.swipeUp() }
+        XCTAssertTrue(preview.isHittable); preview.tap()
+        XCTAssertTrue(app.navigationBars["PDF preview"].waitForExistence(timeout: 5))
+        capture("Receipt-PDF")
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["receipt.share"].tap()
+        XCTAssertTrue(app.buttons["Copy"].waitForExistence(timeout: 8) || app.buttons["Save to Files"].exists, "The system share sheet must open for the real PDF")
+        capture("Receipt-sharing")
+        app.terminate()
+    }
     func testRecipeJournalAndBackgroundPersist() throws {
         continueAfterFailure = false
         executionTimeAllowance = 180
