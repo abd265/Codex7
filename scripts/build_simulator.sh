@@ -38,7 +38,7 @@ trap 'xcrun simctl shutdown "$simulator_id" >/dev/null 2>&1 || true' EXIT
 xcrun simctl boot "$simulator_id" || true
 python3 - "$simulator_id" <<'PYBOOT'
 import subprocess,sys
-subprocess.run(['xcrun','simctl','bootstatus',sys.argv[1],'-b'],check=True,timeout=180)
+subprocess.run(['xcrun','simctl','bootstatus',sys.argv[1],'-b'],check=True,timeout=300)
 PYBOOT
 xcrun simctl install "$simulator_id" "$app_path"
 xcrun simctl launch "$simulator_id" com.risebake.preview | tee artifacts/simulator-launch.txt

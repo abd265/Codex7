@@ -10,10 +10,10 @@ final class RiseBakeUITests: XCTestCase {
         capture("Today")
         app.tabBars.buttons["Bake"].tap()
         app.buttons["Recipes"].tap()
-        let sourdough = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'recipe.' AND label CONTAINS 'Sourdough'")).firstMatch
+        let recipe = app.buttons["recipe.recipe-p4"]
         // Native navigation links are exposed as buttons by SwiftUI.
-        XCTAssertTrue(sourdough.waitForExistence(timeout: 5))
-        sourdough.tap()
+        XCTAssertTrue(recipe.waitForExistence(timeout: 5))
+        recipe.tap()
         XCTAssertTrue(app.buttons["bake.start"].waitForExistence(timeout: 5))
         app.buttons["bake.start"].tap()
         let timer = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'timer.'")).firstMatch
