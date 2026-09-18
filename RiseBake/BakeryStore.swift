@@ -21,19 +21,24 @@ import UniformTypeIdentifiers
                 } catch {
                     let backup = folder.appendingPathComponent("recovery-\(UUID().uuidString).json")
                     try FileManager.default.copyItem(at: fileURL, to: backup)
-                    self.error = "Saved data could not be loaded. A recovery copy was preserved. Sample data is shown."
+                    self.error = "Saved data could not be opened. A recovery copy was preserved in RiseBake’s files."
                 }
             }
+            try state.upgrade(using: seed, today: Clock.today)
+            try JSONEncoder().encode(state).write(to: fileURL, options: .atomic)
         } catch { self.error = "Storage could not be opened: \(error.localizedDescription)" }
     }
     @discardableResult func perform(_ action: (inout BakeryState) throws -> Void) -> Bool {
         do {
             var next = state
+            next.day = Clock.today
             try action(&next)
+            next.day = Clock.today
             try next.validate()
             let data = try JSONEncoder().encode(next)
             try data.write(to: fileURL, options: .atomic)
             state = next
+            BakeNotifications.shared.sync(next.bakeSessions)
             return true
         } catch { self.error = error.localizedDescription; return false }
     }
@@ -43,7 +48,9 @@ import UniformTypeIdentifiers
         do {
             let data = try Data(contentsOf: url)
             try require(data.count < 10_000_000, "Backup is too large.")
-            let next = try JSONDecoder().decode(BakeryState.self, from: data)
+            var next = try JSONDecoder().decode(BakeryState.self, from: data)
+            let catalog = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.main.url(forResource: "seed", withExtension: "json")!))
+            try next.upgrade(using: catalog, today: Clock.today)
             perform { $0 = next }
         } catch { self.error = error.localizedDescription }
     }
@@ -52,6 +59,10 @@ import UniformTypeIdentifiers
             let next = try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.main.url(forResource: "seed", withExtension: "json")!))
             perform { $0 = next }
         } catch { self.error = error.localizedDescription }
+    }
+    func refreshDay() {
+        if state.day != Clock.today { perform { $0.day = Clock.today } }
+        BakeNotifications.shared.sync(state.bakeSessions)
     }
 }
 struct TextFile: FileDocument {
@@ -64,7 +75,7 @@ struct TextFile: FileDocument {
 }
 
 extension Color {
-    static let bakeTeal = Color(red: 0.025, green: 0.50, blue: 0.45)
+    static let bakeTeal = Color(uiColor: UIColor { traits in traits.userInterfaceStyle == .dark ? UIColor(red: 0.30, green: 0.80, blue: 0.68, alpha: 1) : UIColor(red: 0.025, green: 0.50, blue: 0.45, alpha: 1) })
     static let bakeDeep = Color(red: 0.028, green: 0.37, blue: 0.34)
     static let bakeTint = Color(red: 0.905, green: 0.957, blue: 0.934)
 }

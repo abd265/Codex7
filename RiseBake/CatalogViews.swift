@@ -6,12 +6,12 @@ struct ProductsView: View {
     @State private var adding = false
     var body: some View {
         List {
-            ForEach(["Breads", "Pastries", "Cakes"], id: \.self) { category in
+            ForEach(BakeryCatalog.categories, id: \.self) { category in
                 Section(category) { ForEach(store.state.products.filter { $0.category == category }) { p in Button { editing = p } label: {
                     HStack { ProductPhoto(product: p); VStack(alignment: .leading, spacing: 5) { Text(p.name).font(.headline).foregroundStyle(.primary); Text("\(p.capacity) / day · Cost \(money(p.cost))").font(.caption).foregroundStyle(.secondary) }; Spacer(); Text(money(p.price)).fontWeight(.semibold) }
                 } } }
             }
-        }.navigationTitle("Products & pricing").toolbar { Button { adding = true } label: { Image(systemName: "plus") }.accessibilityLabel("New product") }
+        }.bakeryBackground().navigationTitle("Products & pricing").toolbar { Button { adding = true } label: { Image(systemName: "plus") }.accessibilityLabel("New product") }
         .sheet(item: $editing) { ProductEditor(product: $0) }.sheet(isPresented: $adding) { ProductEditor() }
     }
 }
@@ -25,8 +25,8 @@ struct ProductEditor: View {
     @State private var error: String?
     var body: some View {
         NavigationStack { Form {
-            Section { TextField("Product name", text: $draft.name); Picker("Category", selection: $draft.category) { ForEach(["Breads", "Pastries", "Cakes"], id: \.self) { Text($0).tag($0) } }; LabeledContent("Price ($)") { TextField("6.00", text: $price).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; LabeledContent("Ingredient cost ($)") { TextField("1.50", text: $cost).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; Stepper("Daily capacity: \(draft.capacity)", value: $draft.capacity, in: 1...9999) }
-            Section { TextField("Description", text: $draft.description, axis: .vertical); TextField("Allergens", text: $draft.allergens); TextField("Unit", text: $draft.unit); Picker("Photo", selection: $draft.image) { ForEach(0..<6, id: \.self) { Text(["Sourdough", "Croissant", "Custom cake", "Morning buns", "Baguette", "Chocolate cake"][$0]).tag($0) } }; ProductPhoto(product: draft, size: 130) }
+            Section { TextField("Product name", text: $draft.name); Picker("Category", selection: $draft.category) { ForEach(BakeryCatalog.categories, id: \.self) { Text($0).tag($0) } }; LabeledContent("Price ($)") { TextField("6.00", text: $price).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; LabeledContent("Ingredient cost ($)") { TextField("1.50", text: $cost).keyboardType(.decimalPad).multilineTextAlignment(.trailing) }; Stepper("Daily capacity: \(draft.capacity)", value: $draft.capacity, in: 1...9999) }
+            Section { TextField("Description", text: $draft.description, axis: .vertical); TextField("Allergens", text: $draft.allergens); TextField("Unit", text: $draft.unit); Picker("Photo", selection: $draft.image) { ForEach(BakeryCatalog.photos.indices, id: \.self) { Text(BakeryCatalog.photos[$0]).tag($0) } }; ProductPhoto(product: draft, size: 130) }
             Section { Text("Price changes apply to new orders. Existing orders keep their agreed prices.").font(.footnote).foregroundStyle(.secondary) }
             if let error { Text(error).foregroundStyle(.red) }
         }.navigationTitle(product == nil ? "New product" : "Edit product").navigationBarTitleDisplayMode(.inline).toolbar {
@@ -52,17 +52,13 @@ struct StorefrontView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 10) {
-                    Label("\(store.state.settings.bakery)", systemImage: "leaf.fill").font(.subheadline.weight(.semibold))
-                    Text("Small batches.\nBig-hearted baking.").font(.system(.largeTitle, design: .rounded).bold())
-                    Text("Fresh from our oven, made for your table.").font(.subheadline)
-                }.padding(24).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.white).background(Color.bakeDeep, in: RoundedRectangle(cornerRadius: 24))
-                Picker("Category", selection: $category) { ForEach(["All", "Breads", "Pastries", "Cakes"], id: \.self) { Text($0).tag($0) } }.pickerStyle(.segmented)
+                BakeryHero(title: "Small batches.\nBig-hearted baking.", subtitle: "Fresh from our oven, made for your table.")
+                Picker("Category", selection: $category) { ForEach((["All"] + BakeryCatalog.categories), id: \.self) { Text($0).tag($0) } }.pickerStyle(.menu)
                 Toggle("Favorites only", isOn: $favoritesOnly).font(.subheadline)
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 14)], spacing: 14) {
                     ForEach(products) { p in
                         VStack(alignment: .leading, spacing: 10) {
-                            Image("bake\(p.image)").resizable().scaledToFill().frame(height: 132).clipped().overlay(alignment: .topTrailing) { Button { var ids = Set(favoriteIDs.split(separator: ",").map(String.init)); if favorite(p.id) { ids.remove(p.id) } else { ids.insert(p.id) }; favoriteIDs = ids.sorted().joined(separator: ",") } label: { Image(systemName: favorite(p.id) ? "heart.fill" : "heart").foregroundStyle(Color.bakeTeal).padding(9).background(.regularMaterial, in: Circle()) }.padding(8).accessibilityLabel(favorite(p.id) ? "Remove \(p.name) from favorites" : "Favorite \(p.name)") }
+                            GeometryReader { proxy in Image("bake\(p.image)").resizable().scaledToFill().frame(width: proxy.size.width, height: 150).clipped() }.frame(height: 150).overlay(alignment: .topTrailing) { Button { var ids = Set(favoriteIDs.split(separator: ",").map(String.init)); if favorite(p.id) { ids.remove(p.id) } else { ids.insert(p.id) }; favoriteIDs = ids.sorted().joined(separator: ",") } label: { Image(systemName: favorite(p.id) ? "heart.fill" : "heart").foregroundStyle(Color.bakeTeal).padding(9).background(.regularMaterial, in: Circle()) }.padding(8).accessibilityLabel(favorite(p.id) ? "Remove \(p.name) from favorites" : "Favorite \(p.name)") }
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(p.name).font(.headline).lineLimit(2)
                                 Text(p.description).font(.caption).foregroundStyle(.secondary).lineLimit(3)
@@ -74,7 +70,7 @@ struct StorefrontView: View {
                 }
                 Button { cake = true } label: { BakeCard { HStack { Image(systemName: "birthday.cake").font(.title); VStack(alignment: .leading, spacing: 5) { Text("Something to celebrate?").font(.headline); Text("Request a custom cake").font(.subheadline) }; Spacer(); Image(systemName: "chevron.right") } } }.buttonStyle(.plain)
             }.padding(20)
-        }.background(Color(uiColor: .systemGroupedBackground)).navigationTitle("Storefront")
+        }.bakeryBackground().navigationTitle("Menu")
         .toolbar { NavigationLink { BasketView() } label: { Label("Basket (\(store.state.cart.values.reduce(0, +)))", systemImage: "basket") } }
         .sheet(isPresented: $cake) { OrderEditor(quoteOnly: true) }
     }
@@ -100,16 +96,16 @@ struct BasketView: View {
                     }
                 }; LabeledContent("Total", value: money(store.state.cartLines.reduce(0) { $0 + $1.qty * $1.price })) }
                 Section("Pickup") {
-                    Picker("Customer", selection: $customer) { ForEach(store.state.customers) { Text($0.name).tag($0.id) } }
+                    Picker("Customer", selection: $customer) { Text("Choose customer").tag(""); ForEach(store.state.customers) { Text($0.name).tag($0.id) } }
                     Button("Add customer") { newCustomer = true }
                     PickupFields(date: $date, time: $time, earliest: store.state.day)
                     TextField("Pickup notes", text: $notes, axis: .vertical)
                 }
-                Section { Button("Place demo order") { confirm = true }.fontWeight(.semibold) } footer: { Text("Simulated checkout. No card details or real payment. Choose fictional customer data for this shared preview.") }
+                Section { Button("Place order") { confirm = true }.fontWeight(.semibold) } footer: { Text("Record the order now, then record payment when you receive it.") }
             } }
         }.navigationTitle(createdOrder == nil ? "Basket" : "Order placed").navigationBarTitleDisplayMode(.inline)
         .onAppear { if customer.isEmpty { customer = store.state.customers.first?.id ?? "" }; if date.isEmpty { date = store.state.day } }
-        .sheet(isPresented: $newCustomer) { CustomerEditor() }
-        .confirmationDialog("Place this simulated order?", isPresented: $confirm, titleVisibility: .visible) { Button("Place order") { var id = ""; if store.perform({ id = try $0.checkout(customer: customer, date: date, time: time, notes: notes) }) { createdOrder = id } } } message: { Text("The order will be recorded as paid in full. No money will be charged.") }
+        .sheet(isPresented: $newCustomer) { CustomerEditor(onSaved: { customer = $0 }) }
+        .confirmationDialog("Place this order?", isPresented: $confirm, titleVisibility: .visible) { Button("Place order") { var id = ""; if store.perform({ id = try $0.checkout(customer: customer, date: date, time: time, notes: notes) }) { createdOrder = id } } } message: { Text("The order is saved with payment outstanding.") }
     }
 }

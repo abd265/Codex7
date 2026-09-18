@@ -2,10 +2,15 @@ import Foundation
 
 extension BakeryState {
     func validate() throws {
-        try require(version == 1 && Clock.validDay(day), "Unsupported or invalid RiseBake backup.")
+        try require((1...2).contains(version) && Clock.validDay(day), "Unsupported or invalid RiseBake backup.")
         try require(products.count <= 1000 && customers.count <= 10000 && orders.count <= 50000, "Backup is too large.")
         try require(Set(products.map(\.id)).count == products.count && Set(customers.map(\.id)).count == customers.count && Set(orders.map(\.id)).count == orders.count && Set(recurring.map(\.id)).count == recurring.count, "Duplicate IDs in backup.")
         try require(nextOrder > (orders.compactMap { Int($0.id) }.max() ?? 0) && nextOrder < 1_000_000_000, "Invalid order counter.")
+        try require(recipes.count <= 1000 && bakeSessions.count <= 10000, "Too many recipes or bake records.")
+        try require(Set(recipes.map(\.id)).count == recipes.count && Set(bakeSessions.map(\.id)).count == bakeSessions.count, "Duplicate recipe or bake IDs.")
+        for r in recipes { try r.validate(); if let id = r.productID { try require(product(id) != nil, "A recipe has a missing product.") } }
+        for b in bakeSessions { try b.validate() }
+        try require(settings.background == nil || BakeryCatalog.backgrounds.contains(settings.background!), "Unknown background.")
         try validateSettings(settings)
         for p in products { try validateProduct(p) }
         for c in customers { try validateCustomer(c) }
@@ -25,11 +30,11 @@ extension BakeryState {
         try require(!s.bakery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && s.bakery.count <= 60 && !s.owner.isEmpty && s.owner.count <= 30 && (0...100).contains(s.cakeDeposit) && (0...100).contains(s.otherDeposit), "Enter a bakery name, owner and deposit percentages from 0 to 100.")
     }
     func validateProduct(_ p: Product) throws {
-        try require(!p.id.isEmpty && !p.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && p.name.count <= 80 && (1...1_000_000).contains(p.price) && (0...1_000_000).contains(p.cost) && (1...9999).contains(p.capacity) && (0...5).contains(p.image) && ["Breads", "Pastries", "Cakes"].contains(p.category), "Check the product name, price, cost and daily capacity.")
+        try require(!p.id.isEmpty && !p.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && p.name.count <= 80 && (1...1_000_000).contains(p.price) && (0...1_000_000).contains(p.cost) && (1...9999).contains(p.capacity) && BakeryCatalog.photos.indices.contains(p.image) && BakeryCatalog.categories.contains(p.category), "Check the product name, price, cost and daily capacity.")
         try require(p.steps.count <= 20 && p.recipe.values.allSatisfy { (0...1_000_000).contains($0) }, "Invalid recipe.")
     }
     func validateCustomer(_ c: Customer) throws {
-        try require(!c.id.isEmpty && !c.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && c.name.count <= 80 && c.email.count <= 120 && c.email.range(of: "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", options: .regularExpression) != nil, "Enter a name and valid email address.")
+        try require(!c.id.isEmpty && !c.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && c.name.count <= 80 && c.email.count <= 120 && (c.email.isEmpty || c.email.range(of: "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", options: .regularExpression) != nil), "Enter a name and a valid email address, or leave email empty.")
         try require(c.phone.count <= 40 && c.preferred.count <= 120 && c.notes.count <= 1000, "Customer details are too long.")
     }
     func validateLines(_ lines: [OrderLine]) throws {
@@ -39,7 +44,7 @@ extension BakeryState {
         }
     }
     func validatePickup(_ date: String, _ time: String) throws {
-        try require(Clock.validDay(date) && date >= day && Clock.validTime(time), "Choose the sample day or a later date and a valid pickup time.")
+        try require(Clock.validDay(date) && date >= day && Clock.validTime(time), "Choose today or a later date and a valid pickup time.")
     }
     func checkCapacity(_ lines: [OrderLine], day: String, ignoring: String = "") throws {
         let requested = Dictionary(grouping: lines, by: \.product).mapValues { $0.reduce(0) { $0 + $1.qty } }
@@ -173,13 +178,13 @@ extension BakeryState {
     }
     @discardableResult
     mutating func checkout(customer: String, date: String, time: String, notes: String) throws -> String {
-        let id = try createOrder(customer: customer, lines: cartLines, date: date, time: time, notes: notes, payment: "full")
+        let id = try createOrder(customer: customer, lines: cartLines, date: date, time: time, notes: notes, payment: "none")
         cart = [:]
         return id
     }
     func receipt(_ order: Order) -> String {
         let items = order.lines.map { "\($0.qty) × \(product($0.product)?.name ?? "Item") — \(money($0.qty * $0.price))" }.joined(separator: "\n")
-        return "\(settings.bakery)\nRiseBake · Order #RB-\(order.id)\n\(customer(order.customer)?.name ?? "Customer")\nPickup: \(order.date) at \(order.time)\n\n\(items)\n\nTotal: \(money(order.total))\nSimulated payments: \(money(order.paid))\nBalance: \(money(order.balance))\nStatus: \(order.status)\n\nDemo receipt. No actual charge. Not a tax invoice."
+        return "\(settings.bakery)\nRiseBake · Order #RB-\(order.id)\n\(customer(order.customer)?.name ?? "Customer")\nPickup: \(order.date) at \(order.time)\n\n\(items)\n\nTotal: \(money(order.total))\nPayments recorded: \(money(order.paid))\nBalance: \(money(order.balance))\nStatus: \(order.status)\n\nPayment record · amounts in CAD."
     }
     func ordersCSV() -> String {
         func cell(_ s: String) -> String {

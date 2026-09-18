@@ -10,7 +10,7 @@ xcodebuild build \
   -sdk iphonesimulator \
   -destination 'generic/platform=iOS Simulator' \
   -derivedDataPath build \
-  ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
+  ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild.log
 app_path="$PWD/build/Build/Products/Debug-iphonesimulator/RiseBake.app"
@@ -20,7 +20,8 @@ lipo -info "$app_path/RiseBake" | tee artifacts/architecture.txt
 xcrun vtool -show-build "$app_path/RiseBake" | tee artifacts/platform.txt
 python3 - <<'PY'
 from pathlib import Path
-assert 'arm64' in Path('artifacts/architecture.txt').read_text(), 'Missing ARM simulator binary'
+import platform
+assert platform.machine() in Path('artifacts/architecture.txt').read_text(), 'Missing host simulator architecture'
 assert 'IOSSIMULATOR' in Path('artifacts/platform.txt').read_text(), 'This is not a simulator build'
 PY
 # Boot an available iPhone, launch the actual app and keep a real screenshot artifact.
@@ -46,6 +47,12 @@ if ! grep -q 'com.risebake.preview' build/processes.txt; then
   exit 1
 fi
 xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-iPhone.png
+# Exercise persistent native navigation, a timer, theme selection and the basket.
+xcodebuild test -project RiseBake.xcodeproj -scheme RiseBake \
+  -configuration Debug -destination "platform=iOS Simulator,id=$simulator_id" \
+  -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
+  CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  2>&1 | tee artifacts/ui-tests.log
 # Appetize expects a zip whose root contains RiseBake.app (not an .ipa or source zip).
 ditto -c -k --sequesterRsrc --keepParent "$app_path" artifacts/RiseBake-simulator.zip
 python3 - <<'PY'

@@ -7,6 +7,8 @@ on:
     paths:
       - '.github/workflows/ios-sideload.yml'
       - 'scripts/build_device.sh'
+      - 'scripts/build_simulator.sh'
+      - 'UITests/**'
       - 'RiseBake/**'
       - 'RiseBake.xcodeproj/**'
       - 'Sources/**'
@@ -30,6 +32,8 @@ jobs:
           swift test 2>&1 | tee artifacts/swift-test.log
       - name: Build unsigned physical-iPhone IPA
         run: bash scripts/build_device.sh
+      - name: Verify native screens and persistence
+        run: bash scripts/build_simulator.sh
       - name: Upload IPA, instructions, and build logs
         if: always()
         uses: actions/upload-artifact@v7

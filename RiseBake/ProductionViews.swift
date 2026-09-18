@@ -13,6 +13,7 @@ struct ProductionView: View {
                 HStack { Metric(title: "Batches", value: "\(batches.count)"); Metric(title: "Items", value: "\(batches.reduce(0) { $0 + $1.quantity })"); Metric(title: "Complete", value: "\(done)") }.padding(.vertical, 10)
                 ProgressView(value: Double(done), total: Double(max(1, batches.count))).accessibilityLabel("\(done) of \(batches.count) batches complete")
             }
+            if batches.isEmpty { Section { Text("Accepted orders for this date will appear here.").foregroundStyle(.secondary) } }
             ForEach(batches) { batch in
                 Section {
                     HStack { ProductPhoto(product: batch.product, size: 68); VStack(alignment: .leading, spacing: 4) { Text(batch.product.name).font(.headline); Text("\(batch.quantity) items · \(batch.orderIDs.count) orders").foregroundStyle(.secondary) }; Spacer() }
@@ -21,13 +22,16 @@ struct ProductionView: View {
                             HStack { Image(systemName: store.state.tasks[batch.taskKey(step)] == true ? "checkmark.circle.fill" : "circle").font(.title2).foregroundStyle(Color.bakeTeal); Text(step).foregroundStyle(.primary); Spacer() }.padding(.vertical, 4)
                         }.accessibilityLabel("\(step), \(store.state.tasks[batch.taskKey(step)] == true ? "complete" : "incomplete")")
                     }
-                    DisclosureGroup("Ingredients for this batch") { ForEach(batch.product.recipe.keys.sorted(), id: \.self) { ingredient in LabeledContent(ingredient, value: "\((batch.product.recipe[ingredient] ?? 0) * batch.quantity) g") } }
+                    if let recipe = store.state.recipes.first(where: { $0.productID == batch.product.id }) {
+                        NavigationLink("Recipe & timed bake") { RecipeDetailView(id: recipe.id) }
+                        DisclosureGroup("Ingredients for \(batch.quantity) items") { ForEach(recipe.ingredients) { ingredient in LabeledContent(ingredient.name, value: "\(recipe.scaledAmount(ingredient, quantity: batch.quantity).formatted(.number.precision(.fractionLength(0...2)))) \(ingredient.unit)") } }
+                    }
                     Button(batch.product.steps.allSatisfy { store.state.tasks[batch.taskKey($0)] == true } ? "Clear checklist" : "Complete batch") { store.perform { $0.toggleBatch(batch) } }
                 }
             }
             Section { Text("Checklists track baking. Mark each order ready in Orders when it is packed. Changed quantities reset the affected batch checklist.").font(.footnote).foregroundStyle(.secondary) }
-        }.navigationTitle("Today’s bake")
-        .overlay { if batches.isEmpty { ContentUnavailableView("A quiet kitchen", systemImage: "oven", description: Text("Accepted orders for this day will appear here.")) } }
+        }.bakeryBackground().navigationTitle("Order production")
+
     }
 }
 struct RecurringView: View {
@@ -41,7 +45,7 @@ struct RecurringView: View {
             Section { ForEach(plans) { plan in NavigationLink { RecurringDetailView(id: plan.id) } label: {
                 HStack { if let p = store.state.product(plan.product) { ProductPhoto(product: p) }; VStack(alignment: .leading, spacing: 5) { Text(store.state.customer(plan.customer)?.name ?? "Customer").font(.headline); Text("\(plan.qty) × \(store.state.product(plan.product)?.name ?? "Item")").font(.subheadline); Text("Weekly · \(plan.time)\(plan.paused ? " · Paused" : "")").font(.caption).foregroundStyle(.secondary) } }
             } } }
-            Section { Text("Four weekly pickups are scheduled per plan. Payments are recorded at pickup. This preview does not auto-charge or extend a subscription.").font(.footnote).foregroundStyle(.secondary) }
+            Section { Text("Plan four weekly pickups at a time and record payments when received.").font(.footnote).foregroundStyle(.secondary) }
         }.navigationTitle("Recurring orders").toolbar { Button { showingNew = true } label: { Image(systemName: "plus") }.accessibilityLabel("Add recurring order") }.sheet(isPresented: $showingNew) { RecurringEditor() }
     }
 }

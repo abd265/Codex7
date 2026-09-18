@@ -88,6 +88,7 @@ struct Settings: Codable, Equatable {
     var owner: String
     var cakeDeposit: Int
     var otherDeposit: Int
+    var background: String? = "flourGarden"
 }
 struct BakeryState: Codable, Equatable {
     var version: Int
@@ -100,6 +101,8 @@ struct BakeryState: Codable, Equatable {
     var cart: [String: Int]
     var settings: Settings
     var nextOrder: Int
+    var recipes: [BakeRecipe] = []
+    var bakeSessions: [BakeSession] = []
     func product(_ id: String) -> Product? { products.first { $0.id == id } }
     func customer(_ id: String) -> Customer? { customers.first { $0.id == id } }
     func order(_ id: String) -> Order? { orders.first { $0.id == id } }
@@ -134,6 +137,10 @@ func require(_ condition: Bool, _ message: String) throws {
     if !condition { throw BakeryError(message) }
 }
 enum Clock {
+    static var today: String {
+        let f = formatter("yyyy-MM-dd"); f.timeZone = .current
+        return f.string(from: Date())
+    }
     static var timestamp: String { ISO8601DateFormatter().string(from: Date()) }
     static func formatter(_ format: String) -> DateFormatter {
         let result = DateFormatter()

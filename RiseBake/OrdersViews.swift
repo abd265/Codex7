@@ -20,7 +20,7 @@ struct OrdersView: View {
                 Section(prettyDay(day)) { ForEach(orders.filter { $0.date == day }) { order in NavigationLink { OrderDetailView(id: order.id) } label: { OrderRow(order: order) } } }
             }
         }.overlay { if orders.isEmpty { EmptyList(title: "No orders found", symbol: "bag") } }
-        .navigationTitle("Orders").searchable(text: $query, prompt: "Name, product or order number")
+        .bakeryBackground().navigationTitle("Orders").searchable(text: $query, prompt: "Name, product or order number")
         .toolbar { ToolbarItem(placement: .primaryAction) { Button { showingNew = true } label: { Image(systemName: "plus") }.accessibilityLabel("New order") } }
         .sheet(isPresented: $showingNew) { OrderEditor() }
     }
@@ -52,7 +52,7 @@ struct OrderDetailView: View {
                             HStack { if let p = store.state.product(line.product) { ProductPhoto(product: p); VStack(alignment: .leading, spacing: 4) { Text(p.name).font(.headline); Text("\(line.qty) × \(money(line.price))").foregroundStyle(.secondary) } }; Spacer(); Text(money(line.qty * line.price)).fontWeight(.semibold) }
                         }
                         LabeledContent("Total", value: money(o.total))
-                        LabeledContent("Simulated payments", value: money(o.paid))
+                        LabeledContent("Payments recorded", value: money(o.paid))
                         LabeledContent("Remaining balance", value: money(o.balance))
                         if o.balance > 0 { LabeledContent("Deposit due", value: money(max(0, o.deposit - o.paid))) }
                     }
@@ -61,7 +61,7 @@ struct OrderDetailView: View {
                     }
                     Section {
                         if o.status == "Quote requested" { Button("Approve quote") { store.perform { try $0.approveQuote(id) } } }
-                        if o.reserves && o.balance > 0 { Button("Record simulated payment") { confirmPayment = true } }
+                        if o.reserves && o.balance > 0 { Button("Record payment") { confirmPayment = true } }
                         if let stage = Order.stages.firstIndex(of: o.status), stage < 3 {
                             Button { if stage == 2 && o.balance > 0 { confirmUnpaid = true } else { store.perform { try $0.advance(id) } } } label: { Label(["Start production", "Mark ready for pickup", "Complete pickup"][stage], systemImage: "checkmark.circle.fill") }.fontWeight(.semibold)
                         }
@@ -81,10 +81,10 @@ struct OrderDetailView: View {
         }.navigationTitle("#RB-\(id)").navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $editing) { if let o = order { OrderEditor(order: o) } }
         .sheet(isPresented: $receipt) { if let o = order { ReceiptView(order: o) } }
-        .confirmationDialog("Record a simulated payment", isPresented: $confirmPayment, titleVisibility: .visible) {
+        .confirmationDialog("Record a payment received", isPresented: $confirmPayment, titleVisibility: .visible) {
             Button("Record full balance") { store.perform { try $0.recordPayment(id, full: true) } }
             if let o = order, o.deposit > o.paid { Button("Record required deposit") { store.perform { try $0.recordPayment(id, full: false) } } }
-        } message: { Text("This updates the demo ledger. No money is charged.") }
+        } message: { Text("Confirm only payments you have already received, such as cash or bank transfer.") }
         .confirmationDialog("Cancel this order?", isPresented: $confirmCancel, titleVisibility: .visible) { Button("Cancel order", role: .destructive) { store.perform { try $0.cancel(id) } } } message: { Text("Capacity is released. Recorded payments remain; no refund is issued.") }
         .confirmationDialog("Complete pickup with an unpaid balance?", isPresented: $confirmUnpaid, titleVisibility: .visible) { Button("Complete pickup without payment") { store.perform { try $0.advance(id, allowUnpaid: true) } } }
     }
@@ -103,6 +103,7 @@ struct OrderEditor: View {
     @State private var notes = ""
     @State private var allergy = ""
     @State private var payment = "none"
+    @State private var newCustomer = false
     @State private var initialized = false
     @State private var formError: String?
     private var total: Int { lines.reduce(0) { $0 + $1.price * $1.qty } }
@@ -110,7 +111,8 @@ struct OrderEditor: View {
         NavigationStack {
             Form {
                 Section("Customer & pickup") {
-                    Picker("Customer", selection: $customer) { ForEach(store.state.customers) { Text($0.name).tag($0.id) } }
+                    Picker("Customer", selection: $customer) { Text("Choose customer").tag(""); ForEach(store.state.customers) { Text($0.name).tag($0.id) } }
+                    Button("Add customer") { newCustomer = true }
                     PickupFields(date: $date, time: $time, earliest: store.state.day)
                     if !quoteOnly { Picker("Order type", selection: $type) { ForEach(["Retail", "Custom", "Wholesale"], id: \.self) { Text($0).tag($0) } } }
                 }
@@ -128,12 +130,13 @@ struct OrderEditor: View {
                 }
                 Section("Notes") { TextField("Design or pickup notes", text: $notes, axis: .vertical).lineLimit(3...5); TextField("Allergies or dietary requests", text: $allergy, axis: .vertical) }
                 if order == nil && !quoteOnly {
-                    Section { Picker("Simulated payment", selection: $payment) { Text("Not recorded").tag("none"); Text("Deposit recorded").tag("deposit"); Text("Paid in full").tag("full") } } footer: { Text("No real money is collected. Capacity is reserved when the order is accepted; production starts once the deposit is recorded.") }
+                    Section { Picker("Payment received", selection: $payment) { Text("Not recorded").tag("none"); Text("Deposit recorded").tag("deposit"); Text("Paid in full").tag("full") } } footer: { Text("Record payments you have already received. Production starts once the required deposit is recorded.") }
                 }
-                if quoteOnly { Section { Text("The baker reviews this request before it reserves capacity. Prices and payment are simulated.").font(.footnote).foregroundStyle(.secondary) } }
+                if quoteOnly { Section { Text("The baker reviews this request before it reserves capacity. You can review the price before approval.").font(.footnote).foregroundStyle(.secondary) } }
                 if let formError { Section { Text(formError).foregroundStyle(.red) } }
             }.navigationTitle(order != nil ? "Edit order" : quoteOnly ? "Custom cake request" : "New order").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }; ToolbarItem(placement: .confirmationAction) { Button(quoteOnly ? "Request" : "Save", action: save).fontWeight(.semibold) } }
+            .sheet(isPresented: $newCustomer) { CustomerEditor(onSaved: { customer = $0 }) }
             .onAppear {
                 guard !initialized else { return }; initialized = true
                 customer = order?.customer ?? defaultCustomer ?? store.state.customers.first?.id ?? ""

@@ -6,3 +6,8 @@ artifacts/
 xcuserdata/
 .env
 .env.*
+
+Artwork/
+
+__pycache__/
+*.pyc

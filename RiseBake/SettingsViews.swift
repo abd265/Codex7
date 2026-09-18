@@ -11,7 +11,7 @@ struct InsightsView: View {
         List {
             Section("All accepted orders") {
                 LabeledContent("Booked revenue", value: money(booked))
-                LabeledContent("Collected (simulated)", value: money(collected))
+                LabeledContent("Payments recorded", value: money(collected))
                 LabeledContent("Outstanding", value: money(booked - collected))
                 LabeledContent("Estimated ingredient cost", value: money(cost))
                 LabeledContent("Estimated contribution", value: money(booked - cost))
@@ -37,6 +37,9 @@ struct SettingsView: View {
     @State private var exportType: UTType = .json
     @State private var filename = "RiseBake-backup"
     @State private var saved = false
+    @State private var notificationStatus = ""
+    @State private var pendingRestore: URL?
+    @State private var confirmRestore = false
     var body: some View {
         Form {
             Section("Bakery preferences") {
@@ -44,27 +47,34 @@ struct SettingsView: View {
                 TextField("Your first name", text: $owner)
                 Stepper("Cake deposit: \(cake)%", value: $cake, in: 0...100)
                 Stepper("Other products: \(other)%", value: $other, in: 0...100)
-                Button("Save preferences") { if store.perform({ $0.settings = Settings(bakery: bakery, owner: owner, cakeDeposit: cake, otherDeposit: other) }) { saved = true } }
+                Button("Save preferences") { if store.perform({ $0.settings.bakery = bakery; $0.settings.owner = owner; $0.settings.cakeDeposit = cake; $0.settings.otherDeposit = other }) { saved = true } }
             }
             Section { Text("Deposit settings apply to new one-off orders. Existing orders keep their agreed deposits. Recurring orders remain payable at pickup.").font(.footnote).foregroundStyle(.secondary) }
+            Section("Make it yours") { NavigationLink { AppearanceView() } label: { Label("Choose a background", systemImage: "paintpalette") } }
+            Section("Baking reminders") {
+                Button("Enable timer notifications", systemImage: "bell") {
+                    Task { do { let allowed = try await BakeNotifications.shared.request(); notificationStatus = allowed ? "Timer reminders are enabled." : "Enable RiseBake notifications in iPhone Settings to receive reminders."; BakeNotifications.shared.sync(store.state.bakeSessions) } catch { notificationStatus = error.localizedDescription } }
+                }
+                if !notificationStatus.isEmpty { Text(notificationStatus).font(.footnote) }
+            }
             Section("Your data") {
                 Button("Export JSON backup", systemImage: "square.and.arrow.up") {
                     do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; document = TextFile(data: try encoder.encode(store.state)); exportType = .json; filename = "RiseBake-backup"; export = true } catch { store.error = error.localizedDescription }
                 }
                 Button("Restore JSON backup", systemImage: "square.and.arrow.down") { restore = true }
                 Button("Export orders as CSV", systemImage: "tablecells") { document = TextFile(store.state.ordersCSV()); exportType = .commaSeparatedText; filename = "RiseBake-orders"; export = true }
-                Button("Reset sample data", role: .destructive) { reset = true }
+                Button("Start a new bakery", role: .destructive) { reset = true }
             }
             Section("About RiseBake") {
-                LabeledContent("Version", value: "1.2 · Native iOS")
-                Text("Built with SwiftUI. Orders, checklists, products, customers and preferences save on this simulator. An Appetize session may reset its storage; export a backup to keep changes.")
-                Text("Payments and messages are simulated. This preview has no authentication, cloud sync, card processing or tax calculation.").foregroundStyle(.secondary)
+                LabeledContent("Version", value: "2.0 · Native iOS")
+                Text("Your everyday baking companion. Recipes, bake journals, orders and customer records are saved on this iPhone.")
             }.font(.footnote)
-        }.navigationTitle("Settings")
+        }.bakeryBackground().navigationTitle("Settings")
         .onAppear { bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit }
         .fileExporter(isPresented: $export, document: document, contentType: exportType, defaultFilename: filename) { result in if case .failure(let error) = result { store.error = error.localizedDescription } }
-        .fileImporter(isPresented: $restore, allowedContentTypes: [.json]) { result in switch result { case .success(let url): store.restore(url); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit; case .failure(let error): store.error = error.localizedDescription } }
-        .confirmationDialog("Replace all changes with sample data?", isPresented: $reset, titleVisibility: .visible) { Button("Reset sample data", role: .destructive) { store.reset(); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } message: { Text("Export a backup first if you want to keep your changes.") }
+        .fileImporter(isPresented: $restore, allowedContentTypes: [.json]) { result in switch result { case .success(let url): pendingRestore = url; confirmRestore = true; case .failure(let error): store.error = error.localizedDescription } }
+        .confirmationDialog("Clear bakery records and start fresh?", isPresented: $reset, titleVisibility: .visible) { Button("Start a new bakery", role: .destructive) { store.reset(); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } message: { Text("Export a backup first if you want to keep your changes.") }
+        .confirmationDialog("Replace current records with this file?", isPresented: $confirmRestore, titleVisibility: .visible) { Button("Import and replace records", role: .destructive) { if let url = pendingRestore { store.restore(url); bakery = store.state.settings.bakery; owner = store.state.settings.owner; cake = store.state.settings.cakeDeposit; other = store.state.settings.otherDeposit } } } message: { Text("This replaces orders, customers, recipes and bake journals with the selected file.") }
         .alert("Preferences saved", isPresented: $saved) { Button("OK", role: .cancel) {} }
     }
 }

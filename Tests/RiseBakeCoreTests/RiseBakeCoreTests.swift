@@ -86,7 +86,7 @@ final class RiseBakeCoreTests: XCTestCase {
         XCTAssertThrowsError(try s.checkout(customer: "c0", date: "2025-06-01", time: "10:00", notes: "")); XCTAssertEqual(s.cart["p0"], 100)
         s.cart = ["p0": 2]
         let id = try s.checkout(customer: "c0", date: "2025-06-01", time: "10:00", notes: "")
-        XCTAssertTrue(s.cart.isEmpty); XCTAssertEqual(s.order(id)?.paid, 2400)
+        XCTAssertTrue(s.cart.isEmpty); XCTAssertEqual(s.order(id)?.paid, 0)
     }
     func testInvalidBackupRejected() throws {
         var s = try seed(); s.orders[0].paid = -1
@@ -99,5 +99,66 @@ final class RiseBakeCoreTests: XCTestCase {
         XCTAssertFalse(Clock.validDay("2025-02-30")); XCTAssertFalse(Clock.validTime("24:00"))
         var s = try seed(); s.customers[0].name = "=HYPERLINK(\"bad\")"
         XCTAssertTrue(s.ordersCSV().contains("'=HYPERLINK"))
+    }
+}
+
+final class BakingTests: XCTestCase {
+    func catalog() throws -> BakeryState { try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "catalog", withExtension: "json")!)) }
+    func legacy() throws -> BakeryState { try JSONDecoder().decode(BakeryState.self, from: Data(contentsOf: Bundle.module.url(forResource: "seed", withExtension: "json")!)) }
+    func testCatalogAndMigrationPreserveUserRecords() throws {
+        let catalog = try catalog(); try catalog.validate()
+        XCTAssertEqual(catalog.products.count, 16); XCTAssertEqual(catalog.recipes.count, 16)
+        XCTAssertTrue(catalog.orders.isEmpty); XCTAssertTrue(catalog.customers.isEmpty)
+        var old = try legacy(); old.products[0].price = 1999
+        let orders = old.orders, customers = old.customers
+        try old.upgrade(using: catalog, today: "2026-09-18")
+        XCTAssertEqual(old.orders, orders); XCTAssertEqual(old.customers, customers)
+        XCTAssertEqual(old.products[0].price, 1999); XCTAssertEqual(old.version, 2)
+        XCTAssertEqual(old.day, "2026-09-18"); XCTAssertEqual(old.recipes.count, 16)
+        let migrated = old; try old.upgrade(using: catalog, today: "2026-09-18")
+        XCTAssertEqual(old, migrated)
+        XCTAssertEqual(old, try JSONDecoder().decode(BakeryState.self, from: JSONEncoder().encode(old)))
+    }
+    func testRecipeScalingAndSnapshotIsolation() throws {
+        var s = try catalog(); let r = s.recipes.first { $0.productID == "p6" }!
+        XCTAssertEqual(r.scaledAmount(r.ingredients[0], quantity: 24), 500)
+        let id = try s.startBake(recipeID: r.id, quantity: 24, now: 1000)
+        var changed = r; changed.ingredients[0].amount = 999; try s.saveRecipe(changed)
+        XCTAssertEqual(s.bakeSessions.first { $0.id == id }?.recipe.ingredients[0].amount, 250)
+    }
+    func testTimerSurvivesSerializationAndPauseResume() throws {
+        var s = try catalog(); let r = s.recipes[0]
+        let id = try s.startBake(recipeID: r.id, quantity: 1, now: 1000)
+        let step = r.method[0].id
+        try s.changeStep(sessionID: id, stepID: step, action: "start", now: 1010)
+        s = try JSONDecoder().decode(BakeryState.self, from: JSONEncoder().encode(s))
+        XCTAssertEqual(s.bakeSessions[0].steps[0].elapsed(at: 1070), 60)
+        try s.changeStep(sessionID: id, stepID: step, action: "pause", now: 1070)
+        XCTAssertEqual(s.bakeSessions[0].steps[0].elapsed(at: 2000), 60)
+        XCTAssertNil(s.bakeSessions[0].steps[0].deadline)
+        try s.changeStep(sessionID: id, stepID: step, action: "start", now: 2000)
+        XCTAssertEqual(s.bakeSessions[0].steps[0].deadline, 3140)
+        try s.changeStep(sessionID: id, stepID: step, action: "complete", now: 2060)
+        XCTAssertEqual(s.bakeSessions[0].steps[0].elapsed(at: 9999), 120)
+        try s.finishBake(id, now: 2100); try s.validate()
+        XCTAssertThrowsError(try s.changeStep(sessionID: id, stepID: step, action: "start", now: 2200))
+    }
+    func testFinishStopsRunningTimersWithoutFalsifyingCompletedSteps() throws {
+        var s = try catalog(); let r = s.recipes[0]
+        let id = try s.startBake(recipeID: r.id, quantity: 1, now: 1000)
+        try s.changeStep(sessionID: id, stepID: r.method[0].id, action: "start", now: 1010)
+        try s.finishBake(id, now: 1070)
+        XCTAssertEqual(s.bakeSessions[0].steps[0].accumulatedSeconds, 60)
+        XCTAssertEqual(s.bakeSessions[0].completedCount, 0); XCTAssertTrue(s.bakeSessions[0].complete)
+        XCTAssertNil(s.bakeSessions[0].steps[0].deadline); try s.validate()
+    }
+    func testRejectCorruptRecipeAndJournal() throws {
+        var s = try catalog(); s.recipes[0].yield = 0; XCTAssertThrowsError(try s.validate())
+        s = try catalog(); s.recipes[0].ingredients[0].amount = .nan; XCTAssertThrowsError(try s.validate())
+        s = try catalog(); let id = try s.startBake(recipeID: s.recipes[0].id, quantity: 1, now: 1000)
+        XCTAssertFalse(id.isEmpty); s.bakeSessions[0].steps[0].accumulatedSeconds = -1
+        XCTAssertThrowsError(try s.validate())
+        s = try catalog(); _ = try s.startBake(recipeID: s.recipes[0].id, quantity: 1, now: 1000)
+        s.bakeSessions[0].finishedAt = 1e300; XCTAssertThrowsError(try s.validate())
     }
 }
