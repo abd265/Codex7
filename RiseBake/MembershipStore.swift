@@ -1,5 +1,8 @@
 import SwiftUI
 import StoreKit
+#if DEBUG
+import StoreKitTest
+#endif
 
 @MainActor final class MembershipStore: ObservableObject {
     @Published private(set) var products: [String: StoreKit.Product] = [:]
@@ -10,6 +13,9 @@ import StoreKit
     let configuration: MembershipConfiguration?
     let enabled: Bool
     private var listener: Task<Void, Never>?
+    #if DEBUG
+    private var localTestSession: SKTestSession?
+    #endif
 
     var active: [MembershipEntitlement] { entitlements.filter { $0.isActive(at: Date()) } }
     init() {
@@ -23,6 +29,20 @@ import StoreKit
         let testing = false
         #endif
         enabled = config != nil && (testing || (config?.enabled == true && (try? config?.validate()) != nil))
+        #if DEBUG
+        if testing {
+            do {
+                guard let url = Bundle.main.url(forResource: "RiseBakePlans", withExtension: "storekit") else {
+                    throw CocoaError(.fileNoSuchFile)
+                }
+                localTestSession = try SKTestSession(contentsOf: url)
+                localTestSession?.disableDialogs = true
+                diagnostic("Local test session configured in app")
+            } catch {
+                message = "The local purchase test configuration could not be loaded."
+            }
+        }
+        #endif
         if enabled {
             listener = Task { [weak self] in
                 for await result in StoreKit.Transaction.updates {
@@ -63,13 +83,8 @@ import StoreKit
         guard enabled, let configuration else { return }
         diagnostic("Checking current entitlements")
         var current: [MembershipEntitlement] = []
-        // Query our finite catalogue directly. The all-products entitlement stream
-        // can stall in the local StoreKit environment before the first purchase.
-        for plan in MembershipPlan.allCases {
-            let productID = configuration.productID(for: plan)
-            diagnostic("Checking \(plan.rawValue)")
-            guard let result = await StoreKit.Transaction.currentEntitlement(for: productID) else { continue }
-            guard case .verified(let transaction) = result, transaction.productID == productID else { continue }
+        for await result in StoreKit.Transaction.currentEntitlements {
+            guard case .verified(let transaction) = result, let plan = configuration.plan(for: transaction.productID) else { continue }
             // A mismatched product type can never grant a permanent entitlement.
             guard (plan == .offline && transaction.productType == .nonConsumable) || (plan != .offline && transaction.productType == .autoRenewable) else { continue }
             let item = MembershipEntitlement(plan: plan, expiration: transaction.expirationDate, revoked: transaction.revocationDate != nil, upgraded: transaction.isUpgraded)
