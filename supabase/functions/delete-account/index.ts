@@ -50,6 +50,10 @@ Deno.serve(async (request: Request) => {
       const revocation = await fetch("https://appleid.apple.com/auth/revoke", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ client_id: clientID, client_secret: clientSecret, token: apple.refresh_token ?? apple.access_token, token_type_hint: apple.refresh_token ? "refresh_token" : "access_token" }) });
       if (!revocation.ok) return failure(502);
     }
+    // Revoke all refresh sessions before deletion. Access JWTs can remain valid
+    // until expiry; sensitive endpoints must also verify the current Auth user.
+    const { error: signOutError } = await admin.auth.admin.signOut(token, "global");
+    if (signOutError) return failure(500);
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) return failure(500);
     return new Response(null, { status: 204, headers: { "Cache-Control": "no-store" } });

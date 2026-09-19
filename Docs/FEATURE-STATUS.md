@@ -14,8 +14,8 @@ This checklist corrects the earlier gap between the delivered app and the accoun
 | Accurate recipe costs | Enter actual package price/size/store/date; quantity conversions; packaging/labour/overhead/margin | No grocery-price feed or receipt OCR |
 | Shopping list | Selected orders, shared ingredients, manually entered stock, package rounding, checkmarks and sharing | Checking a purchase does not automatically change stock |
 | Visible sign-in/sign-up | Welcome form on first 2.4 launch; permanent More entries; separate create-account entry | Account service activation below |
-| Email, Google, Apple sign-in | Integration source, email verification/reset, provider actions and unavailable-state UI | Supabase project, SMTP, Google credentials/consent and appropriate Apple provisioning remain unconfigured |
-| Two-factor authentication | TOTP enrollment/challenges/removal and recovery access policy implemented | Requires live Auth configuration and live acceptance checks |
+| Email, Google, Apple sign-in | Integration source, email verification/reset, provider actions and unavailable-state UI | Supabase project configured in part; SMTP/templates, legal URLs, Google credentials/consent, Apple provisioning and live acceptance checks remain |
+| Two-factor authentication | TOTP enrollment/challenges/removal and recovery access policy implemented | TOTP confirmed enabled in Supabase; live enrollment/recovery acceptance checks remain |
 | User pricing | Native Plans & pricing from welcome, More and account settings | C$9.99/month, C$79.99/year and C$49.99 once are proposals, not approved live offers |
 | Purchases and management | StoreKit product loading, verified transaction handling, purchase, restore and App Store management link | Products, legal pages, App Store signing, commercial approval and subscription testing/launch work remain |
 | 14-day trial | Proposed in the pricing discussion | Not active or advertised as an available offer; needs App Store offer configuration and eligibility handling |
