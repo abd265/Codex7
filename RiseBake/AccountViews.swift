@@ -11,13 +11,13 @@ struct AccountRouter: View {
             case .local: AccountWorkspace(id: nil).id("local")
             case .account(let id): AccountWorkspace(id: id).id(id)
             case .checking: ProgressView("Opening your bakery…").frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(uiColor: .systemGroupedBackground))
-            case .welcome: AccountWelcomeView()
+            case .welcome: AccountWelcomeView(create: account.welcomeCreatesAccount)
             case .emailCode(let email): AccountEmailCodeView(email: email, recovery: false)
             case .recoveryCode(let email): AccountEmailCodeView(email: email, recovery: true)
             case .secondFactor: AccountChallengeView()
             case .newPassword: AccountPasswordView()
             }
-            if scenePhase != .active && account.enabled && account.route != .local {
+            if scenePhase != .active && account.route != .local {
                 Color(uiColor: .systemBackground).ignoresSafeArea()
                 VStack(spacing: 12) { Image(systemName: "lock.shield").font(.largeTitle); Text("Rise & Bake").font(.title2.bold()) }.foregroundStyle(Color.bakeDeep)
             }
@@ -84,18 +84,25 @@ struct AccountField: View {
 }
 struct AccountWelcomeView: View {
     @EnvironmentObject private var account: AccountStore
-    @State private var create = false
+    @State var create = false
+    @State private var showPlans = false
     @State private var email = ""
     @State private var password = ""
     @State private var confirmation = ""
     var body: some View {
         AccountCanvas(title: create ? "Your next chapter starts here" : "Welcome to your bakery", subtitle: create ? "Create an account for your baking business." : "Sign in and make room for something lovely.") {
+            Button { showPlans = true } label: {
+                HStack { Label("Plans & pricing", systemImage: "sparkles"); Spacer(); Image(systemName: "chevron.right") }.font(.subheadline.weight(.semibold))
+            }.accessibilityIdentifier("auth.plans")
+            if !account.enabled {
+                Label("Accounts are coming soon. Your bakery is available on this iPhone without signing in.", systemImage: "person.crop.circle.badge.clock")
+                    .font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("auth.availability")
+            }
             VStack(spacing: 12) {
-                if account.configuration?.appleEnabled == true || account.designPreview {
-                    SignInWithAppleButton(.signIn, onRequest: account.prepareApple) { result in Task { await account.apple(result) } }.signInWithAppleButtonStyle(.black).frame(height: 50).clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityIdentifier("auth.apple")
-                }
-                if account.configuration?.googleEnabled == true || account.designPreview {
-                    Button { Task { await account.google() } } label: { Text("Continue with Google").font(.system(size: 17, weight: .medium)).foregroundStyle(.primary).frame(maxWidth: .infinity).frame(height: 50).background(.white, in: RoundedRectangle(cornerRadius: 12)).overlay(RoundedRectangle(cornerRadius: 12).stroke(.gray.opacity(0.5))) }.accessibilityIdentifier("auth.google")
+                SignInWithAppleButton(.signIn, onRequest: account.prepareApple) { result in Task { await account.apple(result) } }.signInWithAppleButtonStyle(.black).frame(height: 50).clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityIdentifier("auth.apple").disabled(!account.appleAvailable)
+                Button { Task { await account.google() } } label: { Text("Continue with Google").font(.system(size: 17, weight: .medium)).foregroundStyle(.primary).frame(maxWidth: .infinity).frame(height: 50).background(.white, in: RoundedRectangle(cornerRadius: 12)).overlay(RoundedRectangle(cornerRadius: 12).stroke(.gray.opacity(0.5))) }.accessibilityIdentifier("auth.google").disabled(!account.googleAvailable)
+                if account.enabled && (!account.appleAvailable || !account.googleAvailable) {
+                    Text("Some sign-in options aren’t available yet. You can use email below.").font(.caption).foregroundStyle(.secondary)
                 }
             }.disabled(account.busy)
             HStack { Rectangle().frame(height: 1); Text("or use email").font(.caption).fixedSize(); Rectangle().frame(height: 1) }.foregroundStyle(.secondary.opacity(0.6))
@@ -116,11 +123,13 @@ struct AccountWelcomeView: View {
                 Task { await account.signIn(email: email, password: password, create: create); password = ""; confirmation = "" }
             }.accessibilityIdentifier("auth.submit")
             HStack { Text(create ? "Already baking with us?" : "New here?").foregroundStyle(.secondary); Button(create ? "Sign in" : "Create an account") { create.toggle(); password = ""; confirmation = "" }.fontWeight(.semibold).accessibilityIdentifier("auth.switch").disabled(account.busy) }.font(.subheadline).frame(maxWidth: .infinity)
-            if let config = account.configuration, let privacy = URL(string: config.privacyURL), let terms = URL(string: config.termsURL) {
+            Text("Account security includes optional two-factor authentication when accounts are available.").font(.caption).foregroundStyle(.secondary)
+            if let config = account.configuration, config.enabled, let privacy = URL(string: config.privacyURL), let terms = URL(string: config.termsURL) {
                 HStack { Link("Privacy", destination: privacy); Text("·"); Link("Terms", destination: terms) }.font(.caption).frame(maxWidth: .infinity)
             }
             Button("Continue on this iPhone") { Task { await account.continueLocally() } }.font(.subheadline).frame(maxWidth: .infinity).disabled(account.busy).accessibilityIdentifier("auth.local")
         }.onDisappear { password = ""; confirmation = "" }
+        .sheet(isPresented: $showPlans) { NavigationStack { MembershipPlansView().toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showPlans = false }.accessibilityIdentifier("plans.done") } } } }
     }
 }
 struct AccountCodeField: View {
@@ -182,6 +191,7 @@ struct AccountSettingsView: View {
     var body: some View {
         Form {
             Section { Label(account.user?.email ?? "Your account", systemImage: "person.crop.circle"); Text("Bakery records in this account are saved on this iPhone.").font(.footnote).foregroundStyle(.secondary) }
+            Section { NavigationLink { MembershipPlansView() } label: { Label("Plans & pricing", systemImage: "sparkles") } }
             Section("Two-factor authentication") {
                 Label(account.factors.isEmpty ? "Not enabled" : "Authenticator enabled", systemImage: account.factors.isEmpty ? "shield" : "checkmark.shield.fill")
                 ForEach(account.factors) { factor in

@@ -18,27 +18,35 @@ enum AccountRoute: Equatable {
     @Published private(set) var factors: [Factor] = []
     @Published private(set) var enrollment: AuthMFAEnrollResponse?
     let configuration: AccountConfiguration?
-    let designPreview: Bool
+    @Published var welcomeCreatesAccount = false
     private let client: AuthClient?
     private var listener: Task<Void, Never>?
     private var recovering = false
     private var appleNonce: String?
     private var googleAccessToken: String?
-    var enabled: Bool { client != nil || designPreview }
+    var enabled: Bool { client != nil }
+    var appleAvailable: Bool { enabled && configuration?.appleEnabled == true }
+    var googleAvailable: Bool { enabled && configuration?.googleEnabled == true }
+    private static let localPreference = "risebake.continueLocally"
     var authenticated: Bool { if case .account = route { return true }; return false }
 
     init() {
         #if DEBUG
-        designPreview = ProcessInfo.processInfo.arguments.contains("--account-preview")
-        #else
-        designPreview = false
+        if ProcessInfo.processInfo.arguments.contains("--show-welcome") {
+            UserDefaults.standard.set(false, forKey: Self.localPreference)
+        }
+        if ProcessInfo.processInfo.arguments.contains("--receipt-fixture") || ProcessInfo.processInfo.arguments.contains("--costing-fixture") {
+            UserDefaults.standard.set(true, forKey: Self.localPreference)
+        }
         #endif
         let config = Bundle.main.url(forResource: "AuthConfig", withExtension: "json").flatMap { try? Data(contentsOf: $0) }.flatMap { try? JSONDecoder().decode(AccountConfiguration.self, from: $0) }
         configuration = config
         if let config, config.enabled, (try? config.validate()) != nil, let url = config.url {
             client = AuthClient(configuration: .init(url: url.appendingPathComponent("auth/v1"), headers: ["apikey": config.publishableKey], flowType: .pkce, redirectToURL: AccountConfiguration.callback, storageKey: "risebake.\(url.host ?? "auth")", localStorage: AccountKeychain(), emitLocalSessionAsInitialSession: true))
         } else { client = nil }
-        route = enabled ? .welcome : .local
+        // Service availability must never hide the account screens. The local choice
+        // only controls the next launch; it never changes or migrates bakery records.
+        route = UserDefaults.standard.bool(forKey: Self.localPreference) ? .local : .welcome
         if let client {
             listener = Task { [weak self] in
                 for await (event, _) in client.authStateChanges {
@@ -55,7 +63,7 @@ enum AccountRoute: Equatable {
     }
     deinit { listener?.cancel() }
     private func service() throws -> AuthClient {
-        guard let client else { throw AccountError.message("Account sign-in is not enabled in this build.") }
+        guard let client else { throw AccountError.message("Accounts aren’t available yet. Continue on this iPhone to use your bakery.") }
         return client
     }
     func run(_ action: () async throws -> Void) async {
@@ -221,7 +229,13 @@ enum AccountRoute: Equatable {
     }
     func continueLocally() async {
         if client?.currentSession != nil { await signOut(); if error != nil { return } }
+        UserDefaults.standard.set(true, forKey: Self.localPreference)
         user = nil; enrollment = nil; route = .local
+    }
+    func showWelcome(create: Bool = false) {
+        welcomeCreatesAccount = create
+        error = nil; notice = nil
+        route = .welcome
     }
     func deleteAccount() async { await run { try await deleteAccountRequest(appleCode: nil) } }
     private func deleteAccountRequest(appleCode: String?) async throws {

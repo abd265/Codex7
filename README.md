@@ -30,11 +30,11 @@ The app is a local bakery manager. Online customer checkout, card processing, au
 
 See [costing and shopping instructions](Docs/COSTING-AND-SHOPPING.md) for accuracy assumptions, unit conventions, historical-cost limits and the distinction between recipe cost and package budgets.
 
-## Accounts and launch pricing
+## Accounts and launch pricing (2.4)
 
 Version 2.2 adds native sign-up/sign-in screens and an optional Supabase Auth integration for Google, Apple, email/password, email confirmation/recovery and authenticator-based two-factor authentication. It isolates on-device bakery records by account and includes a server-side account-deletion function with recent authentication and provider revocation.
 
-**Account services are not activated in the default build.** An owner-controlled Supabase project, provider settings, SMTP delivery and legal pages are required. Native Apple sign-in additionally requires an appropriately provisioned Apple Developer build. Existing phone-only records remain usable. Sign-in does not provide cloud sync, and no paywall or billing has been added.
+**Account services are not activated in the default build.** Version 2.4 makes sign-in/sign-up visible on the welcome screen and in More even before activation. More and the welcome screen also include Plans & pricing, with the proposed CAD prices clearly labelled. An owner-controlled Supabase project, provider settings, SMTP delivery and legal pages are required. Native Apple sign-in additionally requires an appropriately provisioned Apple Developer build. Existing phone-only records remain usable. Sign-in does not provide cloud sync. StoreKit purchase/restore integration is prepared, but purchases are disabled in the delivered IPA and no paid feature lock is applied. A selected plan never creates a fake purchase. Read the [complete feature status](Docs/FEATURE-STATUS.md) and [membership setup](Docs/MEMBERSHIP-SETUP.md) before a commercial release.
 
 See [account setup and live acceptance checks](Docs/ACCOUNTS-SETUP.md) and the [pricing recommendation](Docs/PRICING.md).
 

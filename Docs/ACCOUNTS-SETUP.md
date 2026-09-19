@@ -1,6 +1,6 @@
 # Rise & Bake 2.2 — account activation
 
-The native SwiftUI screens and Supabase Auth integration are implemented. Account services are **disabled by default** because no owner-controlled Supabase project, Google OAuth client, Apple configuration, SMTP sender, or public legal pages have been supplied. This build still opens the existing phone-only bakery. It does not create pretend accounts, promise cloud backup, or charge a subscription.
+The native SwiftUI screens and Supabase Auth integration are implemented. Account services are **disabled by default** because no owner-controlled Supabase project, Google OAuth client, Apple configuration, SMTP sender, or public legal pages have been supplied. Version 2.4 opens the welcome screen once and keeps a Continue on this iPhone option for the existing bakery. The local choice is remembered. It does not create pretend accounts, promise cloud backup, or charge a subscription.
 
 ## What is included
 
@@ -10,7 +10,7 @@ The native SwiftUI screens and Supabase Auth integration are implemented. Accoun
 - MFA checked using the fresh server user, before account records are opened, including during password recovery. Unknown assurance levels fail closed. Authenticator secrets are held only during enrollment; tokens live in the device-only Keychain.
 - Separate on-device workspaces keyed by the authenticated user's UUID. A new account starts with an empty customer/order list. The existing phone-only bakery is preserved and never silently assigned to an account. Use Settings' export/import explicitly to move your own records.
 - Sign-out, private background snapshot, and account deletion with recent authentication. The deployed delete-account function validates the bearer token with Auth, checks MFA and recent authentication, revokes linked Google and Apple authorization, and deletes the Auth user. Local account records are deleted only after the server confirms deletion.
-- No cloud bakery database, subscription entitlements, StoreKit purchase flow, Gmail mailbox access or marketing consent is included.
+- No cloud bakery database, Gmail mailbox access or marketing consent is included. Version 2.4 prepares separate StoreKit purchase/restore handling; see MEMBERSHIP-SETUP.md. Account services and purchases remain disabled in the default configuration.
 
 ## Activate email and Google (no Mac required to configure)
 
@@ -47,7 +47,7 @@ These cannot be certified without your configured services and credentials. Nati
 
 ## Reviewing the screens before activation
 
-Debug-only launch argument `--account-preview` opens the real SwiftUI sign-in/sign-up screens. Email/password validation works. No mock identity or successful fake session is created. Submit/provider attempts cannot create accounts with the unconfigured service. This argument is absent from Release behavior. Normal app tests continue to exercise the existing workspace.
+In 2.4 the Release app exposes the real SwiftUI sign-in/sign-up screens on its first launch and through permanent entries in More. The Debug-only `--show-welcome` argument resets only the remembered local choice for testing; it does not enable providers or create sessions. Email/password validation works, but unavailable services cannot create accounts. Providers are shown disabled until configured. Existing workspace tests continue to check persistence.
 
 ## References
 

@@ -1,15 +1,19 @@
 import XCTest
+import StoreKitTest
 
 final class RiseBakeUITests: XCTestCase {
     func testAccountPagesValidateWithoutCreatingFakeAccounts() throws {
         continueAfterFailure = false
         executionTimeAllowance = 120
         let app = XCUIApplication()
-        app.launchArguments = ["--account-preview"]
+        app.launchArguments = ["--show-welcome"]
         app.launch()
         XCTAssertTrue(app.textFields["auth.email"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["auth.apple"].exists)
         XCTAssertTrue(app.buttons["auth.google"].exists)
+        XCTAssertFalse(app.buttons["auth.apple"].isEnabled)
+        XCTAssertFalse(app.buttons["auth.google"].isEnabled)
+        XCTAssertTrue(app.descendants(matching: .any)["auth.availability"].firstMatch.exists)
         capture("Account-sign-in")
         let submit = app.buttons["auth.submit"]
         for _ in 0..<3 { if submit.isHittable { break }; app.swipeUp() }
@@ -35,6 +39,68 @@ final class RiseBakeUITests: XCTestCase {
         local.tap()
         XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 5))
         app.terminate()
+    }
+    func testAccountAndPricingAreReachableWithoutServiceConfiguration() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 180
+        let app = XCUIApplication()
+        // No account-preview switch: these are the normal released navigation paths.
+        app.launch()
+        openLocalBakery(app)
+        app.tabBars.buttons["More"].tap()
+        tapVisible(app.buttons["account.signup"], in: app)
+        XCTAssertTrue(app.secureTextFields["auth.confirm"].waitForExistence(timeout: 5))
+        tapVisible(app.buttons["auth.plans"], in: app)
+        XCTAssertTrue(app.buttons["plans.select.monthly"].waitForExistence(timeout: 5))
+        capture("Plans-and-pricing")
+        XCTAssertTrue(app.buttons["plans.select.monthly"].label.contains("C$9.99"))
+        XCTAssertTrue(app.buttons["plans.select.annual"].label.contains("C$79.99"))
+        tapVisible(app.buttons["plans.select.offline"], in: app)
+        XCTAssertTrue(app.buttons["plans.select.offline"].label.contains("C$49.99"))
+        let purchase = app.buttons["plans.purchase"]
+        for _ in 0..<8 { if purchase.isHittable { break }; app.swipeUp() }
+        XCTAssertFalse(purchase.isEnabled, "Unavailable payments must never start a charge")
+        tapVisible(app.buttons["plans.restore"], in: app)
+        XCTAssertTrue(app.alerts.staticTexts["App Store purchases aren’t available in this installation. Your existing bakery remains available."].waitForExistence(timeout: 5))
+        app.alerts.buttons["OK"].tap()
+        app.buttons["plans.done"].tap()
+        tapVisible(app.buttons["auth.local"], in: app)
+        app.terminate(); app.launch()
+        XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 5), "Continuing locally must persist without deleting records")
+        app.tabBars.buttons["More"].tap()
+        capture("Account-and-plans-menu")
+        tapVisible(app.buttons["membership.plans"], in: app)
+        XCTAssertTrue(app.buttons["plans.select.annual"].waitForExistence(timeout: 5))
+    }
+    func testStoreKitPurchaseAndRestoreUseVerifiedEntitlements() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 180
+        let session = try SKTestSession(configurationFileNamed: "RiseBakePlans")
+        session.resetToDefaultState()
+        session.disableDialogs = true
+        session.clearTransactions()
+        defer { session.clearTransactions() }
+        let app = XCUIApplication()
+        app.launchArguments = ["--storekit-test"]
+        app.launch()
+        openLocalBakery(app)
+        app.tabBars.buttons["More"].tap()
+        tapVisible(app.buttons["membership.plans"], in: app)
+        tapVisible(app.buttons["plans.select.offline"], in: app)
+        XCTAssertFalse(app.otherElements["plans.active.offline"].exists)
+        let ready = expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: app.buttons["plans.purchase"])
+        wait(for: [ready], timeout: 15)
+        tapVisible(app.buttons["plans.purchase"], in: app)
+        XCTAssertTrue(app.alerts.staticTexts["Your purchase is active. Thank you for supporting Rise & Bake."].waitForExistence(timeout: 15))
+        app.alerts.buttons["OK"].tap()
+        app.terminate(); app.launch()
+        app.tabBars.buttons["More"].tap()
+        tapVisible(app.buttons["membership.plans"], in: app)
+        XCTAssertTrue(app.descendants(matching: .any)["plans.active.offline"].firstMatch.waitForExistence(timeout: 10))
+        tapVisible(app.buttons["plans.restore"], in: app)
+        XCTAssertTrue(app.alerts.staticTexts["Your purchases have been restored."].waitForExistence(timeout: 15))
+        app.alerts.buttons["OK"].tap()
+        XCTAssertFalse(app.buttons["plans.purchase"].exists, "An active plan must prevent a second charge")
     }
     func testBakeryProfileAndBrandedReceipt() throws {
         continueAfterFailure = false
@@ -189,5 +255,15 @@ final class RiseBakeUITests: XCTestCase {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name; shot.lifetime = .keepAlways
         add(shot)
+    }
+    private func tapVisible(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0..<10 { if element.isHittable { break }; app.swipeUp() }
+        if !element.isHittable { for _ in 0..<10 { if element.isHittable { break }; app.swipeDown() } }
+        XCTAssertTrue(element.isHittable)
+        element.tap()
+    }
+    private func openLocalBakery(_ app: XCUIApplication) {
+        if app.buttons["auth.local"].waitForExistence(timeout: 3) { tapVisible(app.buttons["auth.local"], in: app) }
+        XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 10))
     }
 }

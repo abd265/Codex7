@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "monthlyProductID": "com.risebake.pro.monthly",
+  "annualProductID": "com.risebake.pro.annual",
+  "offlineProductID": "com.risebake.offline",
+  "privacyURL": "",
+  "termsURL": ""
+}

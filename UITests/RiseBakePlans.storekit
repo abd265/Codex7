@@ -1,0 +1,84 @@
+{
+  "identifier": "C4295474-BC52-4F19-9D91-08687D998970",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "49.99",
+      "familyShareable": false,
+      "internalID": "103",
+      "localizations": [
+        {
+          "description": "Local StoreKit test product. No real charge.",
+          "displayName": "Rise & Bake Offline",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "com.risebake.offline",
+      "referenceName": "Offline edition",
+      "type": "NonConsumable"
+    }
+  ],
+  "settings": {
+    "_applicationInternalID": "",
+    "_developerTeamID": "",
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_storefront": "CAN",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [
+    {
+      "id": "risebake-pro",
+      "localizations": [],
+      "name": "Rise & Bake Pro",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "9.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "101",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Local StoreKit test product. No real charge.",
+              "displayName": "Rise & Bake Pro monthly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.risebake.pro.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Pro monthly",
+          "subscriptionGroupID": "risebake-pro",
+          "type": "RecurringSubscription"
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "79.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "102",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Local StoreKit test product. No real charge.",
+              "displayName": "Rise & Bake Pro annual",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.risebake.pro.annual",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Pro annual",
+          "subscriptionGroupID": "risebake-pro",
+          "type": "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 3,
+    "minor": 0
+  }
+}

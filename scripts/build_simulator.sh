@@ -53,7 +53,7 @@ fi
 xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-iPhone.png
 # Capture the actual native account screen independently of UI-test assertions.
 xcrun simctl terminate "$simulator_id" com.risebake.preview
-xcrun simctl launch "$simulator_id" com.risebake.preview --account-preview
+xcrun simctl launch "$simulator_id" com.risebake.preview --show-welcome
 sleep 2
 xcrun simctl io "$simulator_id" screenshot artifacts/RiseBake-sign-in.png
 xcrun simctl terminate "$simulator_id" com.risebake.preview

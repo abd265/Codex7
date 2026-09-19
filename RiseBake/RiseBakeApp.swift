@@ -2,7 +2,8 @@ import SwiftUI
 
 @main struct RiseBakeApp: App {
     @StateObject private var account = AccountStore()
-    var body: some Scene { WindowGroup { AccountRouter().environmentObject(account).tint(.bakeTeal) } }
+    @StateObject private var membership = MembershipStore()
+    var body: some Scene { WindowGroup { AccountRouter().environmentObject(account).environmentObject(membership).tint(.bakeTeal) } }
 }
 struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -79,6 +80,15 @@ struct MoreView: View {
     var body: some View {
         List {
             Section { HStack(spacing: 14) { BakeryLogoView(data: store.state.settings.profile?.logoData, size: 60); VStack(alignment: .leading, spacing: 4) { Text("Rise & Bake").font(.title2.bold()); Text(store.state.settings.bakery).foregroundStyle(.secondary) } }.padding(.vertical, 8) }
+            Section("Your account") {
+                if account.authenticated {
+                    NavigationLink { AccountSettingsView() } label: { Label("Account & security", systemImage: "person.crop.circle") }
+                } else {
+                    Button { account.showWelcome() } label: { Label("Sign in", systemImage: "person.crop.circle") }.accessibilityIdentifier("account.signin")
+                    Button { account.showWelcome(create: true) } label: { Label("Create an account", systemImage: "person.crop.circle.badge.plus") }.accessibilityIdentifier("account.signup")
+                }
+                NavigationLink { MembershipPlansView() } label: { Label("Plans & pricing", systemImage: "sparkles") }.accessibilityIdentifier("membership.plans")
+            }
             Section("Your bakery") {
                 NavigationLink { CostingHomeView() } label: { Label("Recipe costing", systemImage: "scalemass") }.accessibilityIdentifier("costing.home")
                 NavigationLink { ShoppingListView() } label: { Label("Shopping list", systemImage: "cart") }.accessibilityIdentifier("shopping.home")
@@ -90,7 +100,6 @@ struct MoreView: View {
                 NavigationLink { StorefrontView() } label: { Label("Menu", systemImage: "storefront") }
                 NavigationLink { InsightsView() } label: { Label("Insights", systemImage: "chart.bar") }
             }
-            if account.enabled { Section("Your account") { if account.authenticated { NavigationLink { AccountSettingsView() } label: { Label("Account & security", systemImage: "person.crop.circle") } } else { Button { account.route = .welcome } label: { Label("Sign in or create an account", systemImage: "person.crop.circle") } } } }
             Section { NavigationLink { SettingsView() } label: { Label("Settings & backups", systemImage: "gearshape") } }
         }.bakeryBackground().navigationTitle("More")
     }
