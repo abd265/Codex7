@@ -41,6 +41,7 @@ import StoreKit
     }
     func load() async {
         guard enabled, let configuration, !busy else { return }
+        diagnostic("Loading products")
         busy = true
         defer { busy = false; loaded = true }
         do {
@@ -53,11 +54,14 @@ import StoreKit
                 case .annual: return product.type == .autoRenewable && product.subscription?.subscriptionPeriod.value == 1 && product.subscription?.subscriptionPeriod.unit == .year
                 }
             }.map { ($0.id, $0) })
+            diagnostic("Loaded \(products.count) products")
             await refreshEntitlements()
+            diagnostic("Finished loading")
         } catch { message = "Couldn’t load App Store prices. Please try again." }
     }
     func refreshEntitlements() async {
         guard enabled, let configuration else { return }
+        diagnostic("Checking current entitlements")
         var current: [MembershipEntitlement] = []
         for await result in StoreKit.Transaction.currentEntitlements {
             guard case .verified(let transaction) = result, let plan = configuration.plan(for: transaction.productID) else { continue }
@@ -67,6 +71,12 @@ import StoreKit
             if item.isActive(at: Date()) { current.append(item) }
         }
         entitlements = current
+        diagnostic("Finished entitlement check: \(current.count) active")
+    }
+    private func diagnostic(_ message: String) {
+        #if DEBUG
+        NSLog("RiseBake StoreKit: %@", message)
+        #endif
     }
     func purchase(_ plan: MembershipPlan) async {
         guard !busy else { return }

@@ -11,7 +11,7 @@ xcodebuild build-for-testing \
   -destination 'generic/platform=iOS Simulator' \
   -derivedDataPath build \
   ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=NO \
-  CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY='-' CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES \
   2>&1 | tee artifacts/xcodebuild.log
 app_path="$PWD/build/Build/Products/Debug-iphonesimulator/RiseBake.app"
 test -x "$app_path/RiseBake"
@@ -73,10 +73,14 @@ xcodebuild test-without-building -project RiseBake.xcodeproj -scheme RiseBake \
   -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id,arch=$(uname -m)" \
   -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
   ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES \
-  CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGN_IDENTITY='-' CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES \
   2>&1 | tee artifacts/ui-tests.log
 test_status=${PIPESTATUS[0]}
 set -e
+# Keep diagnostic lifecycle messages from the local StoreKit test environment.
+xcrun simctl spawn "$simulator_id" log show --last 10m --style compact \
+  --predicate 'process == "RiseBake" AND eventMessage CONTAINS "RiseBake StoreKit"' \
+  > artifacts/storekit-diagnostics.log 2>&1 || true
 if [ -d artifacts/RiseBake-UI.xcresult ]; then
   xcrun xcresulttool export attachments --path artifacts/RiseBake-UI.xcresult --output-path artifacts/ui-screenshots || true
 fi

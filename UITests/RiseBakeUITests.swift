@@ -73,7 +73,7 @@ final class RiseBakeUITests: XCTestCase {
         tapVisible(app.buttons["membership.plans"], in: app)
         XCTAssertTrue(app.buttons["plans.select.annual"].waitForExistence(timeout: 5))
     }
-    func testStoreKitPurchaseAndRestoreUseVerifiedEntitlements() throws {
+    func testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements() throws {
         continueAfterFailure = false
         executionTimeAllowance = 180
         let session = try SKTestSession(configurationFileNamed: "RiseBakePlans")
