@@ -68,6 +68,7 @@ final class RiseBakeUITests: XCTestCase {
         app.terminate(); app.launch()
         XCTAssertTrue(app.tabBars.buttons["Today"].waitForExistence(timeout: 5), "Continuing locally must persist without deleting records")
         app.tabBars.buttons["More"].tap()
+        XCTAssertTrue(app.buttons["account.signup"].waitForExistence(timeout: 5))
         capture("Account-and-plans-menu")
         tapVisible(app.buttons["membership.plans"], in: app)
         XCTAssertTrue(app.buttons["plans.select.annual"].waitForExistence(timeout: 5))

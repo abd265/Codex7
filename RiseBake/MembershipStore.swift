@@ -71,10 +71,11 @@ import StoreKit
     func purchase(_ plan: MembershipPlan) async {
         guard !busy else { return }
         guard enabled, let product = product(for: plan) else { message = "Purchases aren’t available in this installation. You haven’t been charged."; return }
-        await refreshEntitlements()
-        guard active.isEmpty else { message = "You already have an active purchase. Manage a subscription through the App Store."; return }
+        // Serialize the entire attempt, including the asynchronous entitlement check.
         busy = true; message = nil
         defer { busy = false }
+        await refreshEntitlements()
+        guard active.isEmpty else { message = "You already have an active purchase. Manage a subscription through the App Store."; return }
         do {
             switch try await product.purchase() {
             case .success(let result):
