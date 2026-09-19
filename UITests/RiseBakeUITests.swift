@@ -73,7 +73,7 @@ final class RiseBakeUITests: XCTestCase {
         tapVisible(app.buttons["membership.plans"], in: app)
         XCTAssertTrue(app.buttons["plans.select.annual"].waitForExistence(timeout: 5))
     }
-    func testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements() throws {
+    @MainActor func testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements() async throws {
         continueAfterFailure = false
         executionTimeAllowance = 180
         let session = try SKTestSession(configurationFileNamed: "RiseBakePlans")
@@ -92,16 +92,19 @@ final class RiseBakeUITests: XCTestCase {
         // Bring the purchase area on screen before observing its ready state.
         for _ in 0..<4 { if app.buttons["plans.purchase"].isHittable { break }; app.swipeUp() }
         let ready = expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: app.buttons["plans.purchase"])
-        wait(for: [ready], timeout: 45)
+        await fulfillment(of: [ready], timeout: 45)
         tapVisible(app.buttons["plans.purchase"], in: app)
-        XCTAssertTrue(app.alerts.staticTexts["Your purchase is active. Thank you for supporting Rise & Bake."].waitForExistence(timeout: 15))
+        let purchased = expectation(for: NSPredicate(format: "exists == true"), evaluatedWith: app.alerts.staticTexts["Your purchase is active. Thank you for supporting Rise & Bake."])
+        await fulfillment(of: [purchased], timeout: 15)
         app.alerts.buttons["OK"].tap()
         app.terminate(); app.launch()
         app.tabBars.buttons["More"].tap()
         tapVisible(app.buttons["membership.plans"], in: app)
-        XCTAssertTrue(app.descendants(matching: .any)["plans.active.offline"].firstMatch.waitForExistence(timeout: 10))
+        let persisted = expectation(for: NSPredicate(format: "exists == true"), evaluatedWith: app.descendants(matching: .any)["plans.active.offline"].firstMatch)
+        await fulfillment(of: [persisted], timeout: 15)
         tapVisible(app.buttons["plans.restore"], in: app)
-        XCTAssertTrue(app.alerts.staticTexts["Your purchases have been restored."].waitForExistence(timeout: 15))
+        let restored = expectation(for: NSPredicate(format: "exists == true"), evaluatedWith: app.alerts.staticTexts["Your purchases have been restored."])
+        await fulfillment(of: [restored], timeout: 15)
         app.alerts.buttons["OK"].tap()
         XCTAssertFalse(app.buttons["plans.purchase"].exists, "An active plan must prevent a second charge")
     }
