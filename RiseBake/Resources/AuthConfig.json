@@ -1,9 +1,11 @@
 {
-  "enabled": false,
+  "enabled": true,
   "projectURL": "https://pvrrqcaujofdqknjeqsr.supabase.co",
   "publishableKey": "sb_publishable_BvcbbyB92LqfEv31TIk3Sg_xLloPJ2H",
   "googleEnabled": false,
   "appleEnabled": false,
-  "privacyURL": "",
-  "termsURL": ""
+  "privacyURL": "https://github.com/abd265/Codex7/blob/main/Docs/PRIVATE-TEST-PRIVACY.md",
+  "termsURL": "https://github.com/abd265/Codex7/blob/main/Docs/PRIVATE-TEST-NOTES.md",
+  "emailLinkDelivery": true,
+  "privateTesting": true
 }

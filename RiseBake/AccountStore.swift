@@ -24,6 +24,12 @@ enum AccountRoute: Equatable {
     private var recovering = false
     private var appleNonce: String?
     private var googleAccessToken: String?
+    private var queuedEmailURL: URL?
+    @Published private(set) var pendingEmail: PendingAccountEmail?
+    private let pendingEmailKey = "risebake.pending-email"
+    private let recoverySessionKey = "risebake.recovery-user"
+    var usesEmailLinks: Bool { configuration?.emailLinkDelivery == true }
+    var privateTesting: Bool { configuration?.privateTesting == true }
     var enabled: Bool { client != nil }
     var appleAvailable: Bool { enabled && configuration?.appleEnabled == true }
     var googleAvailable: Bool { enabled && configuration?.googleEnabled == true }
@@ -47,6 +53,20 @@ enum AccountRoute: Equatable {
         // Service availability must never hide the account screens. The local choice
         // only controls the next launch; it never changes or migrates bakery records.
         route = UserDefaults.standard.bool(forKey: Self.localPreference) ? .local : .welcome
+        if client != nil, usesEmailLinks,
+           let data = try? AccountKeychain().retrieve(key: pendingEmailKey),
+           let pending = try? JSONDecoder().decode(PendingAccountEmail.self, from: data), pending.isCurrent(at: Date()) {
+            pendingEmail = pending
+            if client?.currentSession == nil { route = pending.purpose == .recovery ? .recoveryCode(pending.email) : .emailCode(pending.email) }
+        }
+        #if DEBUG
+        // Exercise pending-link UI and Keychain persistence without contacting Auth
+        // or creating an authenticated session.
+        if ProcessInfo.processInfo.arguments.contains("--email-link-fixture"), usesEmailLinks {
+            try? saveEmailIntent("baker@example.com", purpose: .signup)
+            route = .emailCode("baker@example.com")
+        }
+        #endif
         if let client {
             listener = Task { [weak self] in
                 for await (event, _) in client.authStateChanges {
@@ -69,7 +89,13 @@ enum AccountRoute: Equatable {
     func run(_ action: () async throws -> Void) async {
         guard !busy else { return }
         busy = true; error = nil; notice = nil
-        defer { busy = false }
+        defer {
+            busy = false
+            if let url = queuedEmailURL {
+                queuedEmailURL = nil
+                Task { await handleEmailLink(url) }
+            }
+        }
         do { try await action() }
         catch is CancellationError { }
         catch let failure as ASWebAuthenticationSessionError where failure.code == .canceledLogin { }
@@ -78,12 +104,27 @@ enum AccountRoute: Equatable {
     private func safeMessage(_ error: Error) -> String {
         if let value = error as? AccountError { return value.localizedDescription }
         if error is URLError { return "Couldn’t connect. Check your internet connection and try again." }
+        if let failure = error as? AuthError {
+            if failure.errorCode == .overEmailSendRateLimit {
+                return privateTesting ? "Free email testing allows two emails per hour. Please wait before requesting another message." : "Please wait before requesting another email."
+            }
+            if privateTesting && failure.errorCode == .emailAddressNotAuthorized {
+                return "For this private test, use the email address associated with your Supabase account."
+            }
+            if failure.errorCode == .flowStateExpired || failure.errorCode == .flowStateNotFound {
+                return "This email link has expired or was already used. Request a new link and open it on this iPhone."
+            }
+        }
         // Do not echo provider payloads, tokens or account-existence details into the UI.
         return "That didn’t work. Check your details or code and try again. If you’ve made several attempts, wait a moment first."
     }
     func restoreSession() async {
         guard let client, client.currentSession != nil else { return }
-        await run { try await reconcile() }
+        await run {
+            let recoveryData = try AccountKeychain().retrieve(key: recoverySessionKey)
+            recovering = recoveryData.flatMap { String(data: $0, encoding: .utf8) } == client.currentSession?.user.id.uuidString
+            try await reconcile()
+        }
     }
     private func reconcile() async throws {
         let client = try service()
@@ -110,9 +151,11 @@ enum AccountRoute: Equatable {
         await run {
             let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
             guard AccountPolicy.validEmail(email) else { throw AccountError.message("Enter a valid email address.") }
-            let client = try service(); recovering = false
+            let client = try service()
+            try clearEmailIntent(); recovering = false
             if create {
-                let result = try await client.signUp(email: email, password: password)
+                if usesEmailLinks { try saveEmailIntent(email, purpose: .signup) }
+                let result = try await client.signUp(email: email, password: password, redirectTo: AccountConfiguration.callback)
                 if result.session == nil { route = .emailCode(email); return }
             } else { _ = try await client.signIn(email: email, password: password) }
             try await reconcile()
@@ -158,15 +201,63 @@ enum AccountRoute: Equatable {
         await run {
             let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
             guard AccountPolicy.validEmail(email) else { throw AccountError.message("Enter your email address first.") }
-            try await service().resetPasswordForEmail(email)
+            let client = try service()
+            try clearEmailIntent(); recovering = false
+            if usesEmailLinks { try saveEmailIntent(email, purpose: .recovery) }
+            try await client.resetPasswordForEmail(email, redirectTo: AccountConfiguration.callback)
             route = .recoveryCode(email)
         }
     }
     func resendCode(email: String, recovery: Bool) async {
         await run {
-            if recovery { try await service().resetPasswordForEmail(email) }
-            else { try await service().resend(email: email, type: .signup) }
-            notice = "If a message can be sent, a new code will arrive shortly."
+            if usesEmailLinks { try saveEmailIntent(email, purpose: recovery ? .recovery : .signup) }
+            if recovery { try await service().resetPasswordForEmail(email, redirectTo: AccountConfiguration.callback) }
+            else { try await service().resend(email: email, type: .signup, emailRedirectTo: AccountConfiguration.callback) }
+            notice = usesEmailLinks ? "If a message can be sent, a new link will arrive shortly. Open the newest email on this iPhone." : "If a message can be sent, a new code will arrive shortly."
+        }
+    }
+    private func saveEmailIntent(_ email: String, purpose: PendingAccountEmail.Purpose) throws {
+        let pending = PendingAccountEmail(email: email, purpose: purpose, requestedAt: Date())
+        try AccountKeychain().store(key: pendingEmailKey, value: JSONEncoder().encode(pending))
+        pendingEmail = pending
+    }
+    private func clearEmailIntent() throws {
+        try AccountKeychain().remove(key: pendingEmailKey)
+        try AccountKeychain().remove(key: recoverySessionKey)
+        pendingEmail = nil
+    }
+    func handleEmailLink(_ url: URL) async {
+        guard usesEmailLinks, AccountEmailLink.isCallback(url) else { return }
+        if busy { queuedEmailURL = url; return }
+        await run {
+            guard let pending = pendingEmail, pending.isCurrent(at: Date()),
+                  let code = AccountEmailLink.authorizationCode(from: url) else {
+                throw AccountError.message("Start signup or password reset on this iPhone, then open the newest email link here. The link may have expired or already been used.")
+            }
+            let client = try service()
+            let previousRoute = route
+            route = .checking
+            do {
+                let session = try await client.exchangeCodeForSession(authCode: code)
+                recovering = pending.purpose == .recovery
+                googleAccessToken = nil
+                // Persist recovery intent before opening any account screen. MFA is
+                // evaluated by reconcile against the fresh server user in both flows.
+                do {
+                    if recovering { try AccountKeychain().store(key: recoverySessionKey, value: Data(session.user.id.uuidString.utf8)) }
+                    else { try AccountKeychain().remove(key: recoverySessionKey) }
+                    try AccountKeychain().remove(key: pendingEmailKey)
+                } catch {
+                    try? await client.signOut(scope: .local)
+                    clearSessionUI()
+                    throw error
+                }
+                pendingEmail = nil
+                try await reconcile()
+            } catch {
+                if route == .checking { route = previousRoute }
+                throw error
+            }
         }
     }
     func emailCode(email: String, code: String, recovery: Bool) async {
@@ -181,6 +272,7 @@ enum AccountRoute: Equatable {
         await run {
             try AccountPolicy.validateNewPassword(password, confirmation: confirmation)
             _ = try await service().update(user: .init(password: password))
+            try clearEmailIntent()
             recovering = false; try await reconcile()
         }
     }
@@ -223,12 +315,15 @@ enum AccountRoute: Equatable {
     private func clearSessionUI() {
         let wasLocal = route == .local
         user = nil; factors = []; enrollment = nil; recovering = false; googleAccessToken = nil
+        queuedEmailURL = nil
+        try? clearEmailIntent()
         BakeNotifications.shared.sync([])
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         route = wasLocal ? .local : .welcome
     }
     func continueLocally() async {
         if client?.currentSession != nil { await signOut(); if error != nil { return } }
+        try? clearEmailIntent()
         UserDefaults.standard.set(true, forKey: Self.localPreference)
         user = nil; enrollment = nil; route = .local
     }

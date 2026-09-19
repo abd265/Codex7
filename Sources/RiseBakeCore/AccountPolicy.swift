@@ -42,6 +42,8 @@ struct AccountConfiguration: Codable {
     var appleEnabled: Bool
     var privacyURL: String
     var termsURL: String
+    var emailLinkDelivery: Bool? = nil
+    var privateTesting: Bool? = nil
     static let callback = URL(string: "riseandbake://auth/callback")!
     var url: URL? { URL(string: projectURL) }
     func validate() throws {

@@ -68,7 +68,7 @@ print('Native simulator bundle is ready.')
 PY
 
 # Verify purchases first so a StoreKit failure produces diagnostics promptly.
-# After that gate, run the remaining native UI suite exactly once.
+# Also run account/bakery checks when StoreKit fails; retain both outcomes.
 run_native_tests() {
   local result_name="$1"
   shift
@@ -82,11 +82,11 @@ run_native_tests() {
 }
 set +e
 run_native_tests RiseBake-StoreKit -only-testing:RiseBakeUITests/RiseBakeUITests/testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements
-test_status=$?
-if [ "$test_status" -eq 0 ]; then
-  run_native_tests RiseBake-UI -skip-testing:RiseBakeUITests/RiseBakeUITests/testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements
-  test_status=$?
-fi
+storekit_status=$?
+run_native_tests RiseBake-UI -skip-testing:RiseBakeUITests/RiseBakeUITests/testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements
+ui_status=$?
+test_status=$storekit_status
+if [ "$ui_status" -ne 0 ]; then test_status=$ui_status; fi
 set -e
 xcrun simctl spawn "$simulator_id" log show --last 15m --style compact \
   --predicate 'process == "RiseBake" AND eventMessage CONTAINS "RiseBake StoreKit"' \

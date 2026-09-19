@@ -97,6 +97,9 @@ struct AccountWelcomeView: View {
             if !account.enabled {
                 Label("Accounts are coming soon. Your bakery is available on this iPhone without signing in.", systemImage: "person.crop.circle.badge.clock")
                     .font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("auth.availability")
+            } else if account.privateTesting {
+                Label("Free private testing. Use the email address associated with your Supabase account. Email delivery is limited to two messages per hour.", systemImage: "envelope.badge.shield.half.filled")
+                    .font(.footnote).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("auth.availability")
             }
             VStack(spacing: 12) {
                 SignInWithAppleButton(.signIn, onRequest: account.prepareApple) { result in Task { await account.apple(result) } }.signInWithAppleButtonStyle(.black).frame(height: 50).clipShape(RoundedRectangle(cornerRadius: 12)).accessibilityIdentifier("auth.apple").disabled(!account.appleAvailable)
@@ -125,7 +128,7 @@ struct AccountWelcomeView: View {
             HStack { Text(create ? "Already baking with us?" : "New here?").foregroundStyle(.secondary); Button(create ? "Sign in" : "Create an account") { create.toggle(); password = ""; confirmation = "" }.fontWeight(.semibold).accessibilityIdentifier("auth.switch").disabled(account.busy) }.font(.subheadline).frame(maxWidth: .infinity)
             Text("Account security includes optional two-factor authentication when accounts are available.").font(.caption).foregroundStyle(.secondary)
             if let config = account.configuration, config.enabled, let privacy = URL(string: config.privacyURL), let terms = URL(string: config.termsURL) {
-                HStack { Link("Privacy", destination: privacy); Text("·"); Link("Terms", destination: terms) }.font(.caption).frame(maxWidth: .infinity)
+                HStack { Link(account.privateTesting ? "Testing privacy" : "Privacy", destination: privacy); Text("·"); Link(account.privateTesting ? "Testing notes" : "Terms", destination: terms) }.font(.caption).frame(maxWidth: .infinity)
             }
             Button("Continue on this iPhone") { Task { await account.continueLocally() } }.font(.subheadline).frame(maxWidth: .infinity).disabled(account.busy).accessibilityIdentifier("auth.local")
         }.onDisappear { password = ""; confirmation = "" }
@@ -144,12 +147,22 @@ struct AccountEmailCodeView: View {
     var recovery: Bool
     @State private var code = ""
     var body: some View {
-        AccountCanvas(title: "Check your inbox", subtitle: "If a message can be sent to \(email), it will contain a six-digit code. Check your spam folder too.") {
-            AccountCodeField(code: $code)
-            AccountPrimaryButton(title: recovery ? "Verify reset code" : "Verify email", busy: account.busy) { Task { await account.emailCode(email: email, code: code, recovery: recovery); code = "" } }.disabled(!AccountPolicy.validCode(code))
-            Button("Send a new code") { Task { await account.resendCode(email: email, recovery: recovery) } }.disabled(account.busy)
+        AccountCanvas(title: "Check your inbox", subtitle: account.usesEmailLinks ? "If a message can be sent to \(email), it will contain a link. Open the newest email on this iPhone and tap its \(recovery ? "reset password" : "confirm email") link to return to Rise & Bake." : "If a message can be sent to \(email), it will contain a six-digit code. Check your spam folder too.") {
+            if account.usesEmailLinks {
+                Label("Open the email on this iPhone", systemImage: "envelope.open.fill").font(.headline).accessibilityIdentifier("auth.emailLink")
+                Text("Check your spam folder too. Links expire after ten minutes. Requesting a new link replaces the previous one.").font(.footnote).foregroundStyle(.secondary)
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    let wait = max(0, Int(ceil(60 - context.date.timeIntervalSince(account.pendingEmail?.requestedAt ?? .distantPast))))
+                    Button(wait > 0 ? "Send another link in \(wait)s" : "Send another link") { Task { await account.resendCode(email: email, recovery: recovery) } }
+                        .disabled(account.busy || wait > 0)
+                }
+            } else {
+                AccountCodeField(code: $code)
+                AccountPrimaryButton(title: recovery ? "Verify reset code" : "Verify email", busy: account.busy) { Task { await account.emailCode(email: email, code: code, recovery: recovery); code = "" } }.disabled(!AccountPolicy.validCode(code))
+                Button("Send a new code") { Task { await account.resendCode(email: email, recovery: recovery) } }.disabled(account.busy)
+            }
             if let notice = account.notice { Text(notice).font(.footnote).foregroundStyle(.secondary) }
-            Text("Email verification is separate from your authenticator’s two-factor code.").font(.footnote).foregroundStyle(.secondary)
+            Text("If you enabled two-factor authentication, your authenticator code is still required.").font(.footnote).foregroundStyle(.secondary)
             Button("Back to sign in") { Task { await account.continueLocally(); account.route = .welcome } }.disabled(account.busy)
         }
     }

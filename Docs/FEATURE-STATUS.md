@@ -1,4 +1,6 @@
-# Rise & Bake 2.4 — requested features and actual status
+# Rise & Bake — requested features and actual status
+
+**2.4.1 private-testing update:** email/password accounts are enabled for the owner’s Supabase email using standard confirmation/reset links. TOTP and the deletion function are configured. Purchases and social providers stay disabled. See [the free testing instructions](PRIVATE-TEST-NOTES.md). The native build and device email/MFA acceptance results must be assessed separately; older 2.4 verification below describes the previous release.
 
 This checklist corrects the earlier gap between the delivered app and the account/pricing discussion. Native UI and account integration source are not proof of a working online service.
 
@@ -35,7 +37,7 @@ The 2.3 Release configuration intentionally disabled unconfigured online service
 3. Create and test App Store products using `MEMBERSHIP-SETUP.md`; test subscriptions, renewals, refunds and cancellation in Apple's sandbox and define/enforce the paid-access policy before public sales.
 4. Configure a properly signed Apple Developer build for Sign in with Apple and StoreKit distribution. A free Sideloadly IPA is not an App Store billing release.
 
-Account and payment services remain disabled until the owner-controlled configuration and acceptance checks above are complete.
+Public launch and payment services remain pending the owner-controlled configuration and acceptance checks above. The 2.4.1 owner-only email test is enabled to perform those checks.
 
 ## Verification for the 2.4 installation update
 

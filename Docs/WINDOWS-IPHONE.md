@@ -24,3 +24,7 @@ The Home Screen name is now **Rise & Bake**. The internal bundle ID and data fol
 ## Recipe costing and shopping (2.3)
 
 Open **More → Recipe costing** to enter your ingredient purchase prices and link them to recipes. Open **More → Shopping list** to combine selected orders and subtract manually entered stock. See [the costing guide](COSTING-AND-SHOPPING.md). Prices are based on your entries, not a live grocery feed. Export a JSON backup before updating; install over the current app with the same Sideloadly account and bundle-ID settings.
+
+## Free email-account testing (2.4.1)
+
+Install over 2.4 with the same Sideloadly settings. Use **More → Create an account** and the email associated with your Supabase account. Open the verification email on the same iPhone and tap its link. See [the free testing instructions](PRIVATE-TEST-NOTES.md) for the two-emails-per-hour allowance, password recovery and authenticator setup. Purchases, Google and Apple sign-in remain disabled.

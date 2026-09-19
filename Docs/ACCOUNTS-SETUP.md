@@ -1,4 +1,10 @@
-# Rise & Bake 2.4 — account activation
+# Rise & Bake 2.4.1 — free private account testing
+
+The owner chose free private testing. The 2.4.1 configuration enables email/password sign-in with Supabase’s default confirmation and recovery links. Use the email associated with the owner’s Supabase account, and open links on the same iPhone that requested them. No custom domain, SMTP subscription or paid Apple membership is needed for this route. Read [the testing instructions](PRIVATE-TEST-NOTES.md) and [testing privacy notice](PRIVATE-TEST-PRIVACY.md). The server’s email restrictions remain intact.
+
+The earlier 2.4 installation still has accounts disabled. Public launch, social providers and purchases remain subject to the requirements below; building 2.4.1 does not certify live signup, recovery, MFA or deletion.
+
+## Previous 2.4 baseline and public launch requirements
 
 The native SwiftUI screens and Supabase Auth integration are implemented. The owner's Supabase project URL and public publishable key are now stored in `RiseBake/Resources/AuthConfig.json`. Account services are **still disabled** while email delivery/templates, provider configuration, public legal pages and live acceptance checks are completed. Version 2.4 opens the welcome screen once and keeps a Continue on this iPhone option for the existing bakery. The local choice is remembered. It does not create pretend accounts, promise cloud backup, or charge a subscription.
 

@@ -2,6 +2,24 @@ import XCTest
 import StoreKitTest
 
 final class RiseBakeUITests: XCTestCase {
+    func testFreeEmailLinkIntentSurvivesRelaunchWithoutCreatingASession() throws {
+        continueAfterFailure = false
+        executionTimeAllowance = 120
+        let app = XCUIApplication()
+        app.launchArguments = ["--email-link-fixture"]
+        app.launch()
+        XCTAssertTrue(app.descendants(matching: .any)["auth.emailLink"].firstMatch.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.textFields["auth.code"].exists)
+        XCTAssertFalse(app.tabBars.buttons["Today"].exists, "A pending email must never open an authenticated workspace")
+        capture("Free-email-link")
+        app.terminate(); app.launchArguments = []; app.launch()
+        XCTAssertTrue(app.descendants(matching: .any)["auth.emailLink"].firstMatch.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.tabBars.buttons["Today"].exists)
+        tapVisible(app.buttons["Back to sign in"], in: app)
+        XCTAssertTrue(app.textFields["auth.email"].waitForExistence(timeout: 5))
+        app.terminate(); app.launch()
+        XCTAssertFalse(app.descendants(matching: .any)["auth.emailLink"].firstMatch.exists, "Cancel must clear the pending intent")
+    }
     func testAccountPagesValidateWithoutCreatingFakeAccounts() throws {
         continueAfterFailure = false
         executionTimeAllowance = 120

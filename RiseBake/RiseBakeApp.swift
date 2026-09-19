@@ -3,7 +3,7 @@ import SwiftUI
 @main struct RiseBakeApp: App {
     @StateObject private var account = AccountStore()
     @StateObject private var membership = MembershipStore()
-    var body: some Scene { WindowGroup { AccountRouter().environmentObject(account).environmentObject(membership).tint(.bakeTeal) } }
+    var body: some Scene { WindowGroup { AccountRouter().environmentObject(account).environmentObject(membership).tint(.bakeTeal).onOpenURL { url in Task { await account.handleEmailLink(url) } } } }
 }
 struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase

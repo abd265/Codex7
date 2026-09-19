@@ -14,9 +14,13 @@ Target project: `pvrrqcaujofdqknjeqsr`, in the owner's Rise & Bake organization.
 
 The deletion handler passed a Deno type check against the exact pinned npm dependencies; all five authorization-policy tests passed. Deployment was verified through dashboard state, **not** an account-deletion request. No users were created/deleted and no emails were sent. End-to-end signup, recovery, MFA and deletion remain unverified.
 
-## Remaining activation blockers
+## Free private testing selected
 
-Custom SMTP is off. The Templates page explicitly requires custom SMTP before editing subjects/bodies, so the branded templates below have **not** been applied. Customer email delivery, actual website/privacy/terms URLs, provider credentials and live acceptance checks are still needed. Google and Apple remain disabled. The existing IPA has not been rebuilt or activated by these server changes.
+The owner selected an entirely free private test. Version 2.4.1 enables email accounts using the default confirmation/reset links and the exact native callback already allowed. Pending link intent and recovery state survive relaunch in Keychain; the SDK verifies PKCE codes. Privacy and testing notes are hosted in this public repository. See [PRIVATE-TEST-NOTES.md](PRIVATE-TEST-NOTES.md). No domain or custom email provider is required for owner-only testing. The Supabase connector confirms the organization is on the Free plan and the deletion function is ACTIVE with JWT verification enabled.
+
+## Public release blockers
+
+Custom SMTP is off. The Templates page explicitly requires custom SMTP before editing subjects/bodies, so the branded templates below have **not** been applied. Customer email delivery, the operator’s final public privacy/terms/support details, provider credentials and live acceptance checks are still needed for launch. Google and Apple remain disabled. The previously installed 2.4 IPA stays unchanged; install the 2.4.1 private build for email-link testing. The default mailer only sends to project-team addresses, currently two emails per hour; do not grant organization access to ordinary testers as a workaround.
 
 ## Prepared settings
 
@@ -42,4 +46,4 @@ This command only prints JSON. It does not read credentials, contact Supabase, c
 6. Leave Google and Apple disabled until their owner-controlled provider credentials and required provisioning are configured. Do not disable any authentication factor already used by existing accounts without reviewing recovery implications.
 7. Complete the live acceptance checks in `ACCOUNTS-SETUP.md`, including verified signup, recovery, TOTP and deletion using owner-authorized test accounts. Configure real privacy/terms URLs before enabling accounts in the app and rebuilding the IPA.
 
-These changes do not activate cloud bakery storage, billing, social providers or customer email delivery. Account deletion is deployed but not live-tested. Current release account activation remains disabled pending configuration and live verification.
+These changes do not activate cloud bakery storage, billing, social providers or customer email delivery. Account deletion is deployed but not live-tested. Version 2.4.1 enables private email-link testing. Public availability, social providers and payments remain pending configuration and live verification.
