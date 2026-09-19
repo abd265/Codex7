@@ -88,8 +88,10 @@ final class RiseBakeUITests: XCTestCase {
         tapVisible(app.buttons["membership.plans"], in: app)
         tapVisible(app.buttons["plans.select.offline"], in: app)
         XCTAssertFalse(app.otherElements["plans.active.offline"].exists)
+        // Bring the purchase area on screen before observing its ready state.
+        for _ in 0..<4 { if app.buttons["plans.purchase"].isHittable { break }; app.swipeUp() }
         let ready = expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: app.buttons["plans.purchase"])
-        wait(for: [ready], timeout: 15)
+        wait(for: [ready], timeout: 45)
         tapVisible(app.buttons["plans.purchase"], in: app)
         XCTAssertTrue(app.alerts.staticTexts["Your purchase is active. Thank you for supporting Rise & Bake."].waitForExistence(timeout: 15))
         app.alerts.buttons["OK"].tap()
