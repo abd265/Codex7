@@ -1,6 +1,6 @@
 import SwiftUI
 import StoreKit
-#if DEBUG
+#if DEBUG && targetEnvironment(simulator)
 import StoreKitTest
 #endif
 
@@ -13,7 +13,7 @@ import StoreKitTest
     let configuration: MembershipConfiguration?
     let enabled: Bool
     private var listener: Task<Void, Never>?
-    #if DEBUG
+    #if DEBUG && targetEnvironment(simulator)
     private var localTestSession: SKTestSession?
     #endif
 
@@ -23,13 +23,13 @@ import StoreKitTest
             .flatMap { try? Data(contentsOf: $0) }
             .flatMap { try? JSONDecoder().decode(MembershipConfiguration.self, from: $0) }
         configuration = config
-        #if DEBUG
+        #if DEBUG && targetEnvironment(simulator)
         let testing = ProcessInfo.processInfo.arguments.contains("--storekit-test")
         #else
         let testing = false
         #endif
         enabled = config != nil && (testing || (config?.enabled == true && (try? config?.validate()) != nil))
-        #if DEBUG
+        #if DEBUG && targetEnvironment(simulator)
         if testing {
             do {
                 guard let url = Bundle.main.url(forResource: "RiseBakePlans", withExtension: "storekit") else {
