@@ -67,20 +67,33 @@ with ZipFile('artifacts/RiseBake-simulator.zip') as z:
 print('Native simulator bundle is ready.')
 PY
 
-# Exercise persistent native navigation, a timer, theme selection and the basket.
+# Verify purchases first so a StoreKit failure produces diagnostics promptly.
+# After that gate, run the remaining native UI suite exactly once.
+run_native_tests() {
+  local result_name="$1"
+  shift
+  xcodebuild test-without-building -project RiseBake.xcodeproj -scheme RiseBake \
+    -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id,arch=$(uname -m)" \
+    -derivedDataPath build -resultBundlePath "artifacts/$result_name.xcresult" \
+    ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES \
+    CODE_SIGN_IDENTITY='-' CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES \
+    "$@" 2>&1 | tee "artifacts/$result_name.log"
+  return "${PIPESTATUS[0]}"
+}
 set +e
-xcodebuild test-without-building -project RiseBake.xcodeproj -scheme RiseBake \
-  -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -destination "platform=iOS Simulator,id=$simulator_id,arch=$(uname -m)" \
-  -derivedDataPath build -resultBundlePath artifacts/RiseBake-UI.xcresult \
-  ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES \
-  CODE_SIGN_IDENTITY='-' CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=YES \
-  2>&1 | tee artifacts/ui-tests.log
-test_status=${PIPESTATUS[0]}
+run_native_tests RiseBake-StoreKit -only-testing:RiseBakeUITests/RiseBakeUITests/testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements
+test_status=$?
+if [ "$test_status" -eq 0 ]; then
+  run_native_tests RiseBake-UI -skip-testing:RiseBakeUITests/RiseBakeUITests/testAStoreKitPurchaseAndRestoreUseVerifiedEntitlements
+  test_status=$?
+fi
 set -e
-# Keep diagnostic lifecycle messages from the local StoreKit test environment.
-xcrun simctl spawn "$simulator_id" log show --last 10m --style compact \
+xcrun simctl spawn "$simulator_id" log show --last 15m --style compact \
   --predicate 'process == "RiseBake" AND eventMessage CONTAINS "RiseBake StoreKit"' \
   > artifacts/storekit-diagnostics.log 2>&1 || true
+if [ -d artifacts/RiseBake-StoreKit.xcresult ]; then
+  xcrun xcresulttool export attachments --path artifacts/RiseBake-StoreKit.xcresult --output-path artifacts/storekit-screenshots || true
+fi
 if [ -d artifacts/RiseBake-UI.xcresult ]; then
   xcrun xcresulttool export attachments --path artifacts/RiseBake-UI.xcresult --output-path artifacts/ui-screenshots || true
 fi

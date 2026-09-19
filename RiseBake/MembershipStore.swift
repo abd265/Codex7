@@ -63,8 +63,13 @@ import StoreKit
         guard enabled, let configuration else { return }
         diagnostic("Checking current entitlements")
         var current: [MembershipEntitlement] = []
-        for await result in StoreKit.Transaction.currentEntitlements {
-            guard case .verified(let transaction) = result, let plan = configuration.plan(for: transaction.productID) else { continue }
+        // Query our finite catalogue directly. The all-products entitlement stream
+        // can stall in the local StoreKit environment before the first purchase.
+        for plan in MembershipPlan.allCases {
+            let productID = configuration.productID(for: plan)
+            diagnostic("Checking \(plan.rawValue)")
+            guard let result = await StoreKit.Transaction.currentEntitlement(for: productID) else { continue }
+            guard case .verified(let transaction) = result, transaction.productID == productID else { continue }
             // A mismatched product type can never grant a permanent entitlement.
             guard (plan == .offline && transaction.productType == .nonConsumable) || (plan != .offline && transaction.productType == .autoRenewable) else { continue }
             let item = MembershipEntitlement(plan: plan, expiration: transaction.expirationDate, revoked: transaction.revocationDate != nil, upgraded: transaction.isUpgraded)
