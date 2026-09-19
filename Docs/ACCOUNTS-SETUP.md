@@ -1,4 +1,4 @@
-# Rise & Bake 2.2 — account activation
+# Rise & Bake 2.4 — account activation
 
 The native SwiftUI screens and Supabase Auth integration are implemented. Account services are **disabled by default** because no owner-controlled Supabase project, Google OAuth client, Apple configuration, SMTP sender, or public legal pages have been supplied. Version 2.4 opens the welcome screen once and keeps a Continue on this iPhone option for the existing bakery. The local choice is remembered. It does not create pretend accounts, promise cloud backup, or charge a subscription.
 

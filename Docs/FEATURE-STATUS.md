@@ -35,4 +35,13 @@ The 2.3 Release configuration intentionally disabled unconfigured online service
 3. Create and test App Store products using `MEMBERSHIP-SETUP.md`; test subscriptions, renewals, refunds and cancellation in Apple's sandbox and define/enforce the paid-access policy before public sales.
 4. Configure a properly signed Apple Developer build for Sign in with Apple and StoreKit distribution. A free Sideloadly IPA is not an App Store billing release.
 
-The previous Supabase account-access step was not authorized; this update does not enter that dashboard, create a project, or enable billing.
+Account and payment services remain disabled until the owner-controlled configuration and acceptance checks above are complete.
+
+## Verification for the 2.4 installation update
+
+- The physical-iPhone Release build succeeds. The delivered IPA reports version 2.4, build 26, with the existing `com.risebake.preview` bundle identifier. Its ZIP contents pass integrity checks.
+- All 45 core business-logic tests pass. The server account-deletion policy checks also pass; these are not live backend tests.
+- Five native UI journeys pass: visible account/pricing routes and remembered local access; account form validation without fabricated sessions; bakery profile and branded receipt; costing, shopping and pantry persistence; recipes, baking journal/timers and background persistence. See the [completed native test run](https://github.com/abd265/Codex7/actions/runs/35454469550).
+- StoreKit purchase/restore verification has **not passed**. The local test loads three products but stalls while checking current entitlements, before purchasing. The [diagnostic run](https://github.com/abd265/Codex7/actions/runs/35456399525) retains the failure and logs. The full native test gate is therefore not green; no verified purchase or successful restore is claimed.
+- The Release IPA has both service configurations disabled and contains no local StoreKit test configuration or StoreKitTest framework. Its account and pricing screens are reviewable without activating a service or charging anyone.
+- Physical installation and signing are performed with the owner's Sideloadly account. Back up bakery data and install over the existing app with the same account and bundle-ID settings.
