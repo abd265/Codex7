@@ -1,6 +1,17 @@
 # Rise & Bake 2.4 — account activation
 
-The native SwiftUI screens and Supabase Auth integration are implemented. Account services are **disabled by default** because no owner-controlled Supabase project, Google OAuth client, Apple configuration, SMTP sender, or public legal pages have been supplied. Version 2.4 opens the welcome screen once and keeps a Continue on this iPhone option for the existing bakery. The local choice is remembered. It does not create pretend accounts, promise cloud backup, or charge a subscription.
+The native SwiftUI screens and Supabase Auth integration are implemented. The owner's Supabase project URL and public publishable key are now stored in `RiseBake/Resources/AuthConfig.json`. Account services are **still disabled** while email delivery/templates, MFA, account deletion, provider configuration and public legal pages are configured and verified. Version 2.4 opens the welcome screen once and keeps a Continue on this iPhone option for the existing bakery. The local choice is remembered. It does not create pretend accounts, promise cloud backup, or charge a subscription.
+
+## Project connection checked on 19 September 2026
+
+- Project: `pvrrqcaujofdqknjeqsr`.
+- The Auth settings endpoint returned HTTP 200 with the owner's publishable key.
+- Email registration is enabled, signups are allowed, and email confirmation is required.
+- Google and Apple providers are disabled in the project and remain disabled in the app.
+- The public settings response does not establish SMTP delivery, OTP template/length, TOTP configuration or account-deletion deployment. These still require management access and acceptance checks. No user was created and no confirmation email was sent during this connection check.
+- Privacy and terms URLs are still blank. The app's activation validation remains intact; storing connection values alone does not activate accounts in a previously installed IPA.
+
+The next setup step is to connect the owner's Supabase management account, review the remaining settings below, and deploy and verify the account-deletion function. The app's public key cannot perform project administration.
 
 ## What is included
 
