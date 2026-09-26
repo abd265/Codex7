@@ -2,15 +2,17 @@
 
 ## Current result — 26 September 2026
 
-The native build and automated playthrough passed on Xcode 26.6. [Successful build](https://github.com/abd265/Codex7/actions/runs/36265079805), source commit `c0e13c0056b38e8d40dc9a599a59bef96a4cba05`.
+The native build and automated playthrough passed on Xcode 26.6. [Successful build](https://github.com/abd265/Codex7/actions/runs/36268279900), source commit `88fcfbe42a152cd2a4b5272cadb04336516c9baa`.
 
 - All **20 native Swift tests** passed with zero failures.
 - The native app compiled and launched on the iPhone 17 Pro simulator.
-- The **XCUITest playthrough passed**: a real vertical drag, all three introductory dock directions through native controls, the victory screen, next-level progression, pause, return home, and continue.
+- The **XCUITest playthrough passed**: a real vertical drag, blocked-move rejection, Undo and replay, all three introductory dock directions through native controls, the victory screen, next-level progression, pause, return home, and continue.
 - Home, level-map, gameplay, victory, and next-level screenshots were visually inspected. Controls and content fit the tested iPhone display.
 - The Release **ARM64 physical-iOS IPA** was compiled, downloaded, and validated locally. The downloaded artifact and inner IPA checksums matched the build outputs.
-- Device support: iOS/iPadOS 17+. Bundle: `com.prismharbour.game`, version 1.0.
-- IPA SHA-256: `2f56144d6664d77283be88627ed727128f3216870ce5651de8209d981115ebe7`.
+- Device support: iOS/iPadOS 17+. Bundle: `com.prismharbour.game`, version 2.0.
+- IPA SHA-256: `a95ff4347e3fafb739efdfe9930348388a524c49766cdaf65f93a0fd80e42db7`.
+
+Version 2.0 motion review inspected recorded native dock flights, expanding gate rings, coloured particles, callouts, the delayed reward reveal, bouncing stars, and confetti. The playthrough passed in 87.908 seconds with no failures. Assets and sound uploads were verified byte for byte. Animation timing on physical hardware has not yet been measured.
 
 The delivered IPA is unsigned for Sideloadly or AltStore to sign during installation. **Installation and launch on a physical iPhone have not been performed**; the user completes signing on their own device.
 
@@ -54,4 +56,4 @@ The opening drag/dock/victory/next-level/pause/continue flow is covered by the p
 
 ## Known scope
 
-The app is a standalone offline game with original branding and vector artwork, 36 campaign puzzles, and deterministic daily puzzles. No App Store/TestFlight distribution, account system, online leaderboard, backend sync, ads, or purchases are implemented. The build is unsigned for later signing by the user's sideloading tool. Real installation verification requires the user's iPhone and signing step.
+The app is a standalone offline game with original branding and illustrated harbour/treasure artwork, 36 campaign puzzles, and deterministic daily puzzles. No App Store/TestFlight distribution, account system, online leaderboard, backend sync, ads, or purchases are implemented. The build is unsigned for later signing by the user's sideloading tool. Real installation verification requires the user's iPhone and signing step.

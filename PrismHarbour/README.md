@@ -53,10 +53,6 @@ The app has no network calls, analytics, authentication, advertising, tracking, 
 
 ## Version 2.0 validation
 
-Version 2.0 is undergoing native build and visual verification. The paragraph below records the earlier 1.0 baseline until the new artifact is verified.
-
-## Previous validation
-
-The [Mac build](https://github.com/abd265/Codex7/actions/runs/36265079805) succeeded on Xcode 26.6: 20 native rule tests passed, the app launched on an iPhone simulator, and the automated real-drag/dock/victory/next-level/pause/continue playthrough passed. The Release physical-iPhone ARM64 IPA passed format, architecture, platform, and checksum validation. Home, gameplay, map, victory, and next-level screenshots were inspected. Physical-device installation remains the user's signing step. See [QA notes](Docs/QA.md).
+The [Mac build](https://github.com/abd265/Codex7/actions/runs/36268279900) succeeded on Xcode 26.6: all 20 native puzzle tests and nine packaging tests passed. The iPhone 17 Pro simulator playthrough verified drag, blocked feedback, undo, three dock directions, victory, next level, pause, and resume. Native home, map, gameplay, and victory screenshots were inspected, along with recorded dock flights, particle bursts, and the star/confetti sequence. The Release ARM64 physical-iOS IPA passed platform, structure, and checksum validation. Version 2.0 has not yet been installed on a physical device. See [QA notes](Docs/QA.md).
 
 The app source is stored in `PrismHarbour/` on the `codex/prism-harbour` branch of [abd265/Codex7](https://github.com/abd265/Codex7/tree/codex/prism-harbour/PrismHarbour). The repository-root workflow `.github/workflows/prism-harbour.yml` builds this subfolder without changing the existing app. The workflow template inside this source folder is also suitable for a standalone repository.

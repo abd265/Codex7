@@ -60,7 +60,7 @@ archive, and validate the finished IPA. They also produce a SHA-256 checksum
 and real simulator screenshots. Simulator binaries are packaged separately
 and cannot be installed on a physical iPhone.
 
-For the existing Codex7 project, use **.github/workflows/prism-harbour.yml** at the repository root. The app is contained in **PrismHarbour/**. [Verified build and artifacts](https://github.com/abd265/Codex7/actions/runs/36265079805).
+For the existing Codex7 project, use **.github/workflows/prism-harbour.yml** at the repository root. The app is contained in **PrismHarbour/**. [Verified build and artifacts](https://github.com/abd265/Codex7/actions/runs/36268279900).
 
 For a standalone hosted Mac build, use the included **.github/workflows/build-ios.yml**
 workflow in your own GitHub repository, or the **codemagic.yaml** workflow in your
