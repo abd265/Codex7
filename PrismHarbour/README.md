@@ -1,6 +1,6 @@
 # Prism Harbour
 
-A complete offline native SwiftUI puzzle game for iPhone and iPad, iOS 17 or later. Slide coloured polyominoes to matching docks, clear the board, and explore a quiet, original coastal world.
+A complete offline native SwiftUI puzzle game for iPhone and iPad, iOS 17 or later. Slide coloured polyominoes to matching docks, clear the board, and explore an illustrated, magical coastal world.
 
 ## Included
 
@@ -11,7 +11,10 @@ A complete offline native SwiftUI puzzle game for iPhone and iPad, iOS 17 or lat
 - Pause/resume, retry, free undo, hints, and extra time. Pearls are earned in play; there are no purchases, ads, or accounts.
 - Stars, best move records, progressive level unlocks, six earned treasures, and daily rewards.
 - Atomic on-device saving of progress, settings, remaining time, the active board, and undo history.
-- Original vector harbour scenes, faceted pieces, an original app icon, and three gentle synthesized sound effects.
+- Original illustrated harbour and treasure artwork, a matching app icon, and glossy bevelled jewels.
+- Spring movement, dock flights, colour bursts, combo callouts, blocked-move shakes, floating home jewels, and a staged confetti-and-stars victory.
+- Four original stereo sound cues with overlapping playback; effects respect Reduce Motion and scene activity.
+- Winding chapter maps and dimensional controls, with the same working puzzle rules and save format as version 1.0.
 - Self-contained Xcode project, Foundation game library, XCTest suite, GitHub Actions and Codemagic build workflows, and IPA validation.
 
 ## Play
@@ -38,6 +41,8 @@ Use **Sideloadly or AltStore** to sign the unsigned IPA with your Apple account 
 
 ## Design and reference
 
+Version 2.0 responds to the second reference recording with a richer casual-game presentation. The supplied Genies & Gems promotional video informed the visual energy, jewel materials, and celebratory effects. Prism Harbour keeps its original sliding puzzle mechanics. Generated asset prompts and provenance are recorded in [ART-DIRECTION.md](Docs/ART-DIRECTION.md).
+
 The supplied 7.8-second recording contains promotional cards for **Block Out**, rather than recorded gameplay. The implementation interprets those cards as sliding coloured pieces through matching exits, with a timer and boosters. Prism Harbour's identity, assets, interface, level generator, and source code are original. No screenshots, branding, character artwork, or code from the reference app are bundled in the game.
 
 ## Data
@@ -46,7 +51,11 @@ All state is stored locally in Application Support/PrismHarbour/voyage.json. The
 
 The app has no network calls, analytics, authentication, advertising, tracking, payments, or server dependency. Preferences include sound, haptics, prism symbols, and Calm mode. Resetting progress requires an explicit in-app confirmation.
 
-## Validation status
+## Version 2.0 validation
+
+Version 2.0 is undergoing native build and visual verification. The paragraph below records the earlier 1.0 baseline until the new artifact is verified.
+
+## Previous validation
 
 The [Mac build](https://github.com/abd265/Codex7/actions/runs/36265079805) succeeded on Xcode 26.6: 20 native rule tests passed, the app launched on an iPhone simulator, and the automated real-drag/dock/victory/next-level/pause/continue playthrough passed. The Release physical-iPhone ARM64 IPA passed format, architecture, platform, and checksum validation. Home, gameplay, map, victory, and next-level screenshots were inspected. Physical-device installation remains the user's signing step. See [QA notes](Docs/QA.md).
 

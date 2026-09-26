@@ -31,6 +31,25 @@ final class PrismHarbourUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["1 moves"].exists)
         attachScreenshot("Level 1 after vertical drag")
 
+        // A wall hit must animate feedback without counting a move or corrupting undo.
+        shiftedCoral.coordinate(withNormalizedOffset: CGVector(dx: 0.25, dy: 0.25)).tap()
+        let blockedMove = app.buttons["Move Coral left"]
+        XCTAssertTrue(blockedMove.waitForExistence(timeout: 5))
+        blockedMove.tap()
+        XCTAssertTrue(shiftedCoral.exists)
+        XCTAssertTrue(app.staticTexts["1 moves"].exists)
+        let undo = textButton("Undo")
+        XCTAssertTrue(undo.waitForExistence(timeout: 5))
+        undo.tap()
+        let originalCoral = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label == %@", "Coral prism, 2 squares, column 1, row 4")
+        ).firstMatch
+        XCTAssertTrue(originalCoral.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["0 moves"].exists)
+        originalCoral.coordinate(withNormalizedOffset: CGVector(dx: 0.25, dy: 0.25)).tap()
+        app.buttons["Move Coral up"].tap()
+        XCTAssertTrue(shiftedCoral.waitForExistence(timeout: 5))
+
         // Arrow controls then exercise each remaining dock direction and the win flow.
         dock("Coral", direction: "up", steps: 3)
         XCTAssertTrue(app.staticTexts["2 left"].exists)

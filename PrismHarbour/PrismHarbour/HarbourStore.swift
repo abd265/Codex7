@@ -22,6 +22,17 @@ struct VoyageSession: Codable {
     var history: [GameState] = []
 }
 
+/// Ephemeral presentation data; never encoded into a saved voyage.
+struct HarbourMoveEvent: Identifiable, Equatable {
+    let id = UUID()
+    let piece: Piece
+    let direction: Direction
+    let result: MoveResult
+    let target: Piece?
+    let createdAt: Date
+    let combo: Int
+}
+
 private struct HarbourSave: Codable {
     var version = 1
     var progress = Progress()
@@ -44,9 +55,14 @@ final class HarbourStore: ObservableObject {
     @Published var showHelp = false
     @Published var showSettings = false
     @Published var homeTab = 0
+    @Published private(set) var moveEvent: HarbourMoveEvent?
+    @Published private(set) var comboCount = 0
     private var lastTick = Date()
     private var lastSave = Date()
-    private var soundPlayer: AVAudioPlayer?
+    private var soundPlayers: [AVAudioPlayer] = []
+    private var soundCategoryConfigured = false
+    private var lastDockAt: Date?
+    private var celebrationSoundTask: Task<Void, Never>?
     private var toastTask: Task<Void, Never>?
     private let saveURL: URL
     private let screenshotMode: Bool
@@ -91,24 +107,27 @@ final class HarbourStore: ObservableObject {
     }
 
     func start(_ level: Level, daily: Bool = false) {
+        resetMoveFeedback()
         session = VoyageSession(game:GameState(level:level),remaining:Double(level.timeLimit),relaxed:daily ? false : settings.relaxed,dailyKey:daily ? Progress.dailyKey(for:Date()) : nil)
         reward = nil; hintMove = nil; selectedPiece = nil; paused = false; playing = true; lastTick = Date(); save()
     }
 
     func continueVoyage() {
         if let session, !session.game.isComplete, session.remaining > 0 || session.relaxed {
+            resetMoveFeedback()
             playing = true; paused = false; reward = nil; lastTick = Date()
         } else { start(nextLevel) }
     }
 
     func retry() {
         guard let old = session else { return }
+        resetMoveFeedback()
         let level = old.game.level
         session = VoyageSession(game:GameState(level:level),remaining:Double(level.timeLimit),relaxed:old.relaxed,dailyKey:old.dailyKey)
         reward = nil; hintMove = nil; selectedPiece = nil; paused = false; lastTick = Date(); save()
     }
 
-    func leaveGame() { playing = false; paused = false; reward = nil; hintMove = nil; save() }
+    func leaveGame() { resetMoveFeedback(); playing = false; paused = false; reward = nil; hintMove = nil; save() }
     func setPaused(_ value: Bool) { paused = value; lastTick = Date(); save() }
     func suspend() { if playing && reward == nil && !expired { paused = true }; save() }
 
@@ -124,8 +143,22 @@ final class HarbourStore: ObservableObject {
     func move(pieceID: Int, direction: Direction, steps: Int) {
         guard playing, !paused, reward == nil, !expired, var active = session else { return }
         let previous = active.game
+        guard let piece = previous.pieces.first(where: { $0.id == pieceID }) else { return }
         let result = active.game.move(pieceID:pieceID,direction:direction,steps:max(1,steps))
-        guard result != .blocked else { feedback(.warning); return }
+        let now = Date()
+        if result == .exited {
+            comboCount = lastDockAt.map { now.timeIntervalSince($0) < 5 ? comboCount + 1 : 1 } ?? 1
+            lastDockAt = now
+        }
+        // Each UUID starts exactly one visual response, even for repeated blocked swipes.
+        moveEvent = HarbourMoveEvent(piece:piece,direction:direction,result:result,
+                                     target:active.game.pieces.first(where: { $0.id == pieceID }),
+                                     createdAt:now,combo:comboCount)
+        guard result != .blocked else {
+            if settings.haptics { UIImpactFeedbackGenerator(style:.rigid).impactOccurred(intensity:0.35) }
+            sound("block")
+            return
+        }
         active.history.append(previous)
         if active.history.count > 100 { active.history.removeFirst() }
         session = active; hintMove = nil
@@ -133,13 +166,21 @@ final class HarbourStore: ObservableObject {
         else { selectedPiece = pieceID; impact(); sound("move") }
         if active.game.isComplete {
             reward = progress.recordCompletion(level:active.game.level,moves:active.game.moves,dailyKey:active.dailyKey)
-            sound("win"); feedback(.success)
+            let completedSessionID = active.id
+            celebrationSoundTask?.cancel()
+            celebrationSoundTask = Task {
+                // Let the final dock chime finish its attack before the victory flourish.
+                try? await Task.sleep(nanoseconds:350_000_000)
+                guard !Task.isCancelled, playing, session?.id == completedSessionID, reward != nil else { return }
+                sound("win")
+            }
         }
         save()
     }
 
     func undo() {
         guard !paused, !expired, reward == nil, var active = session, let previous = active.history.popLast() else { return }
+        resetMoveFeedback()
         active.game = previous; session = active; hintMove = nil; selectedPiece = nil; impact(); save()
     }
 
@@ -172,13 +213,34 @@ final class HarbourStore: ObservableObject {
         toastTask = Task { try? await Task.sleep(nanoseconds:3_500_000_000); if !Task.isCancelled { toast = nil } }
     }
     func resetProgress() {
+        resetMoveFeedback()
         progress = Progress(); session = nil; reward = nil; playing = false; save(); announce("A fresh voyage awaits.")
     }
     func impact() { if settings.haptics { UIImpactFeedbackGenerator(style:.soft).impactOccurred() } }
     func feedback(_ type:UINotificationFeedbackGenerator.FeedbackType) { if settings.haptics { UINotificationFeedbackGenerator().notificationOccurred(type) } }
+    private func resetMoveFeedback() {
+        moveEvent = nil; comboCount = 0; lastDockAt = nil
+        celebrationSoundTask?.cancel(); celebrationSoundTask = nil
+        soundPlayers.forEach { $0.stop() }
+        soundPlayers.removeAll()
+    }
+
     func sound(_ name:String) {
         guard settings.sound, let url = Bundle.main.url(forResource:name,withExtension:"wav") else { return }
-        try? AVAudioSession.sharedInstance().setCategory(.ambient,mode:.default,options:.mixWithOthers)
-        soundPlayer = try? AVAudioPlayer(contentsOf:url); soundPlayer?.volume = 0.38; soundPlayer?.play()
+        if !soundCategoryConfigured {
+            do {
+                // Ambient respects the iPhone silent switch and mixes with the player's music.
+                try AVAudioSession.sharedInstance().setCategory(.ambient,mode:.default,options:.mixWithOthers)
+                soundCategoryConfigured = true
+            } catch { return }
+        }
+        // Short, independent voices preserve the tail of a dock while another piece moves.
+        // Interrupted sounds are never resumed; a fresh interaction creates a fresh voice.
+        soundPlayers.removeAll { !$0.isPlaying }
+        if soundPlayers.count >= 8 { soundPlayers.removeFirst().stop() }
+        guard let player = try? AVAudioPlayer(contentsOf:url) else { return }
+        player.volume = name == "move" ? 0.25 : name == "block" ? 0.22 : 0.42
+        player.prepareToPlay()
+        if player.play() { soundPlayers.append(player) }
     }
 }

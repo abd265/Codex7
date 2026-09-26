@@ -58,6 +58,7 @@ jobs:
             PrismHarbour/artifacts/*.log
             PrismHarbour/artifacts/*.txt
             PrismHarbour/artifacts/*.png
+            PrismHarbour/artifacts/*.mp4
             PrismHarbour/artifacts/*validation.json
             PrismHarbour/artifacts/ui-screenshots/**
           if-no-files-found: warn

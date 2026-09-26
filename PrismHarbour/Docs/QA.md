@@ -1,6 +1,6 @@
 # Prism Harbour verification record
 
-## Current result â€” 26 September 2026
+## Current result — 26 September 2026
 
 The native build and automated playthrough passed on Xcode 26.6. [Successful build](https://github.com/abd265/Codex7/actions/runs/36265079805), source commit `c0e13c0056b38e8d40dc9a599a59bef96a4cba05`.
 
@@ -17,7 +17,7 @@ The delivered IPA is unsigned for Sideloadly or AltStore to sign during installa
 Local verification completed:
 
 - An independent Python implementation replayed all 36 campaign solutions and 365 daily puzzles, covering 26 September 2026 through 25 September 2027. It also replayed the full reverse-construction history before testing its shortened solution, checked piece/obstacle overlap, unique IDs, board bounds, gate spans, and that no partially exited piece remains. All passed in 27.5 seconds.
-- The campaign produced 36 distinct board fingerprints, 3â€“9 pieces per puzzle, and solution lengths of 3â€“47 gestures. Daily puzzles contained 8â€“9 pieces. The Python audit is a second implementation of the algorithm; the Swift test suite must independently confirm the actual app code.
+- The campaign produced 36 distinct board fingerprints, 3–9 pieces per puzzle, and solution lengths of 3–47 gestures. Daily puzzles contained 8–9 pieces. The Python audit is a second implementation of the algorithm; the Swift test suite must independently confirm the actual app code.
 - Static review checked full-path collisions, wrong-colour/side/span gate rejection, multi-cell gesture clamping, atomic exits for concave shapes, completion reward monotonicity, undo snapshots, atomic save writes, background pausing, and hint concurrency. The hint result now rechecks session identity, board identity, active gameplay, pause/expiry status, and available pearls before charging.
 - Project generation, property lists, shared scheme XML, Bash syntax, and nine IPA validator unit tests passed locally, as recorded by the scaffold verification. The validator checks actual Mach-O device platform and architecture rather than accepting an ARM64 simulator executable.
 
