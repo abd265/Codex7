@@ -170,7 +170,7 @@ final class PrismCoreTests: XCTestCase {
 
     func testCampaignRewardsAreMonotonicAndCannotBeFarmedByReplay() {
         let level = LevelCatalog.campaign[0]
-        var progress = Progress()
+        var progress = PrismCore.Progress()
         let first = progress.recordCompletion(level: level, moves: 99)
         XCTAssertEqual(first.stars, 1)
         XCTAssertEqual(first.coins, 35)
@@ -189,7 +189,7 @@ final class PrismCoreTests: XCTestCase {
     }
 
     func testDailyRewardsAwardOnceAndDoNotUnlockCampaign() {
-        var progress = Progress()
+        var progress = PrismCore.Progress()
         let daily = LevelCatalog.daily(for: Date(timeIntervalSince1970: 1_795_046_400))
         let first = progress.recordCompletion(level: daily, moves: daily.parMoves, dailyKey: "2026-09-26")
         let duplicate = progress.recordCompletion(level: daily, moves: daily.parMoves, dailyKey: "2026-09-26")
@@ -202,7 +202,7 @@ final class PrismCoreTests: XCTestCase {
     }
 
     func testDailyStreakHandlesMissedDaysAndExpiredDisplay() {
-        var progress = Progress()
+        var progress = PrismCore.Progress()
         let level = LevelCatalog.campaign[0]
         for key in ["2026-09-23", "2026-09-24", "2026-09-26"] {
             progress.recordCompletion(level: level, moves: 3, dailyKey: key)
@@ -253,12 +253,12 @@ final class PrismCoreTests: XCTestCase {
     }
 
     func testProgressPersistenceAndMissingFieldMigration() throws {
-        var progress = Progress()
+        var progress = PrismCore.Progress()
         progress.recordCompletion(level: LevelCatalog.campaign[5], moves: 15)
         let data = try JSONEncoder().encode(progress)
-        XCTAssertEqual(try JSONDecoder().decode(Progress.self, from: data), progress)
+        XCTAssertEqual(try JSONDecoder().decode(PrismCore.Progress.self, from: data), progress)
         let oldData = Data("{\"coins\":240}".utf8)
-        let migrated = try JSONDecoder().decode(Progress.self, from: oldData)
+        let migrated = try JSONDecoder().decode(PrismCore.Progress.self, from: oldData)
         XCTAssertEqual(migrated.coins, 240)
         XCTAssertEqual(migrated.highestUnlocked, 1)
         XCTAssertTrue(migrated.stars.isEmpty)
