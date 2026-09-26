@@ -48,4 +48,6 @@ The app has no network calls, analytics, authentication, advertising, tracking, 
 
 ## Validation status
 
-See [QA notes](Docs/QA.md) for performed checks and outstanding platform verification. Source preparation and portable checks do not establish that an IPA has been compiled. The final native build must pass on macOS before an IPA is considered ready.
+The [Mac build](https://github.com/abd265/Codex7/actions/runs/36265079805) succeeded on Xcode 26.6: 20 native rule tests passed, the app launched on an iPhone simulator, and the automated real-drag/dock/victory/next-level/pause/continue playthrough passed. The Release physical-iPhone ARM64 IPA passed format, architecture, platform, and checksum validation. Home, gameplay, map, victory, and next-level screenshots were inspected. Physical-device installation remains the user's signing step. See [QA notes](Docs/QA.md).
+
+The app source is stored in `PrismHarbour/` on the `codex/prism-harbour` branch of [abd265/Codex7](https://github.com/abd265/Codex7/tree/codex/prism-harbour/PrismHarbour). The repository-root workflow `.github/workflows/prism-harbour.yml` builds this subfolder without changing the existing app. The workflow template inside this source folder is also suitable for a standalone repository.

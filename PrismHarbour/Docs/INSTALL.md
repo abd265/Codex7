@@ -1,7 +1,7 @@
 # Install Prism Harbour on your iPhone
 
 Prism Harbour supports iPhone and iPad running iOS/iPadOS 17 or later.
-The installable build is **PrismHarbour-unsigned.ipa**. Sideloadly or AltStore Classic
+The delivered file is **PrismHarbour-1.0.ipa**; the CI artifact uses the equivalent name **PrismHarbour-unsigned.ipa**. Sideloadly or AltStore Classic
 signs this IPA using your own Apple Account as part of installation.
 
 ## Sideloadly on Windows or macOS
@@ -56,7 +56,9 @@ archive, and validate the finished IPA. They also produce a SHA-256 checksum
 and real simulator screenshots. Simulator binaries are packaged separately
 and cannot be installed on a physical iPhone.
 
-For a hosted Mac build, use the included **.github/workflows/build-ios.yml**
+For the existing Codex7 project, use **.github/workflows/prism-harbour.yml** at the repository root. The app is contained in **PrismHarbour/**. [Verified build and artifacts](https://github.com/abd265/Codex7/actions/runs/36265079805).
+
+For a standalone hosted Mac build, use the included **.github/workflows/build-ios.yml**
 workflow in your own GitHub repository, or the **codemagic.yaml** workflow in your
 own Codemagic project. Download the **PrismHarbour-iPhone-IPA** artifact after a
 successful GitHub Actions run and extract the IPA. These configurations do not

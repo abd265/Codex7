@@ -1,13 +1,23 @@
 # Prism Harbour verification record
 
-## Current result — 26 September 2026
+## Current result â€” 26 September 2026
 
-The source and deterministic puzzle construction have been reviewed locally. Native Swift compilation, simulator interaction, visual screenshots, physical-device launch, and the IPA binary remain **unverified until the macOS workflow runs successfully**. A source ZIP or independent model result is not an installable or tested iOS binary.
+The native build and automated playthrough passed on Xcode 26.6. [Successful build](https://github.com/abd265/Codex7/actions/runs/36265079805), source commit `c0e13c0056b38e8d40dc9a599a59bef96a4cba05`.
+
+- All **20 native Swift tests** passed with zero failures.
+- The native app compiled and launched on the iPhone 17 Pro simulator.
+- The **XCUITest playthrough passed**: a real vertical drag, all three introductory dock directions through native controls, the victory screen, next-level progression, pause, return home, and continue.
+- Home, level-map, gameplay, victory, and next-level screenshots were visually inspected. Controls and content fit the tested iPhone display.
+- The Release **ARM64 physical-iOS IPA** was compiled, downloaded, and validated locally. The downloaded artifact and inner IPA checksums matched the build outputs.
+- Device support: iOS/iPadOS 17+. Bundle: `com.prismharbour.game`, version 1.0.
+- IPA SHA-256: `2f56144d6664d77283be88627ed727128f3216870ce5651de8209d981115ebe7`.
+
+The delivered IPA is unsigned for Sideloadly or AltStore to sign during installation. **Installation and launch on a physical iPhone have not been performed**; the user completes signing on their own device.
 
 Local verification completed:
 
 - An independent Python implementation replayed all 36 campaign solutions and 365 daily puzzles, covering 26 September 2026 through 25 September 2027. It also replayed the full reverse-construction history before testing its shortened solution, checked piece/obstacle overlap, unique IDs, board bounds, gate spans, and that no partially exited piece remains. All passed in 27.5 seconds.
-- The campaign produced 36 distinct board fingerprints, 3–9 pieces per puzzle, and solution lengths of 3–47 gestures. Daily puzzles contained 8–9 pieces. The Python audit is a second implementation of the algorithm; the Swift test suite must independently confirm the actual app code.
+- The campaign produced 36 distinct board fingerprints, 3â€“9 pieces per puzzle, and solution lengths of 3â€“47 gestures. Daily puzzles contained 8â€“9 pieces. The Python audit is a second implementation of the algorithm; the Swift test suite must independently confirm the actual app code.
 - Static review checked full-path collisions, wrong-colour/side/span gate rejection, multi-cell gesture clamping, atomic exits for concave shapes, completion reward monotonicity, undo snapshots, atomic save writes, background pausing, and hint concurrency. The hint result now rechecks session identity, board identity, active gameplay, pause/expiry status, and available pearls before charging.
 - Project generation, property lists, shared scheme XML, Bash syntax, and nine IPA validator unit tests passed locally, as recorded by the scaffold verification. The validator checks actual Mach-O device platform and architecture rather than accepting an ARM64 simulator executable.
 
@@ -19,13 +29,15 @@ python scripts/audit_campaign.py --days 365
 
 The result is written to `artifacts/campaign-audit.json`. Campaign boards and fingerprints are included so the model output can be cross-checked with native Swift. Do not rerun this automatically for every build unless generation changes; the native test suite already replays every campaign solution and selected daily dates.
 
-## Required native verification
+## Reproduce native verification
 
-Run `swift test` on the macOS runner, followed by `scripts/build_device.sh` and `scripts/build_simulator.sh`. Retain test/build logs, device validation JSON, the IPA checksum, and the actual simulator screenshots. Inspect the home, gameplay, and level chart screenshots for clipping, readable gates and symbols, and legible controls. Simulator launch alone does not prove gesture behavior.
+Run `swift test`, `bash scripts/build_simulator.sh`, `bash scripts/test_ui.sh`, and `bash scripts/build_device.sh` on macOS. The successful workflow retains logs, device validation JSON, IPA checksums, simulator screenshots, and the native UI XCResult bundle. The Codex7 workflow lives at `.github/workflows/prism-harbour.yml` and runs from the `PrismHarbour/` subfolder.
 
 The Swift tests cover collisions with movable/fixed pieces; all four exits; wrong colour, side, and opening span; concave swept collisions; gesture clamping and move counts; invalid requests; all campaign solutions; deterministic daily puzzles; hints that require an alignment move; mid-game serialization; replay rewards; streak expiry; and progress migration defaults.
 
-## Interactive acceptance checks
+## Extended manual acceptance checklist
+
+The opening drag/dock/victory/next-level/pause/continue flow is covered by the passing automated UI test. The remaining scenarios below are additional manual coverage, not claims of completed physical-device testing.
 
 1. Launch a fresh installation offline. Open Help, Settings, Voyage, and Treasures. Level 1 is unlocked and later levels are locked. Home reports 120 pearls and no completed levels.
 2. Complete level 1 using three drag gestures: coral upward, mint downward, amber rightward. Confirm three stars, 55 earned pearls, level 2 unlocked, and a playable next-level action. Replay the same result and confirm no duplicate reward.
