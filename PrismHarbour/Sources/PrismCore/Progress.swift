@@ -23,10 +23,26 @@ public struct Progress: Codable, Equatable, Sendable {
     public var bestMoves: [Int: Int]
     public var completedDailyKeys: [String]
     public var stats: PlayStats
+    /// Challenge unlocks are voyage numbers (1...20); score dictionaries use stable level IDs (101...120).
+    public var challengeHighestUnlocked: Int
+    public var challengeStars: [Int: Int]
+    public var challengeBestMoves: [Int: Int]
+
+    public var challengeCompletedCount: Int {
+        challengeStars.filter { ChallengeCatalog.number(for: $0.key) != nil && $0.value > 0 }.count
+    }
+    public var challengeTotalStars: Int {
+        challengeStars.filter { ChallengeCatalog.number(for: $0.key) != nil }.values.reduce(0, +)
+    }
+
     public init(highestUnlocked: Int = 1, coins: Int = 120, stars: [Int: Int] = [:],
-                bestMoves: [Int: Int] = [:], completedDailyKeys: [String] = [], stats: PlayStats = PlayStats()) {
+                bestMoves: [Int: Int] = [:], completedDailyKeys: [String] = [], stats: PlayStats = PlayStats(),
+                challengeHighestUnlocked: Int = 1, challengeStars: [Int: Int] = [:],
+                challengeBestMoves: [Int: Int] = [:]) {
         self.highestUnlocked = highestUnlocked; self.coins = coins; self.stars = stars
         self.bestMoves = bestMoves; self.completedDailyKeys = completedDailyKeys; self.stats = stats
+        self.challengeHighestUnlocked = challengeHighestUnlocked
+        self.challengeStars = challengeStars; self.challengeBestMoves = challengeBestMoves
     }
 
     public static func starsEarned(moves: Int, parMoves: Int) -> Int {
@@ -51,6 +67,20 @@ public struct Progress: Codable, Equatable, Sendable {
             let award = first ? 75 : 0
             coins += award
             return CompletionReward(stars: earned, coins: award, isFirstCompletion: first, newlyUnlockedLevel: nil)
+        }
+        if let number = ChallengeCatalog.number(for: level.id) {
+            let previousStars = challengeStars[level.id] ?? 0
+            let first = previousStars == 0
+            challengeStars[level.id] = max(previousStars, earned)
+            challengeBestMoves[level.id] = min(challengeBestMoves[level.id] ?? Int.max, max(0, moves))
+            let priorUnlock = challengeHighestUnlocked
+            challengeHighestUnlocked = max(challengeHighestUnlocked, min(ChallengeCatalog.count, number + 1))
+            let award = (first ? 50 : 0) + max(0, earned - previousStars) * 10
+            coins += award
+            let newlyUnlocked = challengeHighestUnlocked > priorUnlock
+                ? ChallengeCatalog.levels[challengeHighestUnlocked - 1].id : nil
+            return CompletionReward(stars: earned, coins: award, isFirstCompletion: first,
+                                    newlyUnlockedLevel: newlyUnlocked)
         }
         let previousStars = stars[level.id] ?? 0
         let first = previousStars == 0
@@ -109,6 +139,7 @@ public struct Progress: Codable, Equatable, Sendable {
 
     private enum CodingKeys: String, CodingKey {
         case highestUnlocked, coins, stars, bestMoves, completedDailyKeys, stats
+        case challengeHighestUnlocked, challengeStars, challengeBestMoves
     }
 
     public init(from decoder: Decoder) throws {
@@ -119,5 +150,8 @@ public struct Progress: Codable, Equatable, Sendable {
         bestMoves = try values.decodeIfPresent([Int: Int].self, forKey: .bestMoves) ?? [:]
         completedDailyKeys = try values.decodeIfPresent([String].self, forKey: .completedDailyKeys) ?? []
         stats = try values.decodeIfPresent(PlayStats.self, forKey: .stats) ?? PlayStats()
+        challengeHighestUnlocked = try values.decodeIfPresent(Int.self, forKey: .challengeHighestUnlocked) ?? 1
+        challengeStars = try values.decodeIfPresent([Int: Int].self, forKey: .challengeStars) ?? [:]
+        challengeBestMoves = try values.decodeIfPresent([Int: Int].self, forKey: .challengeBestMoves) ?? [:]
     }
 }

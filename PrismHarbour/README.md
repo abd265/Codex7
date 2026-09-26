@@ -4,6 +4,8 @@ A complete offline native SwiftUI puzzle game for iPhone and iPad, iOS 17 or lat
 
 ## Included
 
+- Version 3.0: twenty fixed, untimed Challenge Voyage puzzles across four tiers, with mandatory blocker movement, certified 20-38 gesture targets, separate progress, and stronger off-route hints. See [challenge design and evidence](Docs/CHALLENGE-DESIGN.md).
+
 - Thirty-six solvable campaign levels across three chapters, with rectangular and L-shaped pieces, fixed obstacles, and varied dock positions.
 - A deterministic daily puzzle that changes at local midnight.
 - Touch dragging, tap-and-arrow controls, and VoiceOver movement actions. Matching symbols support colour recognition.

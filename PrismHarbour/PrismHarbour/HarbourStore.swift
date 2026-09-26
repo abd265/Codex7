@@ -55,6 +55,7 @@ final class HarbourStore: ObservableObject {
     @Published var showHelp = false
     @Published var showSettings = false
     @Published var homeTab = 0
+    @Published var challengeMap = false
     @Published private(set) var moveEvent: HarbourMoveEvent?
     @Published private(set) var comboCount = 0
     private var lastTick = Date()
@@ -69,15 +70,33 @@ final class HarbourStore: ObservableObject {
 
     var currentLevel: Level { session?.game.level ?? LevelCatalog.campaign[0] }
     var isDaily: Bool { session?.dailyKey != nil }
+    var isChallenge: Bool { !isDaily && ChallengeCatalog.number(for: currentLevel.id) != nil }
+    var challengeNumber: Int? { isChallenge ? ChallengeCatalog.number(for: currentLevel.id) : nil }
     var expired: Bool { session.map { !$0.relaxed && $0.remaining <= 0 && !$0.game.isComplete } ?? false }
-    var completedCount: Int { progress.stars.count }
-    var totalStars: Int { progress.stars.values.reduce(0,+) }
+    var completedCount: Int {
+        progress.stars.filter { (1...LevelCatalog.campaignCount).contains($0.key) && $0.value > 0 }.count
+    }
+    var totalStars: Int {
+        progress.stars.filter { (1...LevelCatalog.campaignCount).contains($0.key) }.values.reduce(0, +)
+    }
+    var challengeCompletedCount: Int { progress.challengeCompletedCount }
+    var challengeTotalStars: Int { progress.challengeTotalStars }
     var nextLevel: Level { LevelCatalog.campaign[min(max(1, progress.highestUnlocked), LevelCatalog.campaign.count)-1] }
+    var nextChallenge: Level {
+        ChallengeCatalog.levels[min(max(1, progress.challengeHighestUnlocked), ChallengeCatalog.count) - 1]
+    }
+    var followingLevel: Level? {
+        guard !isDaily else { return nil }
+        if let number = challengeNumber {
+            return number < ChallengeCatalog.count ? ChallengeCatalog.levels[number] : nil
+        }
+        return LevelCatalog.campaign.first { $0.id == currentLevel.id + 1 }
+    }
     var dailyCompleted: Bool { progress.completedDailyKeys.contains(Progress.dailyKey(for: Date())) }
 
     init() {
         let args = ProcessInfo.processInfo.arguments
-        screenshotMode = args.contains("--ui-testing") || args.contains(where: { $0.hasPrefix("--screenshot-") })
+        screenshotMode = args.contains(where: { $0.hasPrefix("--ui-testing") || $0.hasPrefix("--screenshot-") })
         let directory = FileManager.default.urls(for:.applicationSupportDirectory,in:.userDomainMask)[0].appendingPathComponent("PrismHarbour",isDirectory:true)
         saveURL = directory.appendingPathComponent("voyage.json")
         do {
@@ -91,10 +110,28 @@ final class HarbourStore: ObservableObject {
             try? FileManager.default.copyItem(at:saveURL,to:backup)
             toast = "Your previous save was kept as a recovery copy."
         }
+        if let active = session, active.dailyKey == nil, ChallengeCatalog.number(for: active.game.level.id) != nil {
+            // Challenge boards are about planning, including when resuming a saved session.
+            session?.relaxed = true
+        }
+        if args.contains("--ui-testing-completed-campaign") {
+            // A deterministic upgrade fixture. screenshotMode prevents any reads/writes of the player's save.
+            progress.highestUnlocked = LevelCatalog.campaignCount
+            for level in LevelCatalog.campaign {
+                progress.stars[level.id] = 3
+                progress.bestMoves[level.id] = level.parMoves
+            }
+            progress.stats.totalWins = LevelCatalog.campaignCount
+            progress.stats.totalMoves = LevelCatalog.campaign.reduce(0) { $0 + $1.parMoves }
+        }
         if args.contains("--screenshot-play") {
             start(LevelCatalog.campaign[min(11,LevelCatalog.campaign.count-1)])
         }
         if args.contains("--screenshot-library") { homeTab = 1 }
+        if args.contains("--screenshot-challenge") {
+            startChallenge(ChallengeCatalog.levels[min(11, ChallengeCatalog.count - 1)])
+        }
+        if args.contains("--screenshot-challenges") { homeTab = 1; challengeMap = true }
     }
 
     func save() {
@@ -108,7 +145,8 @@ final class HarbourStore: ObservableObject {
 
     func start(_ level: Level, daily: Bool = false) {
         resetMoveFeedback()
-        session = VoyageSession(game:GameState(level:level),remaining:Double(level.timeLimit),relaxed:daily ? false : settings.relaxed,dailyKey:daily ? Progress.dailyKey(for:Date()) : nil)
+        let untimed = !daily && (ChallengeCatalog.number(for: level.id) != nil || settings.relaxed)
+        session = VoyageSession(game:GameState(level:level),remaining:Double(level.timeLimit),relaxed:untimed,dailyKey:daily ? Progress.dailyKey(for:Date()) : nil)
         reward = nil; hintMove = nil; selectedPiece = nil; paused = false; playing = true; lastTick = Date(); save()
     }
 
@@ -117,6 +155,22 @@ final class HarbourStore: ObservableObject {
             resetMoveFeedback()
             playing = true; paused = false; reward = nil; lastTick = Date()
         } else { start(nextLevel) }
+    }
+
+    func startChallenge(_ level: Level? = nil) {
+        let target = level ?? nextChallenge
+        guard ChallengeCatalog.number(for: target.id) != nil else { return }
+        challengeMap = true
+        start(target)
+    }
+
+    func continueChallenge() {
+        if let session, session.dailyKey == nil, ChallengeCatalog.number(for: session.game.level.id) != nil,
+           !session.game.isComplete {
+            resetMoveFeedback()
+            self.session?.relaxed = true
+            playing = true; paused = false; reward = nil; lastTick = Date()
+        } else { startChallenge() }
     }
 
     func retry() {
@@ -197,7 +251,8 @@ final class HarbourStore: ObservableObject {
         findingHint = true
         let sessionID = session?.id
         Task {
-            let move = await Task.detached(priority:.userInitiated) { state.hint(maxVisited:12000) }.value
+            let budget = ChallengeCatalog.number(for: state.level.id) == nil ? 12_000 : 150_000
+            let move = await Task.detached(priority:.userInitiated) { state.hint(maxVisited:budget) }.value
             findingHint = false
             guard playing, !paused, session?.id == sessionID, session?.game == state, !expired, reward == nil else { return }
             if let move {

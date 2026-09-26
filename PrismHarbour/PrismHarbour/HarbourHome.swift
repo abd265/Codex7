@@ -71,8 +71,9 @@ struct HarbourHomeView: View {
                     VStack(spacing:18) {
                         HStack { CoinPill(coins:store.progress.coins); Spacer(); RoundIconButton(icon:"gearshape.fill",label:"Settings") { store.showSettings=true } }
                         HarbourWordmark().padding(.top,4)
-                        Spacer(minLength:110)
+                        Spacer(minLength:75)
                         launchControls
+                        challengeQuest
                         dailyQuest
                         Button { store.showHelp=true } label: {
                             Label("How to play",systemImage:"questionmark.circle.fill").font(.system(size:12,weight:.bold,design:.rounded)).foregroundStyle(.white.opacity(0.9))
@@ -96,10 +97,10 @@ struct HarbourHomeView: View {
         VStack(spacing:13) {
             HStack(spacing:7) {
                 Image(systemName:"location.fill").font(.system(size:10))
-                Text(regionName(store.nextLevel.region).uppercased()).tracking(1.4)
+                Text(primaryChallenge ? "CHALLENGE VOYAGE" : regionName(store.nextLevel.region).uppercased()).tracking(1.4)
             }.font(.system(size:11,weight:.heavy,design:.rounded)).foregroundStyle(HarbourTheme.gold)
                 .padding(.horizontal,15).padding(.vertical,8).background(Color(hex:0x24113E).opacity(0.8),in:Capsule())
-            Button { store.continueVoyage() } label: {
+            Button { if primaryChallenge { store.continueChallenge() } else { store.continueVoyage() } } label: {
                 HStack(spacing:10) {
                     Image(systemName:"play.fill").font(.system(size:22,weight:.heavy))
                     Text(isResuming ? "CONTINUE" : "PLAY").font(.system(size:28,weight:.black,design:.rounded)).tracking(1)
@@ -110,11 +111,33 @@ struct HarbourHomeView: View {
             }.buttonStyle(PrimaryButtonStyle(color:Color(hex:0x39D689))).accessibilityLabel(continueTitle)
             HStack(spacing:8) {
                 Image(systemName:"star.fill").foregroundStyle(HarbourTheme.gold)
-                Text("\(store.totalStars) stars")
+                Text("\(primaryChallenge ? store.challengeTotalStars : store.totalStars) stars")
                 Text("•").foregroundStyle(HarbourTheme.gold)
-                Text("\(store.completedCount) / 36 harbours")
+                Text(primaryChallenge ? "\(store.challengeCompletedCount) / 20 challenges" : "\(store.completedCount) / 36 harbours")
             }.font(.system(size:12,weight:.bold,design:.rounded)).shadow(color:.black,radius:2,y:1)
         }
+    }
+    private var challengeQuest: some View {
+        Button { store.continueChallenge() } label: {
+            HStack(spacing:13) {
+                ZStack {
+                    RoundedRectangle(cornerRadius:17).fill(LinearGradient(colors:[Color(hex:0x9763E4),Color(hex:0x4D2A89)],startPoint:.topLeading,endPoint:.bottomTrailing))
+                    Image(systemName:"crown.fill").font(.system(size:28,weight:.black)).foregroundStyle(HarbourTheme.gold)
+                        .shadow(color:Color(hex:0x472061),radius:0,y:3)
+                }.frame(width:57,height:57).overlay(RoundedRectangle(cornerRadius:17).strokeBorder(HarbourTheme.gold.opacity(0.6),lineWidth:1.5))
+                VStack(alignment:.leading,spacing:4) {
+                    Text("CHALLENGE VOYAGE").font(.system(size:12,weight:.black,design:.rounded)).tracking(0.8).foregroundStyle(HarbourTheme.gold)
+                    Text(store.challengeCompletedCount == 20 ? "Master every move" : "20 puzzles. Think ahead.").font(.system(size:16,weight:.heavy,design:.rounded)).foregroundStyle(.white)
+                    Text("No timer · Interlocking puzzles").font(.system(size:11,weight:.bold,design:.rounded)).foregroundStyle(Color(hex:0xE4CFF6))
+                }
+                Spacer(minLength:0)
+                Image(systemName:"chevron.right").font(.system(size:17,weight:.heavy)).foregroundStyle(HarbourTheme.gold)
+            }.padding(13)
+                .background(LinearGradient(colors:[Color(hex:0x57308A),Color(hex:0x2D174D)],startPoint:.topLeading,endPoint:.bottomTrailing),in:RoundedRectangle(cornerRadius:24))
+                .overlay(RoundedRectangle(cornerRadius:24).strokeBorder(HarbourTheme.gold.opacity(0.75),lineWidth:1.5))
+                .shadow(color:.black.opacity(0.3),radius:8,y:5)
+        }.buttonStyle(JewelPressStyle()).accessibilityLabel("Start Challenge Voyage")
+            .accessibilityHint("Twenty interlocking puzzles, with no time limit. Resumes your challenge if one is in progress.")
     }
     private var dailyQuest: some View {
         Button { store.start(LevelCatalog.daily(for:Date()),daily:true) } label: {
@@ -139,8 +162,16 @@ struct HarbourHomeView: View {
         guard let session=store.session else { return false }
         return !session.game.isComplete && (session.relaxed || session.remaining>0)
     }
-    private var displayLevel:Int { isResuming ? (store.session?.game.level.id ?? store.nextLevel.id) : store.nextLevel.id }
+    private var primaryChallenge:Bool {
+        if isResuming { return store.challengeNumber != nil }
+        return store.completedCount >= LevelCatalog.campaign.count
+    }
+    private var displayLevel:Int {
+        if primaryChallenge { return isResuming ? (store.challengeNumber ?? 1) : (ChallengeCatalog.number(for:store.nextChallenge.id) ?? 1) }
+        return isResuming ? (store.session?.game.level.id ?? store.nextLevel.id) : store.nextLevel.id
+    }
     private var continueTitle:String {
+        if primaryChallenge { return "\(isResuming ? "Continue" : "Play") challenge \(displayLevel)" }
         if isResuming,let session=store.session { return session.dailyKey == nil ? "Continue level \(session.game.level.id)" : "Continue daily tide" }
         return "Play level \(store.nextLevel.id)"
     }
@@ -200,25 +231,46 @@ struct VoyageChartView: View {
     @EnvironmentObject private var store: HarbourStore
     var body: some View {
         VStack(spacing:0) {
-            HStack {
-                VStack(alignment:.leading,spacing:3) {
-                    Eyebrow(text:"Your adventure",color:HarbourTheme.gold)
-                    Text("The voyage").font(.system(size:30,weight:.black,design:.rounded))
+            VStack(spacing:12) {
+                HStack {
+                    VStack(alignment:.leading,spacing:3) {
+                        Eyebrow(text:store.challengeMap ? "Think three moves ahead" : "Your adventure",color:HarbourTheme.gold)
+                        Text(store.challengeMap ? "Challenge Voyage" : "The voyage").font(.system(size:27,weight:.black,design:.rounded)).lineLimit(1).minimumScaleFactor(0.75)
+                            .accessibilityLabel(store.challengeMap ? "Challenge Voyage" : "Original voyage, \(store.completedCount) of 36 harbours completed, \(store.totalStars) stars")
+                    }
+                    Spacer(minLength:8); CoinPill(coins:store.progress.coins)
                 }
-                Spacer(); CoinPill(coins:store.progress.coins)
-            }.padding(.horizontal,24).padding(.top,13).padding(.bottom,16)
-                .background(Color(hex:0x281643).opacity(0.8))
-            ScrollViewReader { proxy in
-                ScrollView(showsIndicators:false) {
-                    VStack(spacing:0) {
-                        ForEach(0..<3) { region in RegionRouteView(region:region) }
-                        Text("More magic with every move").font(.system(size:13,weight:.bold,design:.rounded)).foregroundStyle(HarbourTheme.gold).padding(.bottom,30)
-                    }.frame(maxWidth:540).frame(maxWidth:.infinity)
-                }.onAppear {
-                    if store.progress.highestUnlocked>1 { proxy.scrollTo("level-\(min(36,store.progress.highestUnlocked))",anchor:.center) }
+                HStack(spacing:6) {
+                    mapSelector("Original",challenge:false)
+                    mapSelector("Challenge",challenge:true)
+                }.padding(4).background(.black.opacity(0.2),in:RoundedRectangle(cornerRadius:17))
+            }.padding(.horizontal,20).padding(.top,13).padding(.bottom,13)
+                .background(Color(hex:0x281643).opacity(0.92))
+            if store.challengeMap { ChallengeMapView() }
+            else {
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators:false) {
+                        VStack(spacing:0) {
+                            ForEach(0..<3) { region in RegionRouteView(region:region) }
+                            Text("More magic with every move").font(.system(size:13,weight:.bold,design:.rounded)).foregroundStyle(HarbourTheme.gold).padding(.bottom,30)
+                        }.frame(maxWidth:540).frame(maxWidth:.infinity)
+                    }.onAppear {
+                        if store.progress.highestUnlocked>1 { proxy.scrollTo("level-\(min(36,store.progress.highestUnlocked))",anchor:.center) }
+                    }
                 }
             }
         }
+    }
+    private func mapSelector(_ title:String,challenge:Bool)->some View {
+        Button { store.challengeMap=challenge; store.impact() } label: {
+            HStack(spacing:6) {
+                Image(systemName:challenge ? "crown.fill" : "sailboat.fill")
+                Text(title)
+            }.font(.system(size:13,weight:.heavy,design:.rounded)).frame(maxWidth:.infinity).frame(height:36)
+                .foregroundStyle(store.challengeMap == challenge ? Color(hex:0x392053) : HarbourTheme.muted)
+                .background(store.challengeMap == challenge ? HarbourTheme.gold : .clear,in:RoundedRectangle(cornerRadius:13))
+        }.buttonStyle(JewelPressStyle()).accessibilityLabel(title)
+            .accessibilityAddTraits(store.challengeMap == challenge ? .isSelected : [])
     }
 }
 
@@ -405,9 +457,9 @@ struct HarbourSettingsView: View {
                     Toggle("Prism symbols",isOn:$store.settings.symbols)
                 }
                 Section { Toggle("Calm mode",isOn:$store.settings.relaxed) }
-                    footer: { Text("Take your time with no countdown. Applies when you start a new campaign level. The daily tide is always timed.") }
+                    footer: { Text("Take your time with no countdown. Applies when you start a new original level. Challenge Voyage is always untimed; the daily tide is always timed.") }
                 Section {
-                    HStack { Text("Version"); Spacer(); Text("2.0").foregroundStyle(.secondary) }
+                    HStack { Text("Version"); Spacer(); Text("3.0").foregroundStyle(.secondary) }
                     Text("Your voyage is saved on this device. Prism Harbour works entirely offline and does not collect personal data.").font(.footnote).foregroundStyle(.secondary)
                 }
                 Section { Button("Start a fresh voyage",role:.destructive) { confirmingReset=true } }
@@ -430,6 +482,7 @@ struct HowToPlayView: View {
                     instruction("Slide your jewels","Drag a prism horizontally or vertically. Lift your finger to place it. Pieces move together and cannot pass through each other.","hand.draw.fill")
                     instruction("Find a matching gate","Guide each piece through a dock of the same colour and symbol. Its full width must fit the opening.","arrow.right.to.line")
                     instruction("Clear the harbour","Dock every piece before the tide runs out. Fewer moves earn more stars. Turn on Calm mode in Settings to play without a timer.","sparkles")
+                    instruction("Plan your Challenge Voyage","Challenge puzzles have no timer. Move blockers aside, use temporary parking space, and clear the whole board. Every slide counts: reach the move target for three stars.","crown.fill")
                     instruction("Give magic a boost","Undo is always free. A hint costs 15 pearls; 30 more seconds costs 30. Clear new levels to earn pearls.","wand.and.stars")
                     Text("You can also tap a prism and use the arrow controls, or its VoiceOver actions, to move one cell at a time.").font(.system(size:13)).foregroundStyle(HarbourTheme.muted)
                     Button("Let’s play!") { dismiss() }.buttonStyle(PrimaryButtonStyle())

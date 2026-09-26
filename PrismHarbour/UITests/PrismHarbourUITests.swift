@@ -80,6 +80,79 @@ final class PrismHarbourUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["0 moves"].exists)
     }
 
+    func testChallengeVoyagePlanningUnlockAndOriginalProgress() throws {
+        app.terminate()
+        app.launchArguments = ["--ui-testing", "--ui-testing-completed-campaign"]
+        app.launch()
+
+        // An upgrading player who has cleared the original voyage should see the new game first.
+        let play = textButton("Play challenge 1")
+        XCTAssertTrue(play.waitForExistence(timeout: 15), "Completed original voyage must prioritize Challenge 1")
+        play.tap()
+        XCTAssertTrue(app.staticTexts["CHALLENGE 1"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts[ChallengeFixtures.firstTitle].exists)
+        XCTAssertTrue(app.staticTexts["Untimed"].exists, "Challenges must allow time to plan")
+        XCTAssertTrue(app.staticTexts["0 moves"].exists)
+        XCTAssertTrue(app.staticTexts["AIM FOR 20"].exists, "The first challenge uses its certified twenty-gesture target")
+        XCTAssertFalse(textButton("+30 sec").exists, "Untimed play should not sell extra seconds")
+        attachScreenshot("Challenge 1 planning board")
+
+        XCTAssertEqual(ChallengeFixtures.solution.count, 20, "The first fixed challenge has a twenty-gesture optimal route")
+        for (index, move) in ChallengeFixtures.solution.enumerated() {
+            let piece = app.descendants(matching: .any).matching(identifier: "prism-\(move.pieceID)").firstMatch
+            XCTAssertTrue(piece.waitForExistence(timeout: 5), "Move \(index+1) must find piece \(move.pieceID)")
+            let shape = try XCTUnwrap(ChallengeFixtures.pieces[move.pieceID], "Every scripted piece needs occupied-cell geometry")
+            let cell = piece.frame.width / CGFloat(shape.width)
+            XCTAssertGreaterThan(cell, 10, "The piece must have a visible on-screen frame")
+            let start = piece.coordinate(withNormalizedOffset: CGVector(
+                dx: (CGFloat(shape.cellX) + 0.5) / CGFloat(shape.width),
+                dy: (CGFloat(shape.cellY) + 0.5) / CGFloat(shape.height)
+            ))
+            let end = start.withOffset(CGVector(dx: CGFloat(move.dx * move.steps) * cell,
+                                               dy: CGFloat(move.dy * move.steps) * cell))
+            start.press(forDuration: 0.1, thenDragTo: end)
+            XCTAssertTrue(app.staticTexts["\(index+1) moves"].waitForExistence(timeout: 5),
+                          "Real drag \(index+1) must execute exactly one planned move")
+            if index == ChallengeFixtures.solution.count / 2 { attachScreenshot("Challenge 1 interlocking sequence") }
+        }
+        XCTAssertTrue(app.staticTexts["Clear waters."].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["CHALLENGE 1 COMPLETE!"].exists)
+        XCTAssertTrue(app.staticTexts["Three stars: 20 moves or fewer"].exists)
+        attachScreenshot("Challenge 1 solved at target")
+
+        let next = textButton("Next challenge")
+        XCTAssertTrue(next.waitForExistence(timeout: 5))
+        if !next.isHittable { app.swipeUp() }
+        next.tap()
+        XCTAssertTrue(app.staticTexts["CHALLENGE 2"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["Untimed"].exists)
+        XCTAssertTrue(app.staticTexts["0 moves"].exists)
+        attachScreenshot("Challenge 2 unlocked")
+
+        app.buttons["Pause game"].tap()
+        let home = textButton("Return to harbour")
+        XCTAssertTrue(home.waitForExistence(timeout: 5))
+        if !home.isHittable { app.swipeUp() }
+        home.tap()
+        let resume = textButton("Continue challenge 2")
+        XCTAssertTrue(resume.waitForExistence(timeout: 5))
+        resume.tap()
+        XCTAssertTrue(app.staticTexts["CHALLENGE 2"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["0 moves"].exists)
+
+        app.buttons["Pause game"].tap()
+        let challengeMap = textButton("Back to challenges")
+        XCTAssertTrue(challengeMap.waitForExistence(timeout: 5))
+        if !challengeMap.isHittable { app.swipeUp() }
+        challengeMap.tap()
+        XCTAssertTrue(app.buttons["Original"].waitForExistence(timeout: 5))
+        attachScreenshot("Challenge map progression")
+        app.buttons["Original"].tap()
+        XCTAssertTrue(app.staticTexts["Original voyage, 36 of 36 harbours completed, 108 stars"].waitForExistence(timeout: 5),
+                      "Challenge play must preserve every original completion and star")
+        attachScreenshot("Original voyage progress preserved")
+    }
+
     private func textButton(_ text: String) -> XCUIElement {
         app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text)).firstMatch
     }

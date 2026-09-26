@@ -47,9 +47,9 @@ struct VoyageView: View {
             RoundIconButton(icon: "chevron.left", label: "Pause and leave level") { store.setPaused(true) }
             Spacer(minLength: 4)
             VStack(spacing: 0) {
-                Text(store.isDaily ? "DAILY TIDE" : "LEVEL \(store.currentLevel.id)")
+                Text(store.isChallenge ? "CHALLENGE \(store.challengeNumber ?? 1)" : (store.isDaily ? "DAILY TIDE" : "LEVEL \(store.currentLevel.id)"))
                     .font(.system(size: 18, weight: .black, design: .rounded)).foregroundStyle(HarbourTheme.gold)
-                Text(store.isDaily ? "A fresh challenge" : regionName(store.currentLevel.region))
+                Text(store.isChallenge ? ChallengeCatalog.tierName(for:store.currentLevel.id) : (store.isDaily ? "A fresh challenge" : regionName(store.currentLevel.region)))
                     .font(.system(size: 9, weight: .bold, design: .rounded)).foregroundStyle(.white.opacity(0.8))
             }
             Spacer(minLength: 4)
@@ -58,8 +58,8 @@ struct VoyageView: View {
     }
     private var status: some View {
         HStack(spacing: 8) {
-            meter(icon: store.session?.relaxed == true ? "infinity" : "timer", text: timeText,
-                  caption: "TIME", color: timeLow ? Color(hex: 0xFF728C) : HarbourTheme.mint)
+            meter(icon: store.isChallenge ? "brain.head.profile" : (store.session?.relaxed == true ? "infinity" : "timer"), text: timeText,
+                  caption: store.isChallenge ? "THINK AHEAD" : "TIME", color: timeLow ? Color(hex: 0xFF728C) : HarbourTheme.mint)
             meter(icon: "arrow.up.and.down.and.arrow.left.and.right", text: "\(store.session?.game.moves ?? 0) moves",
                   caption: "AIM FOR \(store.currentLevel.parMoves)", color: HarbourTheme.gold)
             meter(icon: "diamond.fill", text: "\(store.session?.game.pieces.count ?? 0) left",
@@ -95,7 +95,7 @@ struct VoyageView: View {
                 }
             } else {
                 Image(systemName: store.hintMove == nil ? "hand.draw.fill" : "sparkles").foregroundStyle(HarbourTheme.gold)
-                Text(store.hintMove.map { "Slide the glowing prism \(String(describing: $0.direction))" } ?? "Slide gems into their matching docks")
+                Text(store.hintMove.map { "Slide the glowing prism \(String(describing: $0.direction))" } ?? (store.isChallenge ? "Move blockers aside. Make space to escape." : "Slide gems into their matching docks"))
                     .font(.system(size: 11, weight: .bold, design: .rounded)).foregroundStyle(.white.opacity(0.9))
             }
         }.frame(height: 38)
@@ -106,7 +106,7 @@ struct VoyageView: View {
                     disabled: store.session?.history.isEmpty ?? true) { store.undo() }
             booster(store.findingHint ? "Finding…" : "Hint", "15", icon: "sparkles", color: HarbourTheme.gold,
                     disabled: store.findingHint) { store.requestHint() }
-            if store.session?.relaxed == true {
+            if store.isChallenge || store.session?.relaxed == true {
                 booster("Restart", "FREE", icon: "arrow.clockwise", color: HarbourTheme.lavender) { confirmRestart = true }
             } else {
                 booster("+30 sec", "30", icon: "hourglass.bottomhalf.filled", color: HarbourTheme.lavender) { store.addTime() }
@@ -137,9 +137,10 @@ struct VoyageView: View {
             }.frame(maxWidth: .infinity).opacity(disabled ? 0.42 : 1)
         }.buttonStyle(GamePressStyle()).disabled(disabled).accessibilityLabel("\(title), \(price == "FREE" ? "Free" : price + " pearls")")
     }
-    private var timeLow: Bool { store.session?.relaxed == false && (store.session?.remaining ?? 0) < 30 }
+    private var timeLow: Bool { !store.isChallenge && store.session?.relaxed == false && (store.session?.remaining ?? 0) < 30 }
     private var timeText: String {
         guard let session = store.session else { return "0:00" }
+        if store.isChallenge { return "Untimed" }
         if session.relaxed { return "Calm" }
         let seconds = max(0, Int(ceil(session.remaining)))
         return String(format: "%d:%02d", seconds / 60, seconds % 60)
@@ -166,11 +167,14 @@ struct VoyageView: View {
             Image(systemName: "pause.circle.fill").font(.system(size: 58, weight: .bold)).foregroundStyle(HarbourTheme.gold)
                 .shadow(color: .black.opacity(0.25), radius: 0, y: 4)
             Text("A moment of calm.").font(.system(size: 27, weight: .heavy, design: .rounded)).multilineTextAlignment(.center)
-            Text("Your gems are right where you left them.").font(.system(size: 13, weight: .medium, design: .rounded)).foregroundStyle(HarbourTheme.muted)
+            Text(store.isChallenge ? "No timer. Try a sequence, undo, and try again. Aim for \(store.currentLevel.parMoves) moves to earn three stars." : "Your gems are right where you left them.").font(.system(size: 13, weight: .medium, design: .rounded)).foregroundStyle(HarbourTheme.muted).multilineTextAlignment(.center)
             Button("Keep sailing") { store.setPaused(false) }.buttonStyle(PrimaryButtonStyle(color: HarbourTheme.mint))
             menuRow("Start this level again", icon: "arrow.clockwise") { confirmRestart = true }
             menuRow("How to play", icon: "questionmark.circle.fill") { store.showHelp = true }
             menuRow("Settings", icon: "gearshape.fill") { store.showSettings = true }
+            if store.isChallenge {
+                menuRow("Back to challenges", icon: "map.fill") { store.leaveGame(); store.homeTab=1; store.challengeMap=true }
+            }
             menuRow("Return to harbour", icon: "house.fill") { store.leaveGame() }
         }
     }
@@ -216,10 +220,10 @@ struct VictoryCelebration: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 16) {
                     treasureStars.padding(.top, 5).padding(.bottom, 15)
-                    Text("Clear waters.").font(.system(size: 38, weight: .black, design: .rounded))
+                    Text(challengeMastered ? "Voyage mastered" : "Clear waters.").font(.system(size: 38, weight: .black, design: .rounded)).lineLimit(1).minimumScaleFactor(0.75)
                         .foregroundStyle(LinearGradient(colors: [.white, Color(hex: 0xE4CBFF)], startPoint: .top, endPoint: .bottom))
                         .shadow(color: Color(hex: 0x70449D), radius: 0, y: 3)
-                    Text(store.isDaily ? "DAILY TIDE COMPLETE!" : "LEVEL \(store.currentLevel.id) COMPLETE!")
+                    Text(store.isChallenge ? "CHALLENGE \(store.challengeNumber ?? 1) COMPLETE!" : (store.isDaily ? "DAILY TIDE COMPLETE!" : "LEVEL \(store.currentLevel.id) COMPLETE!"))
                         .font(.system(size: 12, weight: .black, design: .rounded)).tracking(1.5).foregroundStyle(HarbourTheme.gold)
                     HStack(spacing: 0) {
                         rewardStat("\(store.session?.game.moves ?? 0)", caption: "MOVES", icon: "arrow.up.and.down.and.arrow.left.and.right", color: HarbourTheme.mint)
@@ -230,10 +234,15 @@ struct VictoryCelebration: View {
                         .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(HarbourTheme.gold.opacity(0.5), lineWidth: 1.5))
                     Text("Three stars: \(store.currentLevel.parMoves) moves or fewer")
                         .font(.system(size: 11, weight: .semibold, design: .rounded)).foregroundStyle(HarbourTheme.muted)
-                    if !store.isDaily && store.currentLevel.id < LevelCatalog.campaign.count {
-                        Button { store.start(LevelCatalog.campaign[store.currentLevel.id]) } label: {
-                            HStack { Text("Next harbour"); Image(systemName: "arrow.right.circle.fill") }
+                    if let next = store.followingLevel {
+                        Button { store.start(next) } label: {
+                            HStack { Text(store.isChallenge ? "Next challenge" : "Next harbour"); Image(systemName: "arrow.right.circle.fill") }
                         }.buttonStyle(PrimaryButtonStyle(color: HarbourTheme.mint))
+                    } else if store.isChallenge {
+                        Text("All 20 challenges cleared. Revisit your favourites to perfect the route.")
+                            .font(.system(size:12,weight:.medium,design:.rounded)).multilineTextAlignment(.center).foregroundStyle(HarbourTheme.muted)
+                        Button("Back to challenges") { store.leaveGame(); store.homeTab=1; store.challengeMap=true }
+                            .buttonStyle(PrimaryButtonStyle(color: HarbourTheme.mint))
                     } else {
                         Button("Back to the harbour") { store.leaveGame() }.buttonStyle(PrimaryButtonStyle(color: HarbourTheme.mint))
                     }
@@ -254,6 +263,7 @@ struct VictoryCelebration: View {
             }
         }
     }
+    private var challengeMastered:Bool { store.isChallenge && store.followingLevel == nil }
     private var treasureStars: some View {
         ZStack(alignment: .bottom) {
             Image("PrizeChest").resizable().scaledToFill().frame(width: 245, height: 210)

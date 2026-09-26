@@ -1,12 +1,12 @@
 # Install Prism Harbour on your iPhone
 
 Prism Harbour supports iPhone and iPad running iOS/iPadOS 17 or later.
-The delivered file is **PrismHarbour-2.0.ipa**; the CI artifact uses the equivalent name **PrismHarbour-unsigned.ipa**. Sideloadly or AltStore Classic
+The delivered file is **PrismHarbour-3.0.ipa**; the CI artifact uses the equivalent name **PrismHarbour-unsigned.ipa**. Sideloadly or AltStore Classic
 signs this IPA using your own Apple Account as part of installation.
 
-## Updating from version 1.0
+## Updating from version 1.0 or 2.0
 
-Install version 2.0 over your existing Prism Harbour app with the same signing account and bundle identity. The bundle identifier (`com.prismharbour.game`) and version-1 save schema are unchanged; your levels, pearls, settings, and saved board are retained. Do not delete the existing app before updating.
+Install version 3.0 over your existing Prism Harbour app with the same signing account and bundle identity. The bundle identifier (`com.prismharbour.game`) and version-1 save schema are unchanged; your original levels, pearls, settings, and saved board are retained. Twenty untimed challenges have separate stars and unlocks. Do not delete the existing app before updating.
 
 ## Sideloadly on Windows or macOS
 

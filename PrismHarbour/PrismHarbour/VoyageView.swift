@@ -186,6 +186,7 @@ struct PuzzleBoardView: View {
             })
         .accessibilityElement(children:.ignore)
         .accessibilityLabel("\(piece.color.name) prism, \(piece.cells.count) squares, column \(piece.origin.x+1), row \(piece.origin.y+1)")
+        .accessibilityIdentifier("prism-\(piece.id)")
         .accessibilityHint("Swipe actions to move toward the matching \(piece.color.name) dock")
         .accessibilityAction(named:"Move up") { store.move(pieceID:piece.id,direction:.up,steps:1) }
         .accessibilityAction(named:"Move down") { store.move(pieceID:piece.id,direction:.down,steps:1) }

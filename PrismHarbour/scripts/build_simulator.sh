@@ -58,7 +58,7 @@ fi
 xcrun simctl bootstatus "$simulator_id" -b
 xcrun simctl status_bar "$simulator_id" override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100
 xcrun simctl install "$simulator_id" "$app_path"
-for screen in home play library; do
+for screen in home play library challenge challenges; do
   xcrun simctl terminate "$simulator_id" com.prismharbour.game >/dev/null 2>&1 || true
   xcrun simctl launch "$simulator_id" com.prismharbour.game "--screenshot-$screen" | tee "artifacts/launch-$screen.txt"
   sleep 3

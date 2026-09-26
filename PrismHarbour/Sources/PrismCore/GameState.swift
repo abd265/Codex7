@@ -99,6 +99,9 @@ public struct GameState: Codable, Equatable, Sendable {
                 if probe.apply(action) == .exited { return action }
             }
         }
+        if ChallengeCatalog.number(for: level.id) != nil {
+            return ChallengeHintSolver.firstGesture(self, maxVisited: maxVisited)
+        }
         var queue: [(state: GameState, first: PuzzleMove?)] = [(self, nil)]
         var visited: Set<String> = [stateKey]
         var head = 0

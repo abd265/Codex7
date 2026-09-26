@@ -1,0 +1,222 @@
+[
+  {
+    "number": 1,
+    "id": 101,
+    "title": "Make a Little Space",
+    "sourceSeed": 1415,
+    "minimumGestures": 20,
+    "minimumGesturesToFirstExit": 3,
+    "minimumSetupGesturesBeforeFirstExit": 2,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 1984
+  },
+  {
+    "number": 2,
+    "id": 102,
+    "title": "Changing Tides",
+    "sourceSeed": 2655,
+    "minimumGestures": 21,
+    "minimumGesturesToFirstExit": 3,
+    "minimumSetupGesturesBeforeFirstExit": 2,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 2897
+  },
+  {
+    "number": 3,
+    "id": 103,
+    "title": "Harbour Exchange",
+    "sourceSeed": 2054,
+    "minimumGestures": 23,
+    "minimumGesturesToFirstExit": 4,
+    "minimumSetupGesturesBeforeFirstExit": 3,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 1465
+  },
+  {
+    "number": 4,
+    "id": 104,
+    "title": "Around the Island",
+    "sourceSeed": 1403,
+    "minimumGestures": 25,
+    "minimumGesturesToFirstExit": 4,
+    "minimumSetupGesturesBeforeFirstExit": 3,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 10785
+  },
+  {
+    "number": 5,
+    "id": 105,
+    "title": "Crossing Paths",
+    "sourceSeed": 2639,
+    "minimumGestures": 24,
+    "minimumGesturesToFirstExit": 5,
+    "minimumSetupGesturesBeforeFirstExit": 4,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 3854
+  },
+  {
+    "number": 6,
+    "id": 106,
+    "title": "Narrow Passage",
+    "sourceSeed": 2623,
+    "minimumGestures": 26,
+    "minimumGesturesToFirstExit": 5,
+    "minimumSetupGesturesBeforeFirstExit": 4,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 12727
+  },
+  {
+    "number": 7,
+    "id": 107,
+    "title": "Borrowed Berth",
+    "sourceSeed": 1429,
+    "minimumGestures": 25,
+    "minimumGesturesToFirstExit": 5,
+    "minimumSetupGesturesBeforeFirstExit": 4,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 1238
+  },
+  {
+    "number": 8,
+    "id": 108,
+    "title": "The Long Way Round",
+    "sourceSeed": 2771,
+    "minimumGestures": 27,
+    "minimumGesturesToFirstExit": 6,
+    "minimumSetupGesturesBeforeFirstExit": 5,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 5479
+  },
+  {
+    "number": 9,
+    "id": 109,
+    "title": "Traffic at Twilight",
+    "sourceSeed": 1469,
+    "minimumGestures": 28,
+    "minimumGesturesToFirstExit": 6,
+    "minimumSetupGesturesBeforeFirstExit": 5,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 21554
+  },
+  {
+    "number": 10,
+    "id": 110,
+    "title": "Tidal Lock",
+    "sourceSeed": 2674,
+    "minimumGestures": 26,
+    "minimumGesturesToFirstExit": 7,
+    "minimumSetupGesturesBeforeFirstExit": 6,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 4970
+  },
+  {
+    "number": 11,
+    "id": 111,
+    "title": "Six Steps Ahead",
+    "sourceSeed": 1452,
+    "minimumGestures": 29,
+    "minimumGesturesToFirstExit": 7,
+    "minimumSetupGesturesBeforeFirstExit": 6,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 1646
+  },
+  {
+    "number": 12,
+    "id": 112,
+    "title": "Harbour Waltz",
+    "sourceSeed": 1471,
+    "minimumGestures": 29,
+    "minimumGesturesToFirstExit": 7,
+    "minimumSetupGesturesBeforeFirstExit": 6,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 42660
+  },
+  {
+    "number": 13,
+    "id": 113,
+    "title": "Twisting Current",
+    "sourceSeed": 2293,
+    "minimumGestures": 30,
+    "minimumGesturesToFirstExit": 8,
+    "minimumSetupGesturesBeforeFirstExit": 7,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 34727
+  },
+  {
+    "number": 14,
+    "id": 114,
+    "title": "Hidden Channels",
+    "sourceSeed": 1489,
+    "minimumGestures": 31,
+    "minimumGesturesToFirstExit": 8,
+    "minimumSetupGesturesBeforeFirstExit": 7,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 94599
+  },
+  {
+    "number": 15,
+    "id": 115,
+    "title": "Night Crossing",
+    "sourceSeed": 1629,
+    "minimumGestures": 32,
+    "minimumGesturesToFirstExit": 6,
+    "minimumSetupGesturesBeforeFirstExit": 5,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 110988
+  },
+  {
+    "number": 16,
+    "id": 116,
+    "title": "The Lighthouse Circuit",
+    "sourceSeed": 1714,
+    "minimumGestures": 33,
+    "minimumGesturesToFirstExit": 9,
+    "minimumSetupGesturesBeforeFirstExit": 8,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 7748
+  },
+  {
+    "number": 17,
+    "id": 117,
+    "title": "Tangled Anchorage",
+    "sourceSeed": 1753,
+    "minimumGestures": 34,
+    "minimumGesturesToFirstExit": 6,
+    "minimumSetupGesturesBeforeFirstExit": 5,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 371159
+  },
+  {
+    "number": 18,
+    "id": 118,
+    "title": "The Last Opening",
+    "sourceSeed": 1656,
+    "minimumGestures": 37,
+    "minimumGesturesToFirstExit": 8,
+    "minimumSetupGesturesBeforeFirstExit": 7,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 328823
+  },
+  {
+    "number": 19,
+    "id": 119,
+    "title": "Master of the Tides",
+    "sourceSeed": 1651,
+    "minimumGestures": 38,
+    "minimumGesturesToFirstExit": 6,
+    "minimumSetupGesturesBeforeFirstExit": 5,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 30454
+  },
+  {
+    "number": 20,
+    "id": 120,
+    "title": "Prism Harbour",
+    "sourceSeed": 2708,
+    "minimumGestures": 38,
+    "minimumGesturesToFirstExit": 7,
+    "minimumSetupGesturesBeforeFirstExit": 6,
+    "soloPieceRoutingCanStart": false,
+    "exactSolverStates": 1480
+  }
+]
