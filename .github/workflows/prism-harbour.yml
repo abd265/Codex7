@@ -15,10 +15,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: prism-harbour-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: macos-latest
@@ -39,6 +35,8 @@ jobs:
           swift test 2>&1 | tee artifacts/swift-test.log
       - name: Build and launch iPhone simulator
         run: bash scripts/build_simulator.sh
+      - name: Play the opening level through native controls
+        run: bash scripts/test_ui.sh
       - name: Build physical-iPhone IPA
         run: bash scripts/build_device.sh
       - name: Upload IPA and installation guide
@@ -61,4 +59,12 @@ jobs:
             PrismHarbour/artifacts/*.txt
             PrismHarbour/artifacts/*.png
             PrismHarbour/artifacts/*validation.json
+            PrismHarbour/artifacts/ui-screenshots/**
           if-no-files-found: warn
+      - name: Upload native UI test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PrismHarbour-UI-tests
+          path: PrismHarbour/artifacts/PrismHarbour-ui.xcresult
+          if-no-files-found: ignore

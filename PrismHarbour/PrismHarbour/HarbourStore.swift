@@ -61,7 +61,7 @@ final class HarbourStore: ObservableObject {
 
     init() {
         let args = ProcessInfo.processInfo.arguments
-        screenshotMode = args.contains(where: { $0.hasPrefix("--screenshot-") })
+        screenshotMode = args.contains("--ui-testing") || args.contains(where: { $0.hasPrefix("--screenshot-") })
         let directory = FileManager.default.urls(for:.applicationSupportDirectory,in:.userDomainMask)[0].appendingPathComponent("PrismHarbour",isDirectory:true)
         saveURL = directory.appendingPathComponent("voyage.json")
         do {

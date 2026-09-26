@@ -226,6 +226,7 @@ struct PuzzleBoardView: View {
         let selected = store.selectedPiece == piece.id
         let hinted = store.hintMove?.pieceID == piece.id
         return ZStack(alignment:.topLeading) {
+            PieceConnections(cells:piece.cells,cell:cell).fill(piece.color.tint.opacity(0.88))
             ForEach(Array(piece.cells.enumerated()),id:\.offset) { _,point in
                 PrismTile(color:piece.color,symbols:store.settings.symbols).frame(width:cell-3,height:cell-3).offset(x:CGFloat(point.x)*cell+1.5,y:CGFloat(point.y)*cell+1.5)
             }
@@ -273,6 +274,28 @@ struct PieceSilhouette: Shape {
     func path(in rect:CGRect)->Path {
         var path = Path()
         for c in cells { path.addRoundedRect(in:CGRect(x:CGFloat(c.x)*cell+1.5,y:CGFloat(c.y)*cell+1.5,width:cell-3,height:cell-3),cornerSize:CGSize(width:cell*0.2,height:cell*0.2)) }
+        return path
+    }
+}
+
+/// Coloured bridges visually join cells belonging to one piece. Separate pieces
+/// retain a dark gap even when they happen to share the same colour.
+struct PieceConnections: Shape {
+    var cells:[Cell]
+    var cell:CGFloat
+    func path(in rect:CGRect)->Path {
+        var path = Path()
+        let occupied = Set(cells)
+        for c in cells {
+            let x = CGFloat(c.x)*cell
+            let y = CGFloat(c.y)*cell
+            if occupied.contains(Cell(x:c.x+1,y:c.y)) {
+                path.addRect(CGRect(x:x+cell*0.5,y:y+1.5,width:cell,height:cell-3))
+            }
+            if occupied.contains(Cell(x:c.x,y:c.y+1)) {
+                path.addRect(CGRect(x:x+1.5,y:y+cell*0.5,width:cell-3,height:cell))
+            }
+        }
         return path
     }
 }

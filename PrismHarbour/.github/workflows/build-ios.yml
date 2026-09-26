@@ -23,6 +23,8 @@ jobs:
         run: swift test
       - name: Build and launch iPhone simulator
         run: bash scripts/build_simulator.sh
+      - name: Play the opening level through native controls
+        run: bash scripts/test_ui.sh
       - name: Build unsigned physical-iPhone IPA
         run: bash scripts/build_device.sh
       - name: Upload IPA and installation guide
