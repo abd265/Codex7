@@ -53,6 +53,10 @@ All state is stored locally in Application Support/PrismHarbour/voyage.json. The
 
 The app has no network calls, analytics, authentication, advertising, tracking, payments, or server dependency. Preferences include sound, haptics, prism symbols, and Calm mode. Resetting progress requires an explicit in-app confirmation.
 
+## Version 3.0 validation
+
+The [Mac build](https://github.com/abd265/Codex7/actions/runs/36277979535) passed all 37 native rule tests and both UI playthroughs. The challenge playthrough completed its 20 real drag gestures at the exact target, unlocked and resumed Challenge 2, and preserved all 108 original stars. Native screenshots and recorded effects were inspected. The downloaded version 3.0 ARM64 iOS-device IPA passed structure, platform, and checksum validation. Physical-device signing and installation remain with the player. See [QA notes](Docs/QA.md).
+
 ## Version 2.0 validation
 
 The [Mac build](https://github.com/abd265/Codex7/actions/runs/36268279900) succeeded on Xcode 26.6: all 20 native puzzle tests and nine packaging tests passed. The iPhone 17 Pro simulator playthrough verified drag, blocked feedback, undo, three dock directions, victory, next level, pause, and resume. Native home, map, gameplay, and victory screenshots were inspected, along with recorded dock flights, particle bursts, and the star/confetti sequence. The Release ARM64 physical-iOS IPA passed platform, structure, and checksum validation. Version 2.0 has not yet been installed on a physical device. See [QA notes](Docs/QA.md).

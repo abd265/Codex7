@@ -1,5 +1,19 @@
 # Prism Harbour verification record
 
+## Version 3.0 — Challenge Voyage validation
+
+[Successful Mac build](https://github.com/abd265/Codex7/actions/runs/36277979535), source commit `1e9f01be25a3d7cd29a27a365fb089ac92aa17c0`, Xcode 26.6.
+
+- All **37 native Swift tests** passed with zero failures in 2.167 seconds. This includes all 20 challenge solution certificates, initial-board interlocking checks, canonical and off-route hints, legacy save decoding, and isolated challenge stars/rewards/unlocks.
+- Both **native UI playthroughs** passed: the challenge test in 129.743 seconds and the original opening-level regression in 51.426 seconds. The challenge test used 20 real drags, verified its exact move target, unlocked Challenge 2, resumed it, and confirmed all 108 original stars were retained. These automated test durations are not human puzzle completion estimates.
+- Native iPhone 17 Pro screenshots of home, both maps, challenge boards, and challenge victory were visually inspected. The recorded final dock flight, gate rings, callout, reward reveal, stars, confetti, and next challenge were also inspected.
+- All 13 local Python tests passed, including four C# exact-solver cross-checks against unpruned Python BFS over ten fixtures. The Mac runner passes the nine packaging tests and explicitly skips the Windows-only solver test class.
+- All 20 exact certificates replayed in two independent Python models. Exhaustive actor-subset checks establish 2–6 distinct moving pieces before any first exit. See [challenge design](CHALLENGE-DESIGN.md) and its data files.
+- Downloaded artifact ZIP hashes and the inner IPA hash matched the build outputs. The locally validated IPA is version **3.0**, bundle `com.prismharbour.game`, **ARM64 iOS device platform**, minimum iOS 17.0.
+- IPA SHA-256: `cca8b0dc908c65e65eaef0e2f513a0f6fc05fdd304d67dbe383dc86f4456bcd8`.
+
+Sideloadly or AltStore must sign the IPA during installation. Physical-iPhone installation has not been performed here. Human difficulty and completion times still need real-player feedback.
+
 ## Current result — 26 September 2026
 
 The native build and automated playthrough passed on Xcode 26.6. [Successful build](https://github.com/abd265/Codex7/actions/runs/36268279900), source commit `88fcfbe42a152cd2a4b5272cadb04336516c9baa`.
