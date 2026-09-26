@@ -1,0 +1,64 @@
+name: Build Prism Harbour IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, codex/prism-harbour]
+    paths:
+      - 'PrismHarbour/**'
+      - '.github/workflows/prism-harbour.yml'
+  pull_request:
+    paths:
+      - 'PrismHarbour/**'
+      - '.github/workflows/prism-harbour.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prism-harbour-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: PrismHarbour
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Xcode toolchain
+        run: xcodebuild -version
+      - name: Test IPA platform validator
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Test puzzle rules and level solutions
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build and launch iPhone simulator
+        run: bash scripts/build_simulator.sh
+      - name: Build physical-iPhone IPA
+        run: bash scripts/build_device.sh
+      - name: Upload IPA and installation guide
+        uses: actions/upload-artifact@v4
+        with:
+          name: PrismHarbour-iPhone-IPA
+          path: |
+            PrismHarbour/artifacts/PrismHarbour-unsigned.ipa
+            PrismHarbour/artifacts/PrismHarbour-unsigned.ipa.sha256
+            PrismHarbour/artifacts/ipa-validation.json
+            PrismHarbour/artifacts/INSTALL.md
+          if-no-files-found: error
+      - name: Upload build checks and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PrismHarbour-build-checks
+          path: |
+            PrismHarbour/artifacts/*.log
+            PrismHarbour/artifacts/*.txt
+            PrismHarbour/artifacts/*.png
+            PrismHarbour/artifacts/*validation.json
+          if-no-files-found: warn

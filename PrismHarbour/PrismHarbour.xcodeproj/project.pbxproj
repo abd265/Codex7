@@ -1,0 +1,50 @@
+// !$*UTF8*$!
+{
+ archiveVersion = 1; classes = {}; objectVersion = 56;
+ objects = {
+  758D4D72359E4BC5F69BE430 = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "PrismHarbour/HarbourHome.swift"; sourceTree = "<group>"; };
+  AA61F185C1DCFF23EADF2E22 = { isa = PBXBuildFile; fileRef = 758D4D72359E4BC5F69BE430; };
+  838601185C9F6E686B9C2D57 = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "PrismHarbour/HarbourStore.swift"; sourceTree = "<group>"; };
+  98F317DE26CAF7948D60EE25 = { isa = PBXBuildFile; fileRef = 838601185C9F6E686B9C2D57; };
+  4BF8033EA77B3AF5A07CE592 = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "PrismHarbour/PrismHarbourApp.swift"; sourceTree = "<group>"; };
+  ABCF843AA08460F87E0BEB6B = { isa = PBXBuildFile; fileRef = 4BF8033EA77B3AF5A07CE592; };
+  B9E726C48623C5594912576D = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "PrismHarbour/Theme.swift"; sourceTree = "<group>"; };
+  9FBEFD9C4538CA08F9AAE4F2 = { isa = PBXBuildFile; fileRef = B9E726C48623C5594912576D; };
+  F38152AD9180BA1A2957941F = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "PrismHarbour/VoyageView.swift"; sourceTree = "<group>"; };
+  50D7A3B2391A4EB81804427A = { isa = PBXBuildFile; fileRef = F38152AD9180BA1A2957941F; };
+  4849E0DAE43B45EDBDB8702C = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "Sources/PrismCore/GameState.swift"; sourceTree = "<group>"; };
+  0EDFD32E9A6626631D71B6AB = { isa = PBXBuildFile; fileRef = 4849E0DAE43B45EDBDB8702C; };
+  3061894DEB5381684EE956A7 = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "Sources/PrismCore/LevelCatalog.swift"; sourceTree = "<group>"; };
+  9BB9E2EF26EA11EE4AFC3A0C = { isa = PBXBuildFile; fileRef = 3061894DEB5381684EE956A7; };
+  B84FC0CB306383B64ED4415C = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "Sources/PrismCore/Progress.swift"; sourceTree = "<group>"; };
+  776CCEC54A64F9B92292F458 = { isa = PBXBuildFile; fileRef = B84FC0CB306383B64ED4415C; };
+  626F907FE74124EA69BBB504 = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "Sources/PrismCore/PuzzleModels.swift"; sourceTree = "<group>"; };
+  9D0454E9CF7AF37F574DE2EA = { isa = PBXBuildFile; fileRef = 626F907FE74124EA69BBB504; };
+  79E5E37B0CEBEDE5A528600D = { isa = PBXFileReference; lastKnownFileType = "folder.assetcatalog"; path = "PrismHarbour/Assets.xcassets"; sourceTree = "<group>"; };
+  43881A30DC7C5A5F1B88C23A = { isa = PBXBuildFile; fileRef = 79E5E37B0CEBEDE5A528600D; };
+  A3EE7E37707B78F6AE935E25 = { isa = PBXFileReference; lastKnownFileType = "audio.wav"; path = "PrismHarbour/Resources/dock.wav"; sourceTree = "<group>"; };
+  6BDC4BF39FB2C15AAA667AF2 = { isa = PBXBuildFile; fileRef = A3EE7E37707B78F6AE935E25; };
+  CA43230635A3237DF8EE9DFC = { isa = PBXFileReference; lastKnownFileType = "audio.wav"; path = "PrismHarbour/Resources/move.wav"; sourceTree = "<group>"; };
+  29F1CAA0F2805AF7E911137A = { isa = PBXBuildFile; fileRef = CA43230635A3237DF8EE9DFC; };
+  1D7FC066C0A523B8F9683775 = { isa = PBXFileReference; lastKnownFileType = "audio.wav"; path = "PrismHarbour/Resources/win.wav"; sourceTree = "<group>"; };
+  D148C761B35F9511C385C424 = { isa = PBXBuildFile; fileRef = 1D7FC066C0A523B8F9683775; };
+  17AA0AEB8E37658616AACC5D = { isa = PBXFileReference; lastKnownFileType = "text.xml"; path = "PrismHarbour/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
+  A6791C089F3AD9F6F15BDD34 = { isa = PBXBuildFile; fileRef = 17AA0AEB8E37658616AACC5D; };
+  06271BAF49532C879AA3C58B = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrismHarbour/Info.plist"; sourceTree = "<group>"; };
+  A8792157CB4F27FB949C035F = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismHarbour.app; sourceTree = BUILT_PRODUCTS_DIR; };
+  0A3E27B8CA818264D75C8D81 = { isa = PBXGroup; name = Products; children = ( A8792157CB4F27FB949C035F, ); sourceTree = "<group>"; };
+  0D6E4079E36703EBD37C0072 = { isa = PBXGroup; children = ( 758D4D72359E4BC5F69BE430, 838601185C9F6E686B9C2D57, 4BF8033EA77B3AF5A07CE592, B9E726C48623C5594912576D, F38152AD9180BA1A2957941F, 4849E0DAE43B45EDBDB8702C, 3061894DEB5381684EE956A7, B84FC0CB306383B64ED4415C, 626F907FE74124EA69BBB504, 79E5E37B0CEBEDE5A528600D, A3EE7E37707B78F6AE935E25, CA43230635A3237DF8EE9DFC, 1D7FC066C0A523B8F9683775, 17AA0AEB8E37658616AACC5D, 06271BAF49532C879AA3C58B, 0A3E27B8CA818264D75C8D81, ); sourceTree = "<group>"; };
+  878A52FC5FF6A57D50B7B870 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = ( AA61F185C1DCFF23EADF2E22, 98F317DE26CAF7948D60EE25, ABCF843AA08460F87E0BEB6B, 9FBEFD9C4538CA08F9AAE4F2, 50D7A3B2391A4EB81804427A, 0EDFD32E9A6626631D71B6AB, 9BB9E2EF26EA11EE4AFC3A0C, 776CCEC54A64F9B92292F458, 9D0454E9CF7AF37F574DE2EA, ); runOnlyForDeploymentPostprocessing = 0; };
+  41D311A605520FC7B8B9A980 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ( 43881A30DC7C5A5F1B88C23A, 6BDC4BF39FB2C15AAA667AF2, 29F1CAA0F2805AF7E911137A, D148C761B35F9511C385C424, A6791C089F3AD9F6F15BDD34, ); runOnlyForDeploymentPostprocessing = 0; };
+  E2AA269EB967A8853A258BFA = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+  C949BC6D5C90B604A2D71A2D = { isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = "NO"; CLANG_ENABLE_MODULES = "YES"; CLANG_ENABLE_OBJC_ARC = "YES"; CLANG_WARN_UNREACHABLE_CODE = "YES"; IPHONEOS_DEPLOYMENT_TARGET = "17.0"; SDKROOT = "iphoneos"; SWIFT_VERSION = "5.0"; DEBUG_INFORMATION_FORMAT = "dwarf"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; ENABLE_TESTABILITY = "YES"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG"; }; name = Debug; };
+  6B41A8AA4DC8BA574D80839A = { isa = XCBuildConfiguration; buildSettings = { ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon"; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor"; CODE_SIGN_STYLE = "Automatic"; CURRENT_PROJECT_VERSION = "1"; MARKETING_VERSION = "1.0"; GENERATE_INFOPLIST_FILE = "NO"; INFOPLIST_FILE = "PrismHarbour/Info.plist"; PRODUCT_BUNDLE_IDENTIFIER = "com.prismharbour.game"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = "NO"; TARGETED_DEVICE_FAMILY = "1,2"; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; ENABLE_PREVIEWS = "YES"; SWIFT_EMIT_LOC_STRINGS = "YES"; }; name = Debug; };
+  D6BC124746FFCE3E312F4947 = { isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = "NO"; CLANG_ENABLE_MODULES = "YES"; CLANG_ENABLE_OBJC_ARC = "YES"; CLANG_WARN_UNREACHABLE_CODE = "YES"; IPHONEOS_DEPLOYMENT_TARGET = "17.0"; SDKROOT = "iphoneos"; SWIFT_VERSION = "5.0"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; SWIFT_OPTIMIZATION_LEVEL = "-O"; ENABLE_TESTABILITY = "NO"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = ""; }; name = Release; };
+  D08485A5F2F598519122351B = { isa = XCBuildConfiguration; buildSettings = { ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon"; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor"; CODE_SIGN_STYLE = "Automatic"; CURRENT_PROJECT_VERSION = "1"; MARKETING_VERSION = "1.0"; GENERATE_INFOPLIST_FILE = "NO"; INFOPLIST_FILE = "PrismHarbour/Info.plist"; PRODUCT_BUNDLE_IDENTIFIER = "com.prismharbour.game"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = "NO"; TARGETED_DEVICE_FAMILY = "1,2"; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; ENABLE_PREVIEWS = "YES"; SWIFT_EMIT_LOC_STRINGS = "YES"; }; name = Release; };
+  E218C3791B52AB5D30EEDBEF = { isa = XCConfigurationList; buildConfigurations = ( C949BC6D5C90B604A2D71A2D, D6BC124746FFCE3E312F4947, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+  249E4D84703C93450927DBB4 = { isa = XCConfigurationList; buildConfigurations = ( 6B41A8AA4DC8BA574D80839A, D08485A5F2F598519122351B, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+  34A04005BCAF206EEC990BD9 = { isa = PBXNativeTarget; buildConfigurationList = 249E4D84703C93450927DBB4; buildPhases = ( 878A52FC5FF6A57D50B7B870, E2AA269EB967A8853A258BFA, 41D311A605520FC7B8B9A980, ); buildRules = (); dependencies = (); name = PrismHarbour; productName = PrismHarbour; productReference = A8792157CB4F27FB949C035F; productType = "com.apple.product-type.application"; };
+  244210E48437B6556980A702 = { isa = PBXProject; attributes = { BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1640; TargetAttributes = { 34A04005BCAF206EEC990BD9 = { CreatedOnToolsVersion = 16.4; }; }; }; buildConfigurationList = E218C3791B52AB5D30EEDBEF; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = 0D6E4079E36703EBD37C0072; productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = ""; targets = ( 34A04005BCAF206EEC990BD9, ); };
+ };
+ rootObject = 244210E48437B6556980A702;
+}

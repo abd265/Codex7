@@ -1,0 +1,13 @@
+build/
+artifacts/
+.build/
+.swiftpm/
+reference/
+.DS_Store
+*.xcuserstate
+xcuserdata/
+
+__pycache__/
+*.pyc
+*.zip
+*.ipa
