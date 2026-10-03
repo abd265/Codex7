@@ -1,0 +1,113 @@
+import SwiftUI
+
+struct PlayRoomView:View {
+    var body:some View {ScrollView {VStack(alignment:.leading,spacing:22){SectionTitle(title:"Make room for play.",subtitle:"Small games. Real words. A little more confidence.");HStack{VStack(alignment:.leading,spacing:8){TagPill(text:"PLAY WITH NADIA",color:.white);Text("What shall we\nexplore today?").font(.system(size:28,weight:.bold,design:.rounded))};Spacer();TeacherAvatar(name:"fennec").frame(width:108,height:108)}.padding(22).background(DarjaTheme.gold.opacity(0.24),in:RoundedRectangle(cornerRadius:28))
+        LazyVGrid(columns:[GridItem(.flexible()),GridItem(.flexible())],spacing:14){
+            NavigationLink{MemoryGameView()}label:{game("🧩","Picture pairs","Match words & pictures",DarjaTheme.mint)}
+            NavigationLink{CaféView()}label:{game("🫖","Darja café","Order a little kindness",DarjaTheme.gold.opacity(0.25))}
+            NavigationLink{StoryLibraryView()}label:{game("📚","Story quest","Read along together",DarjaTheme.lilac)}
+            NavigationLink{LetterBuilderView()}label:{game("✍️","Letter studio","Build a familiar word",Color(hex:0xF6E4DD))}
+            NavigationLink{ConversationView()}label:{game("💬","Talk with Nadia","Choose, listen, reply",Color(hex:0xDDEDF5))}
+            NavigationLink{TreasureView()}label:{game("🗝️","Treasure hunt","Find Darja at home",Color(hex:0xEEECCF))}
+            NavigationLink{ReviewView()}label:{game("🌱","My word garden","Revisit & remember",DarjaTheme.mint)}
+            NavigationLink{FamilyGameView()}label:{game("🏡","Family circle","A game for two",Color(hex:0xF2E1EE))}
+        }.buttonStyle(.plain)
+    }.padding(22).frame(maxWidth:700).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Play room").navigationBarTitleDisplayMode(.inline)}
+    private func game(_ emoji:String,_ title:String,_ subtitle:String,_ color:Color)->some View {VStack(alignment:.leading,spacing:11){Text(emoji).font(.system(size:40));Text(title).font(.system(.headline,design:.rounded));Text(subtitle).font(.caption).foregroundStyle(DarjaTheme.muted)}.frame(maxWidth:.infinity,minHeight:140,alignment:.leading).padding(17).background(color,in:RoundedRectangle(cornerRadius:25)).accessibilityElement(children:.combine)}
+}
+
+struct LibraryView:View {
+    @EnvironmentObject private var store:LearningStore
+    @State private var query=""
+    @State private var saved=false
+    var filtered:[DarjaWord] {store.allWords.filter{(!saved || store.isBookmarked($0.id)) && (query.isEmpty || [$0.arabic,$0.transliteration,$0.english,$0.french,$0.category].joined(separator:" ").localizedCaseInsensitiveContains(query))}}
+    var body:some View {ScrollView{VStack(alignment:.leading,spacing:18){SectionTitle(title:"A growing collection",subtitle:"\(store.allWords.count) words and expressions to explore.");HStack{Button{saved=false}label:{TagPill(text:"All words",color:saved ? .white:DarjaTheme.mint)};Button{saved=true}label:{TagPill(text:"♥ My collection",color:saved ? DarjaTheme.mint:.white)}}.buttonStyle(.plain);NavigationLink{StoryLibraryView()}label:{PaperCard(color:DarjaTheme.lilac){HStack{Text("📖").font(.largeTitle);VStack(alignment:.leading){Text("The story shelf").font(.headline);Text("\(store.curriculum?.stories.count ?? 0) little adventures together").font(.caption)};Spacer();Image(systemName:"arrow.right")}}}.buttonStyle(.plain);if filtered.isEmpty {ContentUnavailableView("No words here yet",systemImage:"bookmark",description:Text(saved ? "Tap the bookmark on a word to save it.":"Try another word or meaning."))};LazyVStack(spacing:12){ForEach(filtered,id:\.id){word in NavigationLink{WordDetailView(word:word)}label:{WordRow(word:word)}.buttonStyle(.plain)}}}.padding(22).frame(maxWidth:700).frame(maxWidth:.infinity)}.searchable(text:$query,prompt:"Search Arabic, English or French").background(DarjaTheme.cream).navigationTitle("My words").navigationBarTitleDisplayMode(.inline)}
+}
+
+struct MemoryTile:Identifiable {let id:String;let word:DarjaWord;let picture:Bool}
+struct MemoryGameView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var tiles:[MemoryTile]=[]
+    @State private var flipped:[String]=[]
+    @State private var matched:Set<String>=[]
+    @State private var feedback="Find the picture and its Arabic word. Tap a word to hear it."
+    @State private var mismatch=false
+    var body:some View {ScrollView {VStack(spacing:22){SectionTitle(title:"Little pairs, big discoveries",subtitle:feedback);TagPill(text:"\(matched.count / 2) OF 4 PAIRS");LazyVGrid(columns:[GridItem(.flexible()),GridItem(.flexible())],spacing:14){ForEach(tiles){tile in Button{tap(tile)}label:{VStack(spacing:8){if tile.picture {Text(tile.word.emoji).font(.system(size:52))}else{Text(tile.word.arabic).font(.system(size:25,weight:.bold)).minimumScaleFactor(0.7);Image(systemName:"speaker.wave.2.fill").font(.caption)};if matched.contains(tile.id){Image(systemName:"checkmark.circle.fill").foregroundStyle(DarjaTheme.teal)}}.frame(maxWidth:.infinity).frame(height:120).background(matched.contains(tile.id) ? DarjaTheme.mint:flipped.contains(tile.id) ? DarjaTheme.gold.opacity(0.35):.white,in:RoundedRectangle(cornerRadius:24)).overlay(RoundedRectangle(cornerRadius:24).stroke(flipped.contains(tile.id) ? DarjaTheme.gold:.clear,lineWidth:3))}.buttonStyle(.plain).disabled(matched.contains(tile.id) || mismatch).accessibilityLabel(tile.picture ? tile.word.english:tile.word.arabic)}};if mismatch{Button("Try another pair"){flipped=[];mismatch=false;feedback="Listen, look and try another pair."}.buttonStyle(PrimaryAction())};if matched.count == 8 {Text("All together! You matched four pairs. ✨").font(.headline).multilineTextAlignment(.center);Button("Play again"){setup()}.buttonStyle(PrimaryAction())};Text("This game connects familiar spoken words with print. You can listen to every word.").font(.caption).foregroundStyle(DarjaTheme.muted)}.padding(22).frame(maxWidth:650).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Picture pairs").navigationBarTitleDisplayMode(.inline).onAppear{if tiles.isEmpty{setup()}}.onDisappear{audio.stopAll()}}
+    private func setup(){let source=store.words(ids:store.currentWeek?.wordIds ?? []);var seen=Set<String>();let unique=(source.shuffled()+store.allWords).filter{seen.insert($0.emoji).inserted};let words=Array(unique.prefix(4));tiles=words.flatMap{[MemoryTile(id:$0.id+"-p",word:$0,picture:true),MemoryTile(id:$0.id+"-w",word:$0,picture:false)]}.shuffled();flipped=[];matched=[];mismatch=false;feedback="Find the picture and its Arabic word. Tap a word to hear it."}
+    private func tap(_ tile:MemoryTile){guard !flipped.contains(tile.id) else{return};if !tile.picture{audio.speak(tile.word,helperLanguage:store.preferences.helperLanguage)};flipped.append(tile.id);if flipped.count == 2 {let pair=tiles.filter{flipped.contains($0.id)};if pair.count == 2 && pair[0].word.id == pair[1].word.id {matched.formUnion(flipped);flipped=[];feedback="That’s a pair!";if matched.count == 8{store.recordPractice(skill:.reading)}}else{mismatch=true;feedback="Two different words. Listen and have another go."}}}
+}
+
+struct CaféView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var order:DarjaWord?
+    @State private var served=false
+    private var menu:[DarjaWord] {Array(store.allWords.filter{["water","bread","milk","apple","banana"].contains($0.id)}.prefix(6))}
+    var body:some View {ScrollView{VStack(spacing:22){TeacherAvatar(name:"yacine",talking:audio.isSpeaking).frame(width:125,height:125);SectionTitle(title:"Welcome to our little café",subtitle:"Choose a picture. Listen, then ask your café partner.");LazyVGrid(columns:[GridItem(.flexible()),GridItem(.flexible()),GridItem(.flexible())],spacing:12){ForEach(menu,id:\.id){w in Button{order=w;served=false;audio.speak(w,helperLanguage:store.preferences.helperLanguage)}label:{VStack(spacing:8){Text(w.emoji).font(.system(size:42));Text(w.english).font(.caption)}.frame(maxWidth:.infinity).padding(.vertical,18).background(order?.id == w.id ? DarjaTheme.mint:.white,in:RoundedRectangle(cornerRadius:20))}.buttonStyle(.plain)}};if let w=order {PaperCard(color:DarjaTheme.gold.opacity(0.22)){VStack(spacing:16){Text("عطيني \(w.arabic)، من فضلك.").font(.system(size:29,weight:.bold)).multilineTextAlignment(.center);Text("Give me \(w.english.lowercased()), please.").font(.subheadline);Button{audio.speakArabic("عطيني \(w.arabic)، من فضلك.")}label:{Label("Hear my order",systemImage:"speaker.wave.2.fill")};Button{served=true;store.recordPractice(skill:.conversation)}label:{Label(served ? "صحّيت! · Thank you!":"I said my order to my partner",systemImage:served ? "checkmark.circle.fill":"bubble.left.fill")}.buttonStyle(PrimaryAction()).disabled(served)}.frame(maxWidth:.infinity)}};if served{Text("Swap roles! Now you are the café host. Ask your partner what they would like.").font(.headline).multilineTextAlignment(.center)};Text("Use pretend food or pictures. Device Arabic voice is an approximation of Darja.").font(.caption).foregroundStyle(DarjaTheme.muted)}.padding(22).frame(maxWidth:620).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Darja café").navigationBarTitleDisplayMode(.inline).onDisappear{audio.stopAll()}}
+}
+
+struct StoryLibraryView:View {
+    @EnvironmentObject private var store:LearningStore
+    var body:some View {ScrollView{VStack(alignment:.leading,spacing:20){SectionTitle(title:"One more little story…",subtitle:"Listen and read with a grown-up. Story reading is shared practice.");ForEach(store.curriculum?.stories ?? [],id:\.id){story in NavigationLink{StoryReaderView(story:story)}label:{PaperCard(color:story.week % 2 == 0 ? DarjaTheme.mint:.white){HStack(spacing:18){Text(story.emoji).font(.system(size:46));VStack(alignment:.leading,spacing:7){Text(story.title).font(.system(.headline,design:.rounded));Text("Week \(story.week) · \(story.lines.count) little pages").font(.caption).foregroundStyle(DarjaTheme.muted)};Spacer();Image(systemName:"chevron.right")}}}.buttonStyle(.plain)}}.padding(22).frame(maxWidth:700).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Story shelf").navigationBarTitleDisplayMode(.inline)}
+}
+struct StoryReaderView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    let story:DarjaStory
+    @State private var page=0
+    @State private var showMeaning=false
+    @State private var answer=false
+    @State private var recorded=false
+    var body:some View {ScrollView{VStack(spacing:24){if page < story.lines.count {let line=story.lines[page];TagPill(text:"PAGE \(page+1) OF \(story.lines.count)");Text(line.emoji).font(.system(size:112)).frame(maxWidth:.infinity).frame(height:185).background(DarjaTheme.mint,in:RoundedRectangle(cornerRadius:35));Text(line.arabic).font(.system(size:32,weight:.semibold)).multilineTextAlignment(.center).environment(\.layoutDirection,.rightToLeft);if store.preferences.showTransliteration {Text(line.transliteration).foregroundStyle(DarjaTheme.teal).multilineTextAlignment(.center)};Button{audio.speakArabic(line.arabic)}label:{Label("Read this page to me",systemImage:"speaker.wave.2.fill")}.buttonStyle(PrimaryAction());Button(showMeaning ? "Hide meaning":"Show meaning"){showMeaning.toggle()};if showMeaning{Text(store.preferences.helperLanguage.rawValue == "french" ? line.french:line.english).multilineTextAlignment(.center).foregroundStyle(DarjaTheme.muted)};Text("Device Arabic narration · your family can read it in their own Darja").font(.caption2).foregroundStyle(DarjaTheme.muted);HStack{Button("Previous"){page=max(0,page-1);audio.stopAll();showMeaning=false}.disabled(page == 0);Spacer();Button(page == story.lines.count-1 ? "Talk about the story":"Next page"){page+=1;showMeaning=false;audio.stopAll()}.fontWeight(.bold)}.padding(.vertical,15)}else{Text("🌟").font(.system(size:90));SectionTitle(title:"Your turn to tell",subtitle:story.question);Text("Tell a grown-up, point to a picture, or answer in Darja if you can.").foregroundStyle(DarjaTheme.muted);Button(answer ? "We talked about it":"Show a possible answer"){answer=true;if !recorded{store.recordPractice(skill:.reading);recorded=true}}.buttonStyle(PrimaryAction());if answer{PaperCard(color:DarjaTheme.mint){Text(story.answer).font(.headline)}};Button("Read it again"){page=0;answer=false;showMeaning=false}}}.padding(24).frame(maxWidth:650).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle(story.title).navigationBarTitleDisplayMode(.inline).onDisappear{audio.stopAll()}}
+}
+
+struct LetterBuilderView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var word:DarjaWord?
+    @State private var letters:[String]=[]
+    @State private var picked:[Int]=[]
+    @State private var checked=false
+    private var built:String {picked.map{letters[$0]}.joined()}
+    var body:some View {ScrollView{VStack(spacing:24){SectionTitle(title:"Let’s build a familiar word",subtitle:"Tap its letters in order, starting from the right. The letters join in the word below.");if let w=word {Text(w.emoji).font(.system(size:70));Button{audio.speak(w,helperLanguage:store.preferences.helperLanguage)}label:{Label(w.arabic,systemImage:"speaker.wave.2.fill").font(.system(size:35,weight:.bold))};Text(built.isEmpty ? "…":built).font(.system(size:42,weight:.bold)).frame(maxWidth:.infinity,minHeight:85).background(.white,in:RoundedRectangle(cornerRadius:22)).environment(\.layoutDirection,.rightToLeft);HStack{ForEach(letters.indices,id:\.self){i in Button{picked.append(i);checked=false}label:{Text(letters[i]).font(.system(size:34,weight:.bold)).frame(minWidth:45,minHeight:60).background(picked.contains(i) ? DarjaTheme.cream:DarjaTheme.mint,in:RoundedRectangle(cornerRadius:14))}.disabled(picked.contains(i))}}.environment(\.layoutDirection,.rightToLeft);HStack{Button("Undo"){if !picked.isEmpty{picked.removeLast()};checked=false};Spacer();Button("Start again"){picked=[];checked=false}};Button("Check my word"){checked=true;if built == w.arabic{store.recordPractice(skill:.writing)}}.buttonStyle(PrimaryAction()).disabled(picked.count != letters.count || checked);if checked{Text(built == w.arabic ? "You built it! Notice how the letters connect. ✨":"Look at the model and try the letters again.").font(.headline).multilineTextAlignment(.center);if built == w.arabic{Button("Another word"){setup()}.font(.headline)}};Text("Letter tiles show separate forms. Your finished word shows connected Arabic script.").font(.caption).foregroundStyle(DarjaTheme.muted)}}.padding(22).frame(maxWidth:630).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Letter studio").navigationBarTitleDisplayMode(.inline).onAppear{if word == nil{setup()}}.onDisappear{audio.stopAll()}}
+    private func setup(){let choices=store.allWords.filter{!$0.arabic.contains(" ") && $0.arabic.count>=2 && $0.arabic.count<=5};word=choices.randomElement();letters=word.map{Array($0.arabic).map(String.init).shuffled()} ?? [];picked=[];checked=false}
+}
+
+struct ConversationView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var topic=0
+    @State private var response:Int?
+    private let prompts=[("واش راكي؟","How are you?",["راني مليحة.","راني فرحانة.","راني عيانة."],["I’m well.","I’m happy.","I’m tired."],["😊","😄","😴"]),("واش حابة؟","What would you like?",["حابة نشرب الما.","حابة ناكل.","حابة نلعب."],["I’d like some water.","I’d like to eat.","I’d like to play."],["💧","🍽️","🧸"]),("وين راكي؟","Where are you?",["راني في الدار.","راني في المدرسة.","راني هنا."],["I’m at home.","I’m at school.","I’m here."],["🏡","🏫","🙋‍♀️"])]
+    var body:some View {ScrollView{VStack(spacing:24){TeacherAvatar(name:store.preferences.avatar.rawValue,talking:audio.isSpeaking).frame(width:150,height:150);TagPill(text:"GUIDED CONVERSATION");Text(prompts[topic].0).font(.system(size:35,weight:.bold));Text(prompts[topic].1).foregroundStyle(DarjaTheme.muted);Button{audio.speakArabic(prompts[topic].0)}label:{Label("Hear Nadia’s question",systemImage:"speaker.wave.2.fill")};ForEach(0..<3,id:\.self){i in Button{response=i;audio.speakArabic(prompts[topic].2[i])}label:{PaperCard(color:response == i ? DarjaTheme.mint:.white){HStack(spacing:14){Text(prompts[topic].4[i]).font(.system(size:37));VStack(alignment:.leading,spacing:6){Text(prompts[topic].2[i]).font(.system(size:23,weight:.semibold));Text(prompts[topic].3[i]).font(.caption).foregroundStyle(DarjaTheme.muted)};Spacer();Image(systemName:"speaker.wave.2")}}}.buttonStyle(.plain)};if response != nil{Text("Now try your answer aloud. Any honest answer is a good conversation.").font(.subheadline).multilineTextAlignment(.center);Button("I tried it · Next conversation"){store.recordPractice(skill:.conversation);topic=(topic+1)%prompts.count;response=nil;audio.stopAll()}.buttonStyle(PrimaryAction())};Text("Nadia uses prepared learning prompts. Device Arabic voice may differ from your family’s Darja.").font(.caption).foregroundStyle(DarjaTheme.muted).multilineTextAlignment(.center)}.padding(22).frame(maxWidth:640).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Talk with Nadia").navigationBarTitleDisplayMode(.inline).onDisappear{audio.stopAll()}}
+}
+
+struct TreasureView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var index=0
+    @State private var found=false
+    private var targets:[DarjaWord]{Array(store.allWords.filter{["book","door","chair","ball","water","apple","shoes","table"].contains($0.id)}.prefix(8))}
+    var body:some View {ScrollView{VStack(spacing:24){Text("🗝️").font(.system(size:75));SectionTitle(title:"Darja is all around you",subtitle:"Play at home with a grown-up. Point to a real object or draw it.");if !targets.isEmpty{let w=targets[index % targets.count];Text(w.emoji).font(.system(size:90));Text(w.arabic).font(.system(size:36,weight:.bold));Button{audio.speak(w,helperLanguage:store.preferences.helperLanguage)}label:{Label("Hear what to find",systemImage:"speaker.wave.2.fill")}.buttonStyle(PrimaryAction());Text("Can you find: \(w.english.lowercased())?").font(.headline);Button(found ? "Found it! ✨":"I found it or drew it"){found=true;store.recordPractice(skill:.listening)}.buttonStyle(PrimaryAction(color:DarjaTheme.coral)).disabled(found);if found{Button("Another little treasure"){index+=1;found=false}.font(.headline)}};PaperCard(color:DarjaTheme.mint){Text("Stay in the room with your grown-up. You can use pictures instead of fetching things.").font(.subheadline)}}.padding(24).frame(maxWidth:620).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Treasure hunt").navigationBarTitleDisplayMode(.inline).onDisappear{audio.stopAll()}}
+}
+
+struct ReviewView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var queue:[DarjaWord]=[]
+    @State private var revealed=false
+    @State private var index=0
+    var body:some View {ScrollView{VStack(spacing:24){SectionTitle(title:"Grow your word garden",subtitle:"Revisit a few familiar words. Needing another listen is part of learning.");if index < queue.count {let w=queue[index];TagPill(text:"\(index+1) OF \(queue.count)");Text(w.emoji).font(.system(size:110));Text("Can you remember this word?").font(.headline);if revealed{Text(w.arabic).font(.system(size:35,weight:.bold));if store.preferences.showTransliteration{Text(w.transliteration).foregroundStyle(DarjaTheme.teal)};Text(w.english);Button{audio.speak(w,helperLanguage:store.preferences.helperLanguage)}label:{Label("Listen again",systemImage:"speaker.wave.2.fill")};Button("I remembered it"){rate(true)}.buttonStyle(PrimaryAction());Button("Let’s practise this again"){rate(false)}.font(.headline)}else{Button("Show & hear the word"){revealed=true;audio.speak(w,helperLanguage:store.preferences.helperLanguage)}.buttonStyle(PrimaryAction())}}else{Text("🌱").font(.system(size:95));Text("A little practice goes a long way.").font(.title2).multilineTextAlignment(.center);Text(queue.isEmpty ? "Finish a lesson to plant your first words here.":"Your word garden is cared for. Come back another day.").foregroundStyle(DarjaTheme.muted).multilineTextAlignment(.center)}}.padding(24).frame(maxWidth:610).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Word garden").navigationBarTitleDisplayMode(.inline).onAppear{if queue.isEmpty{queue=Array(store.dueWords.prefix(10))}}.onDisappear{audio.stopAll()}}
+    private func rate(_ remembered:Bool){store.reviewWord(queue[index].id,remembered:remembered);store.recordPractice(skill:.vocabulary);index+=1;revealed=false;audio.stopAll()}
+}
+
+struct FamilyGameView:View {
+    @EnvironmentObject private var store:LearningStore
+    @EnvironmentObject private var audio:AudioService
+    @State private var turn=0
+    @State private var word:DarjaWord?
+    @State private var revealed=false
+    var body:some View{ScrollView{VStack(spacing:24){Text("🏡").font(.system(size:85));SectionTitle(title:"Two people, one little word",subtitle:"One person acts or draws. The other guesses. Swap after every round.");TagPill(text:turn % 2 == 0 ? "EXPLORER’S TURN":"GROWN-UP’S TURN");if let w=word{if revealed{Text(w.emoji).font(.system(size:85));Text(w.arabic).font(.system(size:35,weight:.bold));Text(w.english);Button{audio.speak(w,helperLanguage:store.preferences.helperLanguage)}label:{Label("Listen together",systemImage:"speaker.wave.2.fill")};Text("Act, draw, or point. Can your partner say the word?").multilineTextAlignment(.center);Button("We had a go · Swap turns"){store.recordPractice(skill:.conversation);turn+=1;setup()}.buttonStyle(PrimaryAction())}else{Button("Show my secret word"){revealed=true}.buttonStyle(PrimaryAction());Text("Ask your partner to look away for a moment.").font(.caption).foregroundStyle(DarjaTheme.muted)}}}.padding(24).frame(maxWidth:620).frame(maxWidth:.infinity)}.background(DarjaTheme.cream).navigationTitle("Family circle").navigationBarTitleDisplayMode(.inline).onAppear{if word == nil{setup()}}.onDisappear{audio.stopAll()}}
+    private func setup(){word=store.words(ids:store.currentWeek?.wordIds ?? []).randomElement() ?? store.allWords.first;revealed=false;audio.stopAll()}
+}

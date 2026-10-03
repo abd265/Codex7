@@ -1,0 +1,53 @@
+name: Build Darja Together IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Xcode toolchain
+        run: xcodebuild -version
+      - name: Verify IPA platform validator
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Test learning model
+        run: swift test
+      - name: Build and launch iPhone simulator
+        run: bash scripts/build_simulator.sh
+      - name: Exercise learning screens and save progress
+        run: bash scripts/test_ui.sh
+      - name: Build unsigned physical-iPhone IPA
+        run: bash scripts/build_device.sh
+      - name: Upload IPA and installation guide
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-iPhone-IPA
+          path: |
+            artifacts/DarjaTogether-unsigned.ipa
+            artifacts/DarjaTogether-unsigned.ipa.sha256
+            artifacts/ipa-validation.json
+            artifacts/INSTALL.md
+            artifacts/build-info.json
+          if-no-files-found: error
+      - name: Upload build logs and simulator screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-build-checks
+          path: |
+            artifacts/*.log
+            artifacts/*.txt
+            artifacts/*.png
+            artifacts/*.mp4
+            artifacts/*validation.json
+            artifacts/ui-screenshots/**
+          if-no-files-found: warn

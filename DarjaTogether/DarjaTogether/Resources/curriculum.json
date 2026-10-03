@@ -1,0 +1,5745 @@
+{
+  "version": 1,
+  "dialect": "Central Algerian / Algiers Darja",
+  "description": "A gentle 36-week listening and speaking journey. Five playful 5–8 minute sessions each week, with five new words or useful chunks per week. Designed for a complete beginner, with pictures first and optional Arabic script.",
+  "stages": [
+    {
+      "id": 1,
+      "title": "First Words",
+      "subtitle": "Feel at home in Darja",
+      "emoji": "🌱",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Little Listener",
+      "subtitle": "Notice words in the world",
+      "emoji": "👂",
+      "weeks": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Little Speaker",
+      "subtitle": "Make small sentences",
+      "emoji": "💬",
+      "weeks": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Darja Explorer",
+      "subtitle": "Ask, discover and count",
+      "emoji": "🧭",
+      "weeks": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Story Teller",
+      "subtitle": "Tell what happened",
+      "emoji": "📚",
+      "weeks": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Family Conversationalist",
+      "subtitle": "Connect with your people",
+      "emoji": "💛",
+      "weeks": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    }
+  ],
+  "words": [
+    {
+      "id": "hello",
+      "arabic": "سلام",
+      "transliteration": "salam",
+      "english": "Hello",
+      "french": "Bonjour",
+      "emoji": "👋",
+      "note": "A friendly short greeting. Your family may prefer السلام عليكم (es-salamu ʿlikum).",
+      "category": "Hello, little star!"
+    },
+    {
+      "id": "yes",
+      "arabic": "إيه",
+      "transliteration": "ih",
+      "english": "Yes",
+      "french": "Oui",
+      "emoji": "👍",
+      "note": "You may also hear wah or naʿam in different situations.",
+      "category": "Hello, little star!"
+    },
+    {
+      "id": "no",
+      "arabic": "لا",
+      "transliteration": "la",
+      "english": "No",
+      "french": "Non",
+      "emoji": "🙅‍♀️",
+      "note": "A calm no is useful too.",
+      "category": "Hello, little star!"
+    },
+    {
+      "id": "thanks",
+      "arabic": "صحّيت",
+      "transliteration": "ṣaḥḥit",
+      "english": "Thank you",
+      "french": "Merci",
+      "emoji": "💛",
+      "note": "A very common Algerian thank-you. When addressing a girl or woman, you may hear ṣaḥḥiti.",
+      "category": "Hello, little star!"
+    },
+    {
+      "id": "goodbye",
+      "arabic": "بالسلامة",
+      "transliteration": "besslama",
+      "english": "Goodbye",
+      "french": "Au revoir",
+      "emoji": "👋",
+      "note": "Say it with a wave.",
+      "category": "Hello, little star!"
+    },
+    {
+      "id": "mum",
+      "arabic": "ماما",
+      "transliteration": "mama",
+      "english": "Mum",
+      "french": "Maman",
+      "emoji": "👩",
+      "note": "Use your own family's name for mum if different.",
+      "category": "My favourite people"
+    },
+    {
+      "id": "dad",
+      "arabic": "بابا",
+      "transliteration": "baba",
+      "english": "Dad",
+      "french": "Papa",
+      "emoji": "👨",
+      "note": "Use your own family's name for dad if different.",
+      "category": "My favourite people"
+    },
+    {
+      "id": "brother",
+      "arabic": "خويا",
+      "transliteration": "khouya",
+      "english": "My brother",
+      "french": "Mon frère",
+      "emoji": "👦",
+      "note": "The ending belongs to the whole phrase: my brother.",
+      "category": "My favourite people"
+    },
+    {
+      "id": "sister",
+      "arabic": "ختي",
+      "transliteration": "khti",
+      "english": "My sister",
+      "french": "Ma sœur",
+      "emoji": "👧",
+      "note": "You may also hear okhti.",
+      "category": "My favourite people"
+    },
+    {
+      "id": "grandma",
+      "arabic": "جدّتي",
+      "transliteration": "djeddti",
+      "english": "My grandmother",
+      "french": "Ma grand-mère",
+      "emoji": "👵",
+      "note": "Many families use yemma, nana or another affectionate name.",
+      "category": "My favourite people"
+    },
+    {
+      "id": "me",
+      "arabic": "أنا",
+      "transliteration": "ana",
+      "english": "I / me",
+      "french": "Je / moi",
+      "emoji": "🙋‍♀️",
+      "note": "",
+      "category": "Here I am"
+    },
+    {
+      "id": "my-name",
+      "arabic": "اسمي",
+      "transliteration": "esmi",
+      "english": "My name is…",
+      "french": "Je m'appelle…",
+      "emoji": "🏷️",
+      "note": "Pause, then add your own name. Wesmi and semmiwni are also heard.",
+      "category": "Here I am"
+    },
+    {
+      "id": "girl",
+      "arabic": "طفلة",
+      "transliteration": "ṭefla",
+      "english": "A girl",
+      "french": "Une fille",
+      "emoji": "👧",
+      "note": "For a boy: طفل (ṭfel).",
+      "category": "Here I am"
+    },
+    {
+      "id": "here-i-am",
+      "arabic": "راني هنا",
+      "transliteration": "rani hna",
+      "english": "I am here",
+      "french": "Je suis ici",
+      "emoji": "📍",
+      "note": "Rani introduces how or where I am.",
+      "category": "Here I am"
+    },
+    {
+      "id": "you-f",
+      "arabic": "نتي",
+      "transliteration": "nti",
+      "english": "You (one girl or woman)",
+      "french": "Toi (une fille ou une femme)",
+      "emoji": "👉",
+      "note": "For one boy or man: نتا (nta).",
+      "category": "Here I am"
+    },
+    {
+      "id": "water",
+      "arabic": "ما",
+      "transliteration": "ma",
+      "english": "Water",
+      "french": "De l'eau",
+      "emoji": "💧",
+      "note": "You may see ماء or hear l-ma, the water.",
+      "category": "A little snack"
+    },
+    {
+      "id": "bread",
+      "arabic": "خبز",
+      "transliteration": "khobz",
+      "english": "Bread",
+      "french": "Du pain",
+      "emoji": "🍞",
+      "note": "",
+      "category": "A little snack"
+    },
+    {
+      "id": "milk",
+      "arabic": "حليب",
+      "transliteration": "ḥlib",
+      "english": "Milk",
+      "french": "Du lait",
+      "emoji": "🥛",
+      "note": "",
+      "category": "A little snack"
+    },
+    {
+      "id": "want",
+      "arabic": "نحب",
+      "transliteration": "nḥebb",
+      "english": "I want / I like",
+      "french": "Je veux / j'aime",
+      "emoji": "💗",
+      "note": "Meaning depends on context. Nḥebb ma means I want water.",
+      "category": "A little snack"
+    },
+    {
+      "id": "give-me",
+      "arabic": "عطيني",
+      "transliteration": "ʿṭini",
+      "english": "Give me…",
+      "french": "Donne-moi…",
+      "emoji": "🤲",
+      "note": "Addressing one person; use a warm tone and a polite phrase.",
+      "category": "A little snack"
+    },
+    {
+      "id": "ball",
+      "arabic": "كرة",
+      "transliteration": "kora",
+      "english": "A ball",
+      "french": "Un ballon",
+      "emoji": "⚽",
+      "note": "Feminine: a big ball is kora kbira.",
+      "category": "Let's play!"
+    },
+    {
+      "id": "doll",
+      "arabic": "پوپية",
+      "transliteration": "poupiya",
+      "english": "A doll",
+      "french": "Une poupée",
+      "emoji": "🧸",
+      "note": "A common French loan; Arabic spelling varies, including بوبية.",
+      "category": "Let's play!"
+    },
+    {
+      "id": "play",
+      "arabic": "نلعب",
+      "transliteration": "nelʿab",
+      "english": "I play",
+      "french": "Je joue",
+      "emoji": "🛝",
+      "note": "First-person form, used by girls and boys.",
+      "category": "Let's play!"
+    },
+    {
+      "id": "see",
+      "arabic": "نشوف",
+      "transliteration": "nshouf",
+      "english": "I see / I look",
+      "french": "Je vois / je regarde",
+      "emoji": "👀",
+      "note": "",
+      "category": "Let's play!"
+    },
+    {
+      "id": "listen",
+      "arabic": "نسمع",
+      "transliteration": "nesmaʿ",
+      "english": "I hear / I listen",
+      "french": "J'entends / j'écoute",
+      "emoji": "👂",
+      "note": "",
+      "category": "Let's play!"
+    },
+    {
+      "id": "happy-f",
+      "arabic": "فرحانة",
+      "transliteration": "farḥana",
+      "english": "Happy (girl speaking)",
+      "french": "Contente",
+      "emoji": "😊",
+      "note": "With I am: راني فرحانة (rani farḥana). Masculine: farḥan.",
+      "category": "How do I feel?"
+    },
+    {
+      "id": "tired-f",
+      "arabic": "عيّانة",
+      "transliteration": "ʿeyyana",
+      "english": "Tired (girl speaking)",
+      "french": "Fatiguée",
+      "emoji": "😴",
+      "note": "Masculine: ʿeyyan. It can also mean unwell in context.",
+      "category": "How do I feel?"
+    },
+    {
+      "id": "hungry-f",
+      "arabic": "جيعانة",
+      "transliteration": "djiʿana",
+      "english": "Hungry (girl speaking)",
+      "french": "J'ai faim",
+      "emoji": "😋",
+      "note": "Masculine: djiʿan. You may also hear jiʿana.",
+      "category": "How do I feel?"
+    },
+    {
+      "id": "thirsty-f",
+      "arabic": "عطشانة",
+      "transliteration": "ʿaṭshana",
+      "english": "Thirsty (girl speaking)",
+      "french": "J'ai soif",
+      "emoji": "💧",
+      "note": "Masculine: ʿaṭshan.",
+      "category": "How do I feel?"
+    },
+    {
+      "id": "fine",
+      "arabic": "لاباس",
+      "transliteration": "labas",
+      "english": "Fine / all right",
+      "french": "Ça va",
+      "emoji": "🙂",
+      "note": "Labas? can also be a question: Are you all right?",
+      "category": "How do I feel?"
+    },
+    {
+      "id": "red",
+      "arabic": "حمر",
+      "transliteration": "ḥmer",
+      "english": "Red",
+      "french": "Rouge",
+      "emoji": "🔴",
+      "note": "Masculine form. Feminine: حمرا (ḥamra), as in kora ḥamra.",
+      "category": "A rainbow hunt"
+    },
+    {
+      "id": "blue",
+      "arabic": "زرق",
+      "transliteration": "zreg",
+      "english": "Blue",
+      "french": "Bleu",
+      "emoji": "🔵",
+      "note": "Masculine form. Feminine: زرقا (zerga). Pronunciation varies: zreq / zreg.",
+      "category": "A rainbow hunt"
+    },
+    {
+      "id": "green",
+      "arabic": "خضر",
+      "transliteration": "khḍer",
+      "english": "Green",
+      "french": "Vert",
+      "emoji": "🟢",
+      "note": "Masculine form. Feminine: خضرا (khaḍra).",
+      "category": "A rainbow hunt"
+    },
+    {
+      "id": "yellow",
+      "arabic": "صفر",
+      "transliteration": "ṣfer",
+      "english": "Yellow",
+      "french": "Jaune",
+      "emoji": "🟡",
+      "note": "Masculine form. Feminine: صفرا (ṣafra).",
+      "category": "A rainbow hunt"
+    },
+    {
+      "id": "white",
+      "arabic": "بيض",
+      "transliteration": "byeḍ",
+      "english": "White",
+      "french": "Blanc",
+      "emoji": "⚪",
+      "note": "Masculine form. Feminine: بيضا (bayḍa).",
+      "category": "A rainbow hunt"
+    },
+    {
+      "id": "one",
+      "arabic": "واحد",
+      "transliteration": "waḥed",
+      "english": "One",
+      "french": "Un",
+      "emoji": "1️⃣",
+      "note": "Use for counting. Before a feminine noun, waḥda is used in some patterns.",
+      "category": "Count my treasures"
+    },
+    {
+      "id": "two",
+      "arabic": "زوج",
+      "transliteration": "zoudj",
+      "english": "Two",
+      "french": "Deux",
+      "emoji": "2️⃣",
+      "note": "",
+      "category": "Count my treasures"
+    },
+    {
+      "id": "three",
+      "arabic": "ثلاثة",
+      "transliteration": "tlata",
+      "english": "Three",
+      "french": "Trois",
+      "emoji": "3️⃣",
+      "note": "",
+      "category": "Count my treasures"
+    },
+    {
+      "id": "four",
+      "arabic": "ربعة",
+      "transliteration": "rebʿa",
+      "english": "Four",
+      "french": "Quatre",
+      "emoji": "4️⃣",
+      "note": "",
+      "category": "Count my treasures"
+    },
+    {
+      "id": "five",
+      "arabic": "خمسة",
+      "transliteration": "khemsa",
+      "english": "Five",
+      "french": "Cinq",
+      "emoji": "5️⃣",
+      "note": "",
+      "category": "Count my treasures"
+    },
+    {
+      "id": "home",
+      "arabic": "دار",
+      "transliteration": "dar",
+      "english": "A home / house",
+      "french": "Une maison",
+      "emoji": "🏠",
+      "note": "Feminine: a big house is dar kbira.",
+      "category": "Our cosy home"
+    },
+    {
+      "id": "door",
+      "arabic": "باب",
+      "transliteration": "bab",
+      "english": "A door",
+      "french": "Une porte",
+      "emoji": "🚪",
+      "note": "",
+      "category": "Our cosy home"
+    },
+    {
+      "id": "window",
+      "arabic": "شبّاك",
+      "transliteration": "shebback",
+      "english": "A window",
+      "french": "Une fenêtre",
+      "emoji": "🪟",
+      "note": "",
+      "category": "Our cosy home"
+    },
+    {
+      "id": "chair",
+      "arabic": "كرسي",
+      "transliteration": "korsi",
+      "english": "A chair",
+      "french": "Une chaise",
+      "emoji": "🪑",
+      "note": "",
+      "category": "Our cosy home"
+    },
+    {
+      "id": "table",
+      "arabic": "طابلة",
+      "transliteration": "ṭabla",
+      "english": "A table",
+      "french": "Une table",
+      "emoji": "🛋️",
+      "note": "A familiar everyday loan word.",
+      "category": "Our cosy home"
+    },
+    {
+      "id": "head",
+      "arabic": "راس",
+      "transliteration": "ras",
+      "english": "A head",
+      "french": "Une tête",
+      "emoji": "🙂",
+      "note": "My head: راسي (rasi).",
+      "category": "Head to toe"
+    },
+    {
+      "id": "hand",
+      "arabic": "يد",
+      "transliteration": "yed",
+      "english": "A hand",
+      "french": "Une main",
+      "emoji": "✋",
+      "note": "My hand: يدي (yeddi).",
+      "category": "Head to toe"
+    },
+    {
+      "id": "foot",
+      "arabic": "رجل",
+      "transliteration": "rjel",
+      "english": "A foot / leg",
+      "french": "Un pied / une jambe",
+      "emoji": "🦶",
+      "note": "Context tells whether it means foot or leg. My foot: rejli.",
+      "category": "Head to toe"
+    },
+    {
+      "id": "eye",
+      "arabic": "عين",
+      "transliteration": "ʿin",
+      "english": "An eye",
+      "french": "Un œil",
+      "emoji": "👁️",
+      "note": "My eye: عيني (ʿini).",
+      "category": "Head to toe"
+    },
+    {
+      "id": "mouth",
+      "arabic": "فم",
+      "transliteration": "fomm",
+      "english": "A mouth",
+      "french": "Une bouche",
+      "emoji": "👄",
+      "note": "My mouth: فمي (fommi).",
+      "category": "Head to toe"
+    },
+    {
+      "id": "apple",
+      "arabic": "تفّاحة",
+      "transliteration": "teffaḥa",
+      "english": "An apple",
+      "french": "Une pomme",
+      "emoji": "🍎",
+      "note": "",
+      "category": "Fruit picnic"
+    },
+    {
+      "id": "banana",
+      "arabic": "بنانة",
+      "transliteration": "banana",
+      "english": "A banana",
+      "french": "Une banane",
+      "emoji": "🍌",
+      "note": "",
+      "category": "Fruit picnic"
+    },
+    {
+      "id": "orange",
+      "arabic": "تشينة",
+      "transliteration": "tchina",
+      "english": "An orange",
+      "french": "Une orange",
+      "emoji": "🍊",
+      "note": "A common Algerian word; some families use other forms.",
+      "category": "Fruit picnic"
+    },
+    {
+      "id": "dates",
+      "arabic": "تمر",
+      "transliteration": "tmer",
+      "english": "Dates",
+      "french": "Des dattes",
+      "emoji": "🌴",
+      "note": "",
+      "category": "Fruit picnic"
+    },
+    {
+      "id": "tasty",
+      "arabic": "بنين",
+      "transliteration": "bnin",
+      "english": "Tasty",
+      "french": "Délicieux",
+      "emoji": "😋",
+      "note": "Masculine form. Feminine: بنينة (bnina), as in teffaḥa bnina.",
+      "category": "Fruit picnic"
+    },
+    {
+      "id": "cat",
+      "arabic": "مشّ",
+      "transliteration": "meshsh",
+      "english": "A cat",
+      "french": "Un chat",
+      "emoji": "🐈",
+      "note": "Often heard in Algiers. Other families say qett / gaṭṭ; record your family's word.",
+      "category": "Animal friends"
+    },
+    {
+      "id": "dog",
+      "arabic": "كلب",
+      "transliteration": "kelb",
+      "english": "A dog",
+      "french": "Un chien",
+      "emoji": "🐕",
+      "note": "",
+      "category": "Animal friends"
+    },
+    {
+      "id": "bird",
+      "arabic": "عصفور",
+      "transliteration": "ʿaṣfour",
+      "english": "A bird",
+      "french": "Un oiseau",
+      "emoji": "🐦",
+      "note": "",
+      "category": "Animal friends"
+    },
+    {
+      "id": "fish",
+      "arabic": "حوت",
+      "transliteration": "ḥout",
+      "english": "Fish",
+      "french": "Du poisson",
+      "emoji": "🐟",
+      "note": "Used for fish as animals or food.",
+      "category": "Animal friends"
+    },
+    {
+      "id": "rabbit",
+      "arabic": "أرنب",
+      "transliteration": "arneb",
+      "english": "A rabbit",
+      "french": "Un lapin",
+      "emoji": "🐇",
+      "note": "",
+      "category": "Animal friends"
+    },
+    {
+      "id": "please",
+      "arabic": "من فضلك",
+      "transliteration": "men faḍlek",
+      "english": "Please",
+      "french": "S'il te plaît",
+      "emoji": "🙏",
+      "note": "A widely understood polite form; families may prefer ʿayyshek or rabbi ykhellik.",
+      "category": "Kind little requests"
+    },
+    {
+      "id": "sorry-f",
+      "arabic": "سمحيلي",
+      "transliteration": "semḥili",
+      "english": "Excuse me / sorry (to a girl or woman)",
+      "french": "Excuse-moi (à une fille ou une femme)",
+      "emoji": "💛",
+      "note": "To a boy or man: سمحلي (semḥli).",
+      "category": "Kind little requests"
+    },
+    {
+      "id": "help-me-f",
+      "arabic": "عاونيني",
+      "transliteration": "ʿawnini",
+      "english": "Help me (to a girl or woman)",
+      "french": "Aide-moi (à une fille ou une femme)",
+      "emoji": "🤝",
+      "note": "To a boy or man: عاونّي (ʿawenni).",
+      "category": "Kind little requests"
+    },
+    {
+      "id": "more-f",
+      "arabic": "زيدي",
+      "transliteration": "zidi",
+      "english": "More / add some (to a girl or woman)",
+      "french": "Encore / ajoute (à une fille ou une femme)",
+      "emoji": "➕",
+      "note": "To a boy or man: زيد (zid). Use with an object or a gesture.",
+      "category": "Kind little requests"
+    },
+    {
+      "id": "enough",
+      "arabic": "بركة",
+      "transliteration": "barka",
+      "english": "Enough / stop there",
+      "french": "Ça suffit",
+      "emoji": "✋",
+      "note": "A useful way to say you have had enough.",
+      "category": "Kind little requests"
+    },
+    {
+      "id": "big",
+      "arabic": "كبير",
+      "transliteration": "kbir",
+      "english": "Big",
+      "french": "Grand",
+      "emoji": "🐘",
+      "note": "Feminine: كبيرة (kbira).",
+      "category": "Big and small"
+    },
+    {
+      "id": "small",
+      "arabic": "صغير",
+      "transliteration": "ṣghir",
+      "english": "Small",
+      "french": "Petit",
+      "emoji": "🐭",
+      "note": "Feminine: صغيرة (ṣghira).",
+      "category": "Big and small"
+    },
+    {
+      "id": "tall",
+      "arabic": "طويل",
+      "transliteration": "ṭwil",
+      "english": "Tall / long",
+      "french": "Grand / long",
+      "emoji": "🦒",
+      "note": "Feminine: طويلة (ṭwila).",
+      "category": "Big and small"
+    },
+    {
+      "id": "short",
+      "arabic": "قصير",
+      "transliteration": "qṣir",
+      "english": "Short",
+      "french": "Court",
+      "emoji": "📏",
+      "note": "Feminine: قصيرة (qṣira).",
+      "category": "Big and small"
+    },
+    {
+      "id": "good",
+      "arabic": "مليح",
+      "transliteration": "mliḥ",
+      "english": "Good",
+      "french": "Bien / bon",
+      "emoji": "👍",
+      "note": "Feminine: مليحة (mliḥa).",
+      "category": "Big and small"
+    },
+    {
+      "id": "school",
+      "arabic": "مدرسة",
+      "transliteration": "medrasa",
+      "english": "A school",
+      "french": "Une école",
+      "emoji": "🏫",
+      "note": "",
+      "category": "My school bag"
+    },
+    {
+      "id": "schoolbag",
+      "arabic": "كرطابل",
+      "transliteration": "karṭabl",
+      "english": "A schoolbag",
+      "french": "Un cartable",
+      "emoji": "🎒",
+      "note": "French loan word; spelling varies.",
+      "category": "My school bag"
+    },
+    {
+      "id": "book",
+      "arabic": "كتاب",
+      "transliteration": "ktab",
+      "english": "A book",
+      "french": "Un livre",
+      "emoji": "📚",
+      "note": "",
+      "category": "My school bag"
+    },
+    {
+      "id": "pen",
+      "arabic": "ستيلو",
+      "transliteration": "stilo",
+      "english": "A pen",
+      "french": "Un stylo",
+      "emoji": "🖊️",
+      "note": "French loan word.",
+      "category": "My school bag"
+    },
+    {
+      "id": "read",
+      "arabic": "نقرا",
+      "transliteration": "neqra",
+      "english": "I read / I study",
+      "french": "Je lis / j'étudie",
+      "emoji": "📖",
+      "note": "",
+      "category": "My school bag"
+    },
+    {
+      "id": "trousers",
+      "arabic": "سروال",
+      "transliteration": "serwal",
+      "english": "Trousers",
+      "french": "Un pantalon",
+      "emoji": "👖",
+      "note": "",
+      "category": "Getting dressed"
+    },
+    {
+      "id": "shirt",
+      "arabic": "تريكو",
+      "transliteration": "triko",
+      "english": "A T-shirt / top",
+      "french": "Un tee-shirt / un haut",
+      "emoji": "👕",
+      "note": "French loan; families may use it for different knitted tops.",
+      "category": "Getting dressed"
+    },
+    {
+      "id": "shoes",
+      "arabic": "صباط",
+      "transliteration": "ṣebbaṭ",
+      "english": "Shoes / footwear",
+      "french": "Des chaussures",
+      "emoji": "👟",
+      "note": "Often used collectively.",
+      "category": "Getting dressed"
+    },
+    {
+      "id": "dress",
+      "arabic": "روبة",
+      "transliteration": "roba",
+      "english": "A dress",
+      "french": "Une robe",
+      "emoji": "👗",
+      "note": "French loan word.",
+      "category": "Getting dressed"
+    },
+    {
+      "id": "wear",
+      "arabic": "نلبس",
+      "transliteration": "nelbes",
+      "english": "I wear / get dressed",
+      "french": "Je porte / je m'habille",
+      "emoji": "🧥",
+      "note": "",
+      "category": "Getting dressed"
+    },
+    {
+      "id": "eat",
+      "arabic": "ناكل",
+      "transliteration": "nakol",
+      "english": "I eat",
+      "french": "Je mange",
+      "emoji": "🍽️",
+      "note": "",
+      "category": "Things I can do"
+    },
+    {
+      "id": "drink",
+      "arabic": "نشرب",
+      "transliteration": "neshreb",
+      "english": "I drink",
+      "french": "Je bois",
+      "emoji": "🥤",
+      "note": "",
+      "category": "Things I can do"
+    },
+    {
+      "id": "draw",
+      "arabic": "نرسم",
+      "transliteration": "nersom",
+      "english": "I draw",
+      "french": "Je dessine",
+      "emoji": "🖍️",
+      "note": "",
+      "category": "Things I can do"
+    },
+    {
+      "id": "write",
+      "arabic": "نكتب",
+      "transliteration": "nekteb",
+      "english": "I write",
+      "french": "J'écris",
+      "emoji": "✏️",
+      "note": "",
+      "category": "Things I can do"
+    },
+    {
+      "id": "sleep",
+      "arabic": "نرقد",
+      "transliteration": "nerqod",
+      "english": "I sleep",
+      "french": "Je dors",
+      "emoji": "🛏️",
+      "note": "",
+      "category": "Things I can do"
+    },
+    {
+      "id": "where",
+      "arabic": "وين",
+      "transliteration": "win",
+      "english": "Where?",
+      "french": "Où ?",
+      "emoji": "🔎",
+      "note": "",
+      "category": "Where is my ball?"
+    },
+    {
+      "id": "on",
+      "arabic": "فوق",
+      "transliteration": "fouq",
+      "english": "On / above",
+      "french": "Sur / au-dessus",
+      "emoji": "⬆️",
+      "note": "",
+      "category": "Where is my ball?"
+    },
+    {
+      "id": "under",
+      "arabic": "تحت",
+      "transliteration": "teḥt",
+      "english": "Under",
+      "french": "Sous",
+      "emoji": "⬇️",
+      "note": "",
+      "category": "Where is my ball?"
+    },
+    {
+      "id": "in-front",
+      "arabic": "قدّام",
+      "transliteration": "qoddam",
+      "english": "In front of",
+      "french": "Devant",
+      "emoji": "🚶‍♀️",
+      "note": "",
+      "category": "Where is my ball?"
+    },
+    {
+      "id": "behind",
+      "arabic": "مورا",
+      "transliteration": "mora",
+      "english": "Behind",
+      "french": "Derrière",
+      "emoji": "🙈",
+      "note": "You may also hear wra.",
+      "category": "Where is my ball?"
+    },
+    {
+      "id": "tree",
+      "arabic": "شجرة",
+      "transliteration": "shedjra",
+      "english": "A tree",
+      "french": "Un arbre",
+      "emoji": "🌳",
+      "note": "",
+      "category": "A garden adventure"
+    },
+    {
+      "id": "flower",
+      "arabic": "وردة",
+      "transliteration": "werda",
+      "english": "A flower",
+      "french": "Une fleur",
+      "emoji": "🌸",
+      "note": "",
+      "category": "A garden adventure"
+    },
+    {
+      "id": "grass",
+      "arabic": "حشيش",
+      "transliteration": "ḥshish",
+      "english": "Grass",
+      "french": "De l'herbe",
+      "emoji": "🌱",
+      "note": "Here this means the grass in a garden.",
+      "category": "A garden adventure"
+    },
+    {
+      "id": "soil",
+      "arabic": "تراب",
+      "transliteration": "trab",
+      "english": "Soil / earth",
+      "french": "De la terre",
+      "emoji": "🪴",
+      "note": "",
+      "category": "A garden adventure"
+    },
+    {
+      "id": "garden",
+      "arabic": "جنينة",
+      "transliteration": "djnina",
+      "english": "A garden",
+      "french": "Un jardin",
+      "emoji": "🏡",
+      "note": "",
+      "category": "A garden adventure"
+    },
+    {
+      "id": "sun",
+      "arabic": "شمس",
+      "transliteration": "shems",
+      "english": "The sun",
+      "french": "Le soleil",
+      "emoji": "☀️",
+      "note": "",
+      "category": "Sun, rain and wind"
+    },
+    {
+      "id": "rain",
+      "arabic": "مطر",
+      "transliteration": "mṭer",
+      "english": "Rain",
+      "french": "La pluie",
+      "emoji": "🌧️",
+      "note": "You may also hear shṭa or nnu for rain/weather, depending on family.",
+      "category": "Sun, rain and wind"
+    },
+    {
+      "id": "wind",
+      "arabic": "ريح",
+      "transliteration": "riḥ",
+      "english": "Wind",
+      "french": "Du vent",
+      "emoji": "💨",
+      "note": "",
+      "category": "Sun, rain and wind"
+    },
+    {
+      "id": "hot",
+      "arabic": "سخون",
+      "transliteration": "skhoun",
+      "english": "Hot",
+      "french": "Chaud",
+      "emoji": "🌡️",
+      "note": "Feminine: سخونة (skhouna). Weather: راهو سخون (rahou skhoun).",
+      "category": "Sun, rain and wind"
+    },
+    {
+      "id": "cold",
+      "arabic": "بارد",
+      "transliteration": "bared",
+      "english": "Cold",
+      "french": "Froid",
+      "emoji": "🧊",
+      "note": "Feminine: باردة (barda).",
+      "category": "Sun, rain and wind"
+    },
+    {
+      "id": "walk",
+      "arabic": "نمشي",
+      "transliteration": "nemshi",
+      "english": "I walk",
+      "french": "Je marche",
+      "emoji": "🚶‍♀️",
+      "note": "",
+      "category": "A trip together"
+    },
+    {
+      "id": "go",
+      "arabic": "نروح",
+      "transliteration": "nrouḥ",
+      "english": "I go",
+      "french": "Je vais",
+      "emoji": "➡️",
+      "note": "",
+      "category": "A trip together"
+    },
+    {
+      "id": "come",
+      "arabic": "نجي",
+      "transliteration": "ndji",
+      "english": "I come",
+      "french": "Je viens",
+      "emoji": "👋",
+      "note": "",
+      "category": "A trip together"
+    },
+    {
+      "id": "car",
+      "arabic": "طوموبيل",
+      "transliteration": "ṭomobil",
+      "english": "A car",
+      "french": "Une voiture",
+      "emoji": "🚗",
+      "note": "Common loan word; also written طوموبيلة.",
+      "category": "A trip together"
+    },
+    {
+      "id": "shop",
+      "arabic": "حانوت",
+      "transliteration": "ḥanout",
+      "english": "A shop",
+      "french": "Un magasin",
+      "emoji": "🏪",
+      "note": "",
+      "category": "A trip together"
+    },
+    {
+      "id": "what",
+      "arabic": "واش",
+      "transliteration": "wash",
+      "english": "What?",
+      "french": "Quoi ?",
+      "emoji": "❓",
+      "note": "Often pronounced wesh. Learn your family's vowel.",
+      "category": "Little questions"
+    },
+    {
+      "id": "who",
+      "arabic": "شكون",
+      "transliteration": "shkoun",
+      "english": "Who?",
+      "french": "Qui ?",
+      "emoji": "🙋",
+      "note": "",
+      "category": "Little questions"
+    },
+    {
+      "id": "why",
+      "arabic": "علاش",
+      "transliteration": "ʿlash",
+      "english": "Why?",
+      "french": "Pourquoi ?",
+      "emoji": "💭",
+      "note": "",
+      "category": "Little questions"
+    },
+    {
+      "id": "how",
+      "arabic": "كيفاش",
+      "transliteration": "kifash",
+      "english": "How?",
+      "french": "Comment ?",
+      "emoji": "🧩",
+      "note": "",
+      "category": "Little questions"
+    },
+    {
+      "id": "when",
+      "arabic": "وقتاش",
+      "transliteration": "weqtash",
+      "english": "When?",
+      "french": "Quand ?",
+      "emoji": "🕰️",
+      "note": "",
+      "category": "Little questions"
+    },
+    {
+      "id": "today",
+      "arabic": "اليوم",
+      "transliteration": "lyoum",
+      "english": "Today",
+      "french": "Aujourd'hui",
+      "emoji": "📅",
+      "note": "",
+      "category": "Today and tomorrow"
+    },
+    {
+      "id": "tomorrow",
+      "arabic": "غدوة",
+      "transliteration": "ghedwa",
+      "english": "Tomorrow",
+      "french": "Demain",
+      "emoji": "🌅",
+      "note": "",
+      "category": "Today and tomorrow"
+    },
+    {
+      "id": "yesterday",
+      "arabic": "البارح",
+      "transliteration": "lbareḥ",
+      "english": "Yesterday",
+      "french": "Hier",
+      "emoji": "🌙",
+      "note": "",
+      "category": "Today and tomorrow"
+    },
+    {
+      "id": "now",
+      "arabic": "درك",
+      "transliteration": "dork",
+      "english": "Now",
+      "french": "Maintenant",
+      "emoji": "⏰",
+      "note": "Dorka, derwek and other regional forms are also heard.",
+      "category": "Today and tomorrow"
+    },
+    {
+      "id": "later",
+      "arabic": "من بعد",
+      "transliteration": "men baʿd",
+      "english": "Later / after",
+      "french": "Après / plus tard",
+      "emoji": "⌛",
+      "note": "",
+      "category": "Today and tomorrow"
+    },
+    {
+      "id": "six",
+      "arabic": "ستّة",
+      "transliteration": "setta",
+      "english": "Six",
+      "french": "Six",
+      "emoji": "6️⃣",
+      "note": "",
+      "category": "Ten little treasures"
+    },
+    {
+      "id": "seven",
+      "arabic": "سبعة",
+      "transliteration": "sebʿa",
+      "english": "Seven",
+      "french": "Sept",
+      "emoji": "7️⃣",
+      "note": "",
+      "category": "Ten little treasures"
+    },
+    {
+      "id": "eight",
+      "arabic": "ثمانية",
+      "transliteration": "tmenya",
+      "english": "Eight",
+      "french": "Huit",
+      "emoji": "8️⃣",
+      "note": "",
+      "category": "Ten little treasures"
+    },
+    {
+      "id": "nine",
+      "arabic": "تسعة",
+      "transliteration": "tesʿa",
+      "english": "Nine",
+      "french": "Neuf",
+      "emoji": "9️⃣",
+      "note": "",
+      "category": "Ten little treasures"
+    },
+    {
+      "id": "ten",
+      "arabic": "عشرة",
+      "transliteration": "ʿeshra",
+      "english": "Ten",
+      "french": "Dix",
+      "emoji": "🔟",
+      "note": "",
+      "category": "Ten little treasures"
+    },
+    {
+      "id": "eggs",
+      "arabic": "بيض",
+      "transliteration": "biḍ",
+      "english": "Eggs",
+      "french": "Des œufs",
+      "emoji": "🥚",
+      "note": "The vowel distinguishes this from byeḍ, white. One egg: بيضة (biḍa).",
+      "category": "Breakfast together"
+    },
+    {
+      "id": "cheese",
+      "arabic": "فرماج",
+      "transliteration": "fermadj",
+      "english": "Cheese",
+      "french": "Du fromage",
+      "emoji": "🧀",
+      "note": "A common French loan; pronunciation varies.",
+      "category": "Breakfast together"
+    },
+    {
+      "id": "oil",
+      "arabic": "زيت",
+      "transliteration": "zit",
+      "english": "Oil",
+      "french": "De l'huile",
+      "emoji": "🫒",
+      "note": "",
+      "category": "Breakfast together"
+    },
+    {
+      "id": "butter",
+      "arabic": "زبدة",
+      "transliteration": "zebda",
+      "english": "Butter",
+      "french": "Du beurre",
+      "emoji": "🧈",
+      "note": "",
+      "category": "Breakfast together"
+    },
+    {
+      "id": "enjoy-meal",
+      "arabic": "بالصحّة",
+      "transliteration": "beṣ-ṣaḥḥa",
+      "english": "Enjoy it / enjoy your meal",
+      "french": "Bon appétit / profite bien",
+      "emoji": "🍽️",
+      "note": "Used beyond meals too, such as for a new purchase.",
+      "category": "Breakfast together"
+    },
+    {
+      "id": "bowl",
+      "arabic": "زلافة",
+      "transliteration": "zlafa",
+      "english": "A bowl",
+      "french": "Un bol",
+      "emoji": "🥣",
+      "note": "Names for dishes vary between households; use your family's bowl word.",
+      "category": "Little kitchen helper"
+    },
+    {
+      "id": "spoon",
+      "arabic": "مغرف",
+      "transliteration": "moghrof",
+      "english": "A spoon",
+      "french": "Une cuillère",
+      "emoji": "🥄",
+      "note": "You may hear moghorfa; the exact word and size vary by family.",
+      "category": "Little kitchen helper"
+    },
+    {
+      "id": "cup",
+      "arabic": "كاس",
+      "transliteration": "kas",
+      "english": "A glass / cup",
+      "french": "Un verre",
+      "emoji": "🥛",
+      "note": "",
+      "category": "Little kitchen helper"
+    },
+    {
+      "id": "plate",
+      "arabic": "طبسي",
+      "transliteration": "ṭebsi",
+      "english": "A plate",
+      "french": "Une assiette",
+      "emoji": "🍽️",
+      "note": "",
+      "category": "Little kitchen helper"
+    },
+    {
+      "id": "pot",
+      "arabic": "قدرة",
+      "transliteration": "qedra",
+      "english": "A cooking pot",
+      "french": "Une marmite",
+      "emoji": "🍲",
+      "note": "For pretend play or a cool, empty pot with an adult.",
+      "category": "Little kitchen helper"
+    },
+    {
+      "id": "wake",
+      "arabic": "ننوض",
+      "transliteration": "nnouḍ",
+      "english": "I get up",
+      "french": "Je me lève",
+      "emoji": "🌅",
+      "note": "First-person present: I get up. The initial n is held a little longer. A common shorter written form is نوض.",
+      "category": "My morning"
+    },
+    {
+      "id": "wash-hands",
+      "arabic": "نغسل يديّا",
+      "transliteration": "neghsel yeddiya",
+      "english": "I wash my hands",
+      "french": "Je me lave les mains",
+      "emoji": "🧼",
+      "note": "",
+      "category": "My morning"
+    },
+    {
+      "id": "brush-teeth",
+      "arabic": "نغسل سناني",
+      "transliteration": "neghsel snani",
+      "english": "I brush my teeth",
+      "french": "Je me brosse les dents",
+      "emoji": "🪥",
+      "note": "Literally: I wash my teeth.",
+      "category": "My morning"
+    },
+    {
+      "id": "comb-hair",
+      "arabic": "نسرّح شعري",
+      "transliteration": "nserraḥ shaʿri",
+      "english": "I comb my hair",
+      "french": "Je me coiffe",
+      "emoji": "🪮",
+      "note": "",
+      "category": "My morning"
+    },
+    {
+      "id": "get-ready",
+      "arabic": "نوجّد",
+      "transliteration": "nwejjed",
+      "english": "I get ready / I prepare",
+      "french": "Je me prépare",
+      "emoji": "🎒",
+      "note": "Use with context, such as getting ready for school.",
+      "category": "My morning"
+    },
+    {
+      "id": "went",
+      "arabic": "رحت",
+      "transliteration": "rouḥt",
+      "english": "I went",
+      "french": "Je suis allée",
+      "emoji": "🚶‍♀️",
+      "note": "Past tense; same first-person form for girls and boys.",
+      "category": "I did it!"
+    },
+    {
+      "id": "saw",
+      "arabic": "شفت",
+      "transliteration": "shoft",
+      "english": "I saw",
+      "french": "J'ai vu",
+      "emoji": "👀",
+      "note": "",
+      "category": "I did it!"
+    },
+    {
+      "id": "found",
+      "arabic": "لقيت",
+      "transliteration": "lqit",
+      "english": "I found",
+      "french": "J'ai trouvé",
+      "emoji": "🔍",
+      "note": "",
+      "category": "I did it!"
+    },
+    {
+      "id": "played",
+      "arabic": "لعبت",
+      "transliteration": "lʿabt",
+      "english": "I played",
+      "french": "J'ai joué",
+      "emoji": "⚽",
+      "note": "",
+      "category": "I did it!"
+    },
+    {
+      "id": "laughed",
+      "arabic": "ضحكت",
+      "transliteration": "ḍḥakt",
+      "english": "I laughed",
+      "french": "J'ai ri",
+      "emoji": "😄",
+      "note": "",
+      "category": "I did it!"
+    },
+    {
+      "id": "and",
+      "arabic": "و",
+      "transliteration": "w",
+      "english": "And",
+      "french": "Et",
+      "emoji": "➕",
+      "note": "Joins words or ideas; often attached to the following word in writing.",
+      "category": "Join my ideas"
+    },
+    {
+      "id": "but",
+      "arabic": "بصح",
+      "transliteration": "beṣṣaḥ",
+      "english": "But",
+      "french": "Mais",
+      "emoji": "↔️",
+      "note": "It can have other meanings in different contexts.",
+      "category": "Join my ideas"
+    },
+    {
+      "id": "because",
+      "arabic": "على خاطر",
+      "transliteration": "ʿla khaṭer",
+      "english": "Because",
+      "french": "Parce que",
+      "emoji": "💡",
+      "note": "You may also hear khater or ḥit.",
+      "category": "Join my ideas"
+    },
+    {
+      "id": "with",
+      "arabic": "مع",
+      "transliteration": "mʿa",
+      "english": "With",
+      "french": "Avec",
+      "emoji": "🤝",
+      "note": "",
+      "category": "Join my ideas"
+    },
+    {
+      "id": "when-link",
+      "arabic": "كي",
+      "transliteration": "ki",
+      "english": "When (linking ideas)",
+      "french": "Quand (pour relier)",
+      "emoji": "🔗",
+      "note": "For example: ki nelʿab, neḍḥak — when I play, I laugh.",
+      "category": "Join my ideas"
+    },
+    {
+      "id": "understood",
+      "arabic": "فهمت",
+      "transliteration": "fhemt",
+      "english": "I understood",
+      "french": "J'ai compris",
+      "emoji": "💡",
+      "note": "",
+      "category": "Help me understand"
+    },
+    {
+      "id": "not-understood",
+      "arabic": "ما فهمتش",
+      "transliteration": "ma fhemtsh",
+      "english": "I didn't understand",
+      "french": "Je n'ai pas compris",
+      "emoji": "🤔",
+      "note": "Ma…sh makes many verbs negative.",
+      "category": "Help me understand"
+    },
+    {
+      "id": "repeat-f",
+      "arabic": "عاودي",
+      "transliteration": "ʿawdi",
+      "english": "Say it again (to a girl or woman)",
+      "french": "Répète (à une fille ou une femme)",
+      "emoji": "🔁",
+      "note": "To a boy or man: عاود (ʿawed).",
+      "category": "Help me understand"
+    },
+    {
+      "id": "slowly",
+      "arabic": "بشويّة",
+      "transliteration": "beshwiyya",
+      "english": "Slowly / gently",
+      "french": "Doucement",
+      "emoji": "🐢",
+      "note": "",
+      "category": "Help me understand"
+    },
+    {
+      "id": "meaning",
+      "arabic": "واش معناها؟",
+      "transliteration": "wash maʿnaha?",
+      "english": "What does it mean?",
+      "french": "Qu'est-ce que ça veut dire ?",
+      "emoji": "❓",
+      "note": "A whole useful question; no need to analyse it yet.",
+      "category": "Help me understand"
+    },
+    {
+      "id": "grandpa",
+      "arabic": "جدّي",
+      "transliteration": "djeddi",
+      "english": "My grandfather",
+      "french": "Mon grand-père",
+      "emoji": "👴",
+      "note": "",
+      "category": "More people I love"
+    },
+    {
+      "id": "aunt-dad",
+      "arabic": "عمّتي",
+      "transliteration": "ʿamti",
+      "english": "My father's sister",
+      "french": "Ma tante (côté papa)",
+      "emoji": "👩",
+      "note": "Your paternal aunt.",
+      "category": "More people I love"
+    },
+    {
+      "id": "aunt-mum",
+      "arabic": "خالتي",
+      "transliteration": "khalti",
+      "english": "My mother's sister",
+      "french": "Ma tante (côté maman)",
+      "emoji": "👩",
+      "note": "Your maternal aunt.",
+      "category": "More people I love"
+    },
+    {
+      "id": "friend-boy",
+      "arabic": "صاحبي",
+      "transliteration": "ṣaḥbi",
+      "english": "My friend (boy)",
+      "french": "Mon ami",
+      "emoji": "👦",
+      "note": "",
+      "category": "More people I love"
+    },
+    {
+      "id": "friend-girl",
+      "arabic": "صاحبتي",
+      "transliteration": "ṣaḥebti",
+      "english": "My friend (girl)",
+      "french": "Mon amie",
+      "emoji": "👧",
+      "note": "",
+      "category": "More people I love"
+    },
+    {
+      "id": "have",
+      "arabic": "عندي",
+      "transliteration": "ʿandi",
+      "english": "I have",
+      "french": "J'ai",
+      "emoji": "🎁",
+      "note": "",
+      "category": "Mine and yours"
+    },
+    {
+      "id": "not-have",
+      "arabic": "ما عنديش",
+      "transliteration": "ma ʿandish",
+      "english": "I don't have",
+      "french": "Je n'ai pas",
+      "emoji": "👐",
+      "note": "",
+      "category": "Mine and yours"
+    },
+    {
+      "id": "mine",
+      "arabic": "تاعي",
+      "transliteration": "taʿi",
+      "english": "Mine / my",
+      "french": "À moi",
+      "emoji": "🙋‍♀️",
+      "note": "",
+      "category": "Mine and yours"
+    },
+    {
+      "id": "yours",
+      "arabic": "تاعك",
+      "transliteration": "taʿek",
+      "english": "Yours / your",
+      "french": "À toi",
+      "emoji": "👉",
+      "note": "Many speakers use this form for one person; feminine endings vary by family.",
+      "category": "Mine and yours"
+    },
+    {
+      "id": "this-f",
+      "arabic": "هاذي",
+      "transliteration": "hadi",
+      "english": "This (feminine)",
+      "french": "Celle-ci / cette",
+      "emoji": "👇",
+      "note": "For a masculine noun: هذا (hada). Often spelled هادي.",
+      "category": "Mine and yours"
+    },
+    {
+      "id": "i-like-it",
+      "arabic": "يعجبني",
+      "transliteration": "yaʿdjebni",
+      "english": "I like it (masculine thing)",
+      "french": "Ça me plaît",
+      "emoji": "😍",
+      "note": "For a feminine thing: تعجبني (taʿdjebni).",
+      "category": "My choices matter"
+    },
+    {
+      "id": "i-dont-like-it",
+      "arabic": "ما يعجبنيش",
+      "transliteration": "ma yaʿdjebnish",
+      "english": "I don't like it (masculine thing)",
+      "french": "Ça ne me plaît pas",
+      "emoji": "🙅‍♀️",
+      "note": "For a feminine thing: ما تعجبنيش (ma taʿdjebnish).",
+      "category": "My choices matter"
+    },
+    {
+      "id": "i-can",
+      "arabic": "نقدر",
+      "transliteration": "neqder",
+      "english": "I can",
+      "french": "Je peux",
+      "emoji": "💪",
+      "note": "",
+      "category": "My choices matter"
+    },
+    {
+      "id": "i-cant",
+      "arabic": "ما نقدرش",
+      "transliteration": "ma neqdersh",
+      "english": "I can't",
+      "french": "Je ne peux pas",
+      "emoji": "👐",
+      "note": "A request for help can come next.",
+      "category": "My choices matter"
+    },
+    {
+      "id": "i-choose",
+      "arabic": "نختار",
+      "transliteration": "nekhtar",
+      "english": "I choose",
+      "french": "Je choisis",
+      "emoji": "☝️",
+      "note": "",
+      "category": "My choices matter"
+    },
+    {
+      "id": "will-go",
+      "arabic": "راح نروح",
+      "transliteration": "raḥ nrouḥ",
+      "english": "I will go",
+      "french": "Je vais aller",
+      "emoji": "➡️",
+      "note": "A future pattern: raḥ + action. Rayḥa nrouḥ is another common form for a girl.",
+      "category": "A plan for tomorrow"
+    },
+    {
+      "id": "will-play",
+      "arabic": "راح نلعب",
+      "transliteration": "raḥ nelʿab",
+      "english": "I will play",
+      "french": "Je vais jouer",
+      "emoji": "⚽",
+      "note": "",
+      "category": "A plan for tomorrow"
+    },
+    {
+      "id": "wait",
+      "arabic": "نستنى",
+      "transliteration": "nestenna",
+      "english": "I wait",
+      "french": "J'attends",
+      "emoji": "⏳",
+      "note": "",
+      "category": "A plan for tomorrow"
+    },
+    {
+      "id": "see-each-other",
+      "arabic": "نتلاقاو",
+      "transliteration": "netlaqaw",
+      "english": "We meet / see each other",
+      "french": "On se retrouve",
+      "emoji": "🤗",
+      "note": "",
+      "category": "A plan for tomorrow"
+    },
+    {
+      "id": "god-willing",
+      "arabic": "إن شاء الله",
+      "transliteration": "in sha Allah",
+      "english": "God willing",
+      "french": "Si Dieu le veut",
+      "emoji": "🌟",
+      "note": "A common family expression for a hope or future plan; optional to use.",
+      "category": "A plan for tomorrow"
+    },
+    {
+      "id": "phone-hello",
+      "arabic": "ألو",
+      "transliteration": "allo",
+      "english": "Hello (on the phone)",
+      "french": "Allô",
+      "emoji": "📱",
+      "note": "",
+      "category": "A call full of love"
+    },
+    {
+      "id": "hear-me-f",
+      "arabic": "تسمعيني؟",
+      "transliteration": "tesmaʿini?",
+      "english": "Can you hear me? (to a girl or woman)",
+      "french": "Tu m'entends ? (à une fille ou une femme)",
+      "emoji": "👂",
+      "note": "To a boy or man: تسمعني؟ (tesmaʿni?).",
+      "category": "A call full of love"
+    },
+    {
+      "id": "hear-you",
+      "arabic": "نسمعك",
+      "transliteration": "nesmaʿek",
+      "english": "I can hear you",
+      "french": "Je t'entends",
+      "emoji": "🔊",
+      "note": "",
+      "category": "A call full of love"
+    },
+    {
+      "id": "miss-you",
+      "arabic": "توحّشتك",
+      "transliteration": "twaḥḥeshtek",
+      "english": "I missed you / I miss you",
+      "french": "Tu me manques",
+      "emoji": "💌",
+      "note": "Addressing one person. Families differ in final vowel pronunciation.",
+      "category": "A call full of love"
+    },
+    {
+      "id": "love-you",
+      "arabic": "نحبّك",
+      "transliteration": "nḥebbek",
+      "english": "I love you",
+      "french": "Je t'aime",
+      "emoji": "💖",
+      "note": "Choose someone she is comfortable saying this to.",
+      "category": "A call full of love"
+    },
+    {
+      "id": "learn",
+      "arabic": "نتعلّم",
+      "transliteration": "netʿallem",
+      "english": "I learn",
+      "french": "J'apprends",
+      "emoji": "🌱",
+      "note": "",
+      "category": "Our Darja celebration"
+    },
+    {
+      "id": "speak-darja",
+      "arabic": "نهدر بالدارجة",
+      "transliteration": "nehder bed-darja",
+      "english": "I speak Darja",
+      "french": "Je parle darja",
+      "emoji": "💬",
+      "note": "",
+      "category": "Our Darja celebration"
+    },
+    {
+      "id": "little-by-little",
+      "arabic": "شويّة شويّة",
+      "transliteration": "shwiyya shwiyya",
+      "english": "Little by little",
+      "french": "Petit à petit",
+      "emoji": "🐾",
+      "note": "",
+      "category": "Our Darja celebration"
+    },
+    {
+      "id": "well-done",
+      "arabic": "يعطيك الصحّة",
+      "transliteration": "yaʿṭik eṣ-ṣaḥḥa",
+      "english": "Well done / thank you",
+      "french": "Bravo / merci",
+      "emoji": "🌟",
+      "note": "A warm expression of appreciation; literally a wish for health.",
+      "category": "Our Darja celebration"
+    },
+    {
+      "id": "clever-f",
+      "arabic": "شاطرة",
+      "transliteration": "shaṭra",
+      "english": "Clever / capable (girl)",
+      "french": "Débrouillarde",
+      "emoji": "🏅",
+      "note": "Masculine: shaṭer. Celebrate effort, curiosity and trying, not perfect pronunciation.",
+      "category": "Our Darja celebration"
+    }
+  ],
+  "weeks": [
+    {
+      "id": 1,
+      "stageId": 1,
+      "title": "Hello, little star!",
+      "goal": "Greet someone, answer yes or no, and close a tiny conversation.",
+      "wordIds": [
+        "hello",
+        "yes",
+        "no",
+        "thanks",
+        "goodbye"
+      ],
+      "reviewWordIds": [],
+      "phrase": "سلام! بالسلامة!",
+      "phraseTransliteration": "salam! besslama!",
+      "phraseEnglish": "Hello! Goodbye!",
+      "phraseFrench": "Bonjour ! Au revoir !",
+      "familyActivity": "Let two toys meet. She can wave, choose yes or no, and say goodbye. A gesture counts as an answer.",
+      "scriptFocus": "Pictures first. Arabic can stay hidden; nobody needs to read.",
+      "sessions": [
+        {
+          "id": "w1s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Wave for salam; nod for ih; shake your head for la. Say each once, then let her choose the gesture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "hello",
+            "yes",
+            "no"
+          ]
+        },
+        {
+          "id": "w1s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add thanks and goodbye with a toy that brings a pretend gift. Swap roles after two turns. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "thanks",
+            "goodbye",
+            "hello"
+          ]
+        },
+        {
+          "id": "w1s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Hide one of the five picture cards. Let her point to or name the missing greeting. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "hello",
+            "yes",
+            "no",
+            "thanks",
+            "goodbye"
+          ]
+        },
+        {
+          "id": "w1s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "A toy says hello. Let her answer by voice or a wave, then end the visit. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "hello",
+            "yes",
+            "no",
+            "thanks",
+            "goodbye"
+          ]
+        },
+        {
+          "id": "w1s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Use one greeting with a real family member today. Keep it playful and stop after one happy exchange. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "hello",
+            "yes",
+            "no",
+            "thanks",
+            "goodbye"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "stageId": 1,
+      "title": "My favourite people",
+      "goal": "Recognise five family names and connect them with familiar faces.",
+      "wordIds": [
+        "mum",
+        "dad",
+        "brother",
+        "sister",
+        "grandma"
+      ],
+      "reviewWordIds": [
+        "hello",
+        "goodbye"
+      ],
+      "phrase": "ماما، بابا، ختي، خويا.",
+      "phraseTransliteration": "mama, baba, khti, khouya.",
+      "phraseEnglish": "Mum, Dad, my sister, my brother.",
+      "phraseFrench": "Maman, Papa, ma sœur, mon frère.",
+      "familyActivity": "Use photos or draw a pretend family. Relatives who are absent can be represented by a toy; family structures can differ.",
+      "scriptFocus": "Notice that Arabic lines begin on the right. No letter names yet.",
+      "sessions": [
+        {
+          "id": "w2s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show three photos for mum, dad and brother. Say each name and let her point or pass you the matching photo. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "mum",
+            "dad",
+            "brother"
+          ]
+        },
+        {
+          "id": "w2s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add sister and grandmother. Put the photos in two piles and let her find the one you name. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "sister",
+            "grandma",
+            "mum"
+          ]
+        },
+        {
+          "id": "w2s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use the three new family cards with hello and goodbye. Greet each person, then wave goodbye. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "mum",
+            "dad",
+            "brother",
+            "hello",
+            "goodbye"
+          ]
+        },
+        {
+          "id": "w2s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "Let her choose a photo and introduce it using just one family word. You model once, then wait. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "mum",
+            "dad",
+            "brother",
+            "sister",
+            "grandma"
+          ]
+        },
+        {
+          "id": "w2s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Make a tiny family picture book with any three people she chooses and label them aloud. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "mum",
+            "dad",
+            "brother",
+            "sister",
+            "grandma"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "stageId": 1,
+      "title": "Here I am",
+      "goal": "Say who I am and recognise a short introduction.",
+      "wordIds": [
+        "me",
+        "my-name",
+        "girl",
+        "here-i-am",
+        "you-f"
+      ],
+      "reviewWordIds": [
+        "mum",
+        "dad"
+      ],
+      "phrase": "أنا طفلة. راني هنا.",
+      "phraseTransliteration": "ana ṭefla. rani hna.",
+      "phraseEnglish": "I am a girl. I am here.",
+      "phraseFrench": "Je suis une fille. Je suis ici.",
+      "familyActivity": "Play a gentle peekaboo game with a scarf. She can reveal herself and say rani hna, or let a toy do it.",
+      "scriptFocus": "Spot ا in أنا. Simply notice the tall stroke; tracing is optional.",
+      "sessions": [
+        {
+          "id": "w3s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Point to yourself for ana, say your own name after esmi, then introduce ṭefla with a picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "me",
+            "my-name",
+            "girl"
+          ]
+        },
+        {
+          "id": "w3s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add rani hna and nti. Point to yourself and your partner; do not test grammar. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "here-i-am",
+            "you-f",
+            "me"
+          ]
+        },
+        {
+          "id": "w3s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use I, my name and girl alongside mum and dad. Point to the speaker, then let a toy introduce itself. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "me",
+            "my-name",
+            "girl",
+            "mum",
+            "dad"
+          ]
+        },
+        {
+          "id": "w3s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Listen to the story Here I Am. Pause after each short line so she can point to the speaker. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "me",
+            "my-name",
+            "girl",
+            "here-i-am",
+            "you-f"
+          ]
+        },
+        {
+          "id": "w3s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Record a tiny introduction for yourselves, or say it to a toy: hello, my name is…, I am here. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "me",
+            "my-name",
+            "girl",
+            "here-i-am",
+            "you-f"
+          ]
+        }
+      ],
+      "storyId": "story-1"
+    },
+    {
+      "id": 4,
+      "stageId": 1,
+      "title": "A little snack",
+      "goal": "Ask for a familiar drink or food with a gesture and a short chunk.",
+      "wordIds": [
+        "water",
+        "bread",
+        "milk",
+        "want",
+        "give-me"
+      ],
+      "reviewWordIds": [
+        "mum",
+        "dad"
+      ],
+      "phrase": "عطيني ما.",
+      "phraseTransliteration": "ʿṭini ma.",
+      "phraseEnglish": "Give me water.",
+      "phraseFrench": "Donne-moi de l'eau.",
+      "familyActivity": "Set up a pretend café with empty cups and pictures of bread and milk. Accept pointing, then model the request warmly.",
+      "scriptFocus": "Spot م in ما and ماما. Let her find it without naming every letter.",
+      "sessions": [
+        {
+          "id": "w4s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Put water, bread and milk pictures on the table. Name one and let her feed a toy. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "water",
+            "bread",
+            "milk"
+          ]
+        },
+        {
+          "id": "w4s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add nḥebb and ʿṭini. Offer two choices; she can ask with one word or the whole chunk. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "want",
+            "give-me",
+            "water"
+          ]
+        },
+        {
+          "id": "w4s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use water, bread and milk with mum and dad. Let her deliver the item you name to the chosen family picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "water",
+            "bread",
+            "milk",
+            "mum",
+            "dad"
+          ]
+        },
+        {
+          "id": "w4s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "Practise ʿṭini ma with an empty cup. Switch who asks and who gives; add a warm thank-you. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "water",
+            "bread",
+            "milk",
+            "want",
+            "give-me"
+          ]
+        },
+        {
+          "id": "w4s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "At one real snack, pause for a choice. Model her request once and celebrate any attempt. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "water",
+            "bread",
+            "milk",
+            "want",
+            "give-me"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "stageId": 1,
+      "title": "Let's play!",
+      "goal": "Recognise play words and choose a favourite toy.",
+      "wordIds": [
+        "ball",
+        "doll",
+        "play",
+        "see",
+        "listen"
+      ],
+      "reviewWordIds": [
+        "water",
+        "bread"
+      ],
+      "phrase": "نحب نلعب.",
+      "phraseTransliteration": "nḥebb nelʿab.",
+      "phraseEnglish": "I want to play.",
+      "phraseFrench": "J'ai envie de jouer.",
+      "familyActivity": "Roll a ball, look for a toy and listen to a gentle sound. Follow her choice of play rather than finishing every card.",
+      "scriptFocus": "Notice that ب has one dot underneath. Find it in نلعب if interested.",
+      "sessions": [
+        {
+          "id": "w5s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show a ball and doll, then act out playing. Say kora, poupiya and nelʿab as you do each. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "ball",
+            "doll",
+            "play"
+          ]
+        },
+        {
+          "id": "w5s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add nshouf and nesmaʿ. Play I see / I hear with a visible toy and a soft clap. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "see",
+            "listen",
+            "ball"
+          ]
+        },
+        {
+          "id": "w5s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix ball, doll and I play with water and bread. Sort things a toy can play with and things for a snack. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "ball",
+            "doll",
+            "play",
+            "water",
+            "bread"
+          ]
+        },
+        {
+          "id": "w5s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "Offer the two toys. Model nḥebb nelʿab, then let her choose how to invite you. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "ball",
+            "doll",
+            "play",
+            "see",
+            "listen"
+          ]
+        },
+        {
+          "id": "w5s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Spend two minutes playing her game. Repeat one Darja word naturally a few times. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "ball",
+            "doll",
+            "play",
+            "see",
+            "listen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "stageId": 1,
+      "title": "How do I feel?",
+      "goal": "Name a feeling or need using a girl's speaking form.",
+      "wordIds": [
+        "happy-f",
+        "tired-f",
+        "hungry-f",
+        "thirsty-f",
+        "fine"
+      ],
+      "reviewWordIds": [
+        "mum",
+        "ball"
+      ],
+      "phrase": "راني فرحانة.",
+      "phraseTransliteration": "rani farḥana.",
+      "phraseEnglish": "I am happy.",
+      "phraseFrench": "Je suis contente.",
+      "familyActivity": "Make faces together. Let her choose her real feeling; there is no correct feeling and she can pass.",
+      "scriptFocus": "Look for the round ة ending in فرحانة. It often appears in these feminine words.",
+      "sessions": [
+        {
+          "id": "w6s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Make happy, tired and hungry faces. Let her match a face or toy to the three words. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "happy-f",
+            "tired-f",
+            "hungry-f"
+          ]
+        },
+        {
+          "id": "w6s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add thirsty and fine. Pair thirsty with water and hungry with bread from week 4. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "thirsty-f",
+            "fine",
+            "happy-f"
+          ]
+        },
+        {
+          "id": "w6s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use happy, tired and hungry with mum and ball. Show how a toy feels before or after play. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "happy-f",
+            "tired-f",
+            "hungry-f",
+            "mum",
+            "ball"
+          ]
+        },
+        {
+          "id": "w6s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Thirsty Doll together. Ask for a picture answer before inviting speech. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "happy-f",
+            "tired-f",
+            "hungry-f",
+            "thirsty-f",
+            "fine"
+          ]
+        },
+        {
+          "id": "w6s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Ask once how she feels. Offer two picture choices, then respond to what she actually needs. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "happy-f",
+            "tired-f",
+            "hungry-f",
+            "thirsty-f",
+            "fine"
+          ]
+        }
+      ],
+      "storyId": "story-2"
+    },
+    {
+      "id": 7,
+      "stageId": 2,
+      "title": "A rainbow hunt",
+      "goal": "Hear five colour names and notice the feminine form with a ball.",
+      "wordIds": [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "white"
+      ],
+      "reviewWordIds": [
+        "ball",
+        "doll"
+      ],
+      "phrase": "كرة حمرا.",
+      "phraseTransliteration": "kora ḥamra.",
+      "phraseEnglish": "A red ball.",
+      "phraseFrench": "Un ballon rouge.",
+      "familyActivity": "Search for coloured objects around the room. Use only safe objects within reach, and let her choose the hunt route.",
+      "scriptFocus": "Spot ر in حمر and خضر. Colour pictures matter more than reading; noticing one familiar shape is enough.",
+      "sessions": [
+        {
+          "id": "w7s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Place red, blue and green objects in front of you. Say one colour and let her touch it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "red",
+            "blue",
+            "green"
+          ]
+        },
+        {
+          "id": "w7s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add yellow and white. Sort five toy pieces into colour piles, with no speed race. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "yellow",
+            "white",
+            "red"
+          ]
+        },
+        {
+          "id": "w7s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Pair red, blue and green with ball and doll. Model the colour ending in kora ḥamra without asking for a grammar rule. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "red",
+            "blue",
+            "green",
+            "ball",
+            "doll"
+          ]
+        },
+        {
+          "id": "w7s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She becomes the colour caller. You deliberately pick the wrong colour once and let her fix it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "red",
+            "blue",
+            "green",
+            "yellow",
+            "white"
+          ]
+        },
+        {
+          "id": "w7s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Find one red thing and one blue thing together. Share the colour in Darja at any time today. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "red",
+            "blue",
+            "green",
+            "yellow",
+            "white"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "stageId": 2,
+      "title": "Count my treasures",
+      "goal": "Recognise and say the counting sequence from one to five.",
+      "wordIds": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five"
+      ],
+      "reviewWordIds": [
+        "ball",
+        "doll"
+      ],
+      "phrase": "واحد، زوج، ثلاثة.",
+      "phraseTransliteration": "waḥed, zoudj, tlata.",
+      "phraseEnglish": "One, two, three.",
+      "phraseFrench": "Un, deux, trois.",
+      "familyActivity": "Count large blocks, toy animals or claps. Count objects one at a time; she may count along or simply move them.",
+      "scriptFocus": "Try ١ ٢ ٣ beside 1 2 3. These are numeral shapes, not a reading test.",
+      "sessions": [
+        {
+          "id": "w8s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use one, two and three blocks. Touch each block as you count slowly and stop at three. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "one",
+            "two",
+            "three"
+          ]
+        },
+        {
+          "id": "w8s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add four and five. Build two small towers and count them together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "four",
+            "five",
+            "one"
+          ]
+        },
+        {
+          "id": "w8s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Match one, two and three with ball and doll. Count toy pictures or claps slowly. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "one",
+            "two",
+            "three",
+            "ball",
+            "doll"
+          ]
+        },
+        {
+          "id": "w8s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She tells you how many claps to make, using a word, fingers or a number card. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "one",
+            "two",
+            "three",
+            "four",
+            "five"
+          ]
+        },
+        {
+          "id": "w8s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Count five steps or five toys together once today. Finish with a silly celebration. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "one",
+            "two",
+            "three",
+            "four",
+            "five"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "stageId": 2,
+      "title": "Our cosy home",
+      "goal": "Find five familiar things at home.",
+      "wordIds": [
+        "home",
+        "door",
+        "window",
+        "chair",
+        "table"
+      ],
+      "reviewWordIds": [
+        "red",
+        "one"
+      ],
+      "phrase": "راني في الدار.",
+      "phraseTransliteration": "rani fi d-dar.",
+      "phraseEnglish": "I am at home.",
+      "phraseFrench": "Je suis à la maison.",
+      "familyActivity": "Give a toy a tour of one room. Name the door, window, chair and table as you pass them together.",
+      "scriptFocus": "Spot د in دار. Draw the shape in the air if she wants.",
+      "sessions": [
+        {
+          "id": "w9s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use home, door and window pictures. Name one, then point to its real-life match. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "home",
+            "door",
+            "window"
+          ]
+        },
+        {
+          "id": "w9s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add chair and table. Move a toy between them and name the place each time. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "chair",
+            "table",
+            "home"
+          ]
+        },
+        {
+          "id": "w9s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit red and one with home, door and window. She can name a picture, spot a colour or count one object. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "home",
+            "door",
+            "window",
+            "red",
+            "one"
+          ]
+        },
+        {
+          "id": "w9s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Ball at Home. Let her point to the chair when she hears it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "home",
+            "door",
+            "window",
+            "chair",
+            "table"
+          ]
+        },
+        {
+          "id": "w9s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Let her guide you to one named object in the room and finish by saying rani fi d-dar. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "home",
+            "door",
+            "window",
+            "chair",
+            "table"
+          ]
+        }
+      ],
+      "storyId": "story-3"
+    },
+    {
+      "id": 10,
+      "stageId": 2,
+      "title": "Head to toe",
+      "goal": "Recognise five body words through actions.",
+      "wordIds": [
+        "head",
+        "hand",
+        "foot",
+        "eye",
+        "mouth"
+      ],
+      "reviewWordIds": [
+        "tired-f",
+        "happy-f"
+      ],
+      "phrase": "هاذي يدي.",
+      "phraseTransliteration": "hadi yeddi.",
+      "phraseEnglish": "This is my hand.",
+      "phraseFrench": "Voici ma main.",
+      "familyActivity": "Play a slow touch-your-head game. She touches her own body or a doll; adults do not need to touch her.",
+      "scriptFocus": "Notice ع in عين. Listen to an adult first; comfortable attempts are enough.",
+      "sessions": [
+        {
+          "id": "w10s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Point to your own head, hand and foot. She can copy with herself or a doll. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "head",
+            "hand",
+            "foot"
+          ]
+        },
+        {
+          "id": "w10s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add eye and mouth. Make a funny face, then point to the part you name. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eye",
+            "mouth",
+            "head"
+          ]
+        },
+        {
+          "id": "w10s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use head, hand and foot with tired and happy. A toy can show a feeling and point to a body part. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "head",
+            "hand",
+            "foot",
+            "tired-f",
+            "happy-f"
+          ]
+        },
+        {
+          "id": "w10s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "Let her be the caller. You point to the named body part, including one playful mistake. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "head",
+            "hand",
+            "foot",
+            "eye",
+            "mouth"
+          ]
+        },
+        {
+          "id": "w10s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "At handwashing, say yeddi once together. Connect the word to what you are already doing. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "head",
+            "hand",
+            "foot",
+            "eye",
+            "mouth"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "stageId": 2,
+      "title": "Fruit picnic",
+      "goal": "Choose fruit and describe a tasty bite.",
+      "wordIds": [
+        "apple",
+        "banana",
+        "orange",
+        "dates",
+        "tasty"
+      ],
+      "reviewWordIds": [
+        "water",
+        "milk"
+      ],
+      "phrase": "التفّاحة بنينة.",
+      "phraseTransliteration": "et-teffaḥa bnina.",
+      "phraseEnglish": "The apple is tasty.",
+      "phraseFrench": "La pomme est délicieuse.",
+      "familyActivity": "Use fruit pictures or food already suitable for your child. Give a toy a picnic and let her choose what it eats.",
+      "scriptFocus": "Find ت in تفّاحة and تمر. Notice the two dots above.",
+      "sessions": [
+        {
+          "id": "w11s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce apple, banana and orange with real fruit or pictures. Let her point before repeating. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "apple",
+            "banana",
+            "orange"
+          ]
+        },
+        {
+          "id": "w11s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add dates and tasty. Use bnin for bread and bnina for an apple; these are models, not grammar drills. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "dates",
+            "tasty",
+            "apple"
+          ]
+        },
+        {
+          "id": "w11s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Sort apple, banana and orange with water and milk. Ask for one item and let her pass its picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "apple",
+            "banana",
+            "orange",
+            "water",
+            "milk"
+          ]
+        },
+        {
+          "id": "w11s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She orders a fruit using nḥebb plus its name. You offer it and wait for a response. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "apple",
+            "banana",
+            "orange",
+            "dates",
+            "tasty"
+          ]
+        },
+        {
+          "id": "w11s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Choose one fruit at snack time. Ask her opinion and accept any answer, including not liking it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "apple",
+            "banana",
+            "orange",
+            "dates",
+            "tasty"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "stageId": 2,
+      "title": "Animal friends",
+      "goal": "Identify five animals and follow a tiny picture story.",
+      "wordIds": [
+        "cat",
+        "dog",
+        "bird",
+        "fish",
+        "rabbit"
+      ],
+      "reviewWordIds": [
+        "red",
+        "two"
+      ],
+      "phrase": "نشوف مشّ.",
+      "phraseTransliteration": "nshouf meshsh.",
+      "phraseEnglish": "I see a cat.",
+      "phraseFrench": "Je vois un chat.",
+      "familyActivity": "Walk a toy animal through a paper garden. She chooses the animal and can copy its movement or sound.",
+      "scriptFocus": "Look for ح in حوت. Contrast the written shape with خ only if she is curious.",
+      "sessions": [
+        {
+          "id": "w12s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce cat, dog and bird using pictures and playful movement. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "cat",
+            "dog",
+            "bird"
+          ]
+        },
+        {
+          "id": "w12s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add fish and rabbit. Mix the five cards and ask her to give an animal to a toy. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "fish",
+            "rabbit",
+            "cat"
+          ]
+        },
+        {
+          "id": "w12s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use cat, dog and bird with red and two. Choose an animal, count two toy animals or add a colour to a drawing. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "cat",
+            "dog",
+            "bird",
+            "red",
+            "two"
+          ]
+        },
+        {
+          "id": "w12s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Bird and the Rabbit. Offer the two animal pictures when asking the story question. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "cat",
+            "dog",
+            "bird",
+            "fish",
+            "rabbit"
+          ]
+        },
+        {
+          "id": "w12s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "On a walk or in a picture book, name one animal she notices. Let her lead the looking. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "cat",
+            "dog",
+            "bird",
+            "fish",
+            "rabbit"
+          ]
+        }
+      ],
+      "storyId": "story-4"
+    },
+    {
+      "id": 13,
+      "stageId": 3,
+      "title": "Kind little requests",
+      "goal": "Ask for help, more, or a stop with polite words.",
+      "wordIds": [
+        "please",
+        "sorry-f",
+        "help-me-f",
+        "more-f",
+        "enough"
+      ],
+      "reviewWordIds": [
+        "water",
+        "ball"
+      ],
+      "phrase": "عاونيني، من فضلك.",
+      "phraseTransliteration": "ʿawnini, men faḍlek.",
+      "phraseEnglish": "Help me, please.",
+      "phraseFrench": "Aide-moi, s'il te plaît.",
+      "familyActivity": "Build a small block tower that needs two people. Practise help me, more and enough; always honour enough.",
+      "scriptFocus": "Spot ي at the end of عاونيني and زيدي. Hear the girl-to-woman forms together.",
+      "sessions": [
+        {
+          "id": "w13s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Model please, sorry and help me with two toys. She can choose the card for what the toy needs. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "please",
+            "sorry-f",
+            "help-me-f"
+          ]
+        },
+        {
+          "id": "w13s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add more and enough. Give blocks one by one; stop immediately when she says or shows barka. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "more-f",
+            "enough",
+            "please"
+          ]
+        },
+        {
+          "id": "w13s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit water and ball with please, sorry and help me. Make a short request, then swap roles. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "please",
+            "sorry-f",
+            "help-me-f",
+            "water",
+            "ball"
+          ]
+        },
+        {
+          "id": "w13s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She asks an adult or toy for help with a simple task. Use the form for the person she is addressing. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "please",
+            "sorry-f",
+            "help-me-f",
+            "more-f",
+            "enough"
+          ]
+        },
+        {
+          "id": "w13s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Invite one real request today and respond warmly. Repeat a clearer model without making her redo it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "please",
+            "sorry-f",
+            "help-me-f",
+            "more-f",
+            "enough"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "stageId": 3,
+      "title": "Big and small",
+      "goal": "Describe the size of a familiar object.",
+      "wordIds": [
+        "big",
+        "small",
+        "tall",
+        "short",
+        "good"
+      ],
+      "reviewWordIds": [
+        "ball",
+        "home"
+      ],
+      "phrase": "كرة كبيرة، كرة صغيرة.",
+      "phraseTransliteration": "kora kbira, kora ṣghira.",
+      "phraseEnglish": "A big ball, a small ball.",
+      "phraseFrench": "Un grand ballon, un petit ballon.",
+      "familyActivity": "Compare toy sizes. Use kbir with masculine words and kbira with feminine words in your own models; let her listen.",
+      "scriptFocus": "Notice ة in كبيرة and صغيرة. A matching ending can sound like a little a.",
+      "sessions": [
+        {
+          "id": "w14s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show a big toy, a small toy and a tall block tower. Act out the three descriptions. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "big",
+            "small",
+            "tall"
+          ]
+        },
+        {
+          "id": "w14s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add short and good. Compare two towers; use mliḥ to comment on a helpful idea. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "short",
+            "good",
+            "big"
+          ]
+        },
+        {
+          "id": "w14s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Choose big, small and tall with ball and home. Model kora kbira and dar ṣghira with pictures. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "big",
+            "small",
+            "tall",
+            "ball",
+            "home"
+          ]
+        },
+        {
+          "id": "w14s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She chooses which toy fits in a box. Let a gesture come first, then offer one descriptive word. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "big",
+            "small",
+            "tall",
+            "short",
+            "good"
+          ]
+        },
+        {
+          "id": "w14s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Find one big and one small thing together. She can describe them with a word or a two-word chunk. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "big",
+            "small",
+            "tall",
+            "short",
+            "good"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "stageId": 3,
+      "title": "My school bag",
+      "goal": "Name familiar school things and say I read.",
+      "wordIds": [
+        "school",
+        "schoolbag",
+        "book",
+        "pen",
+        "read"
+      ],
+      "reviewWordIds": [
+        "hello",
+        "goodbye"
+      ],
+      "phrase": "نقرا كتاب.",
+      "phraseTransliteration": "neqra ktab.",
+      "phraseEnglish": "I read a book.",
+      "phraseFrench": "Je lis un livre.",
+      "familyActivity": "Pack a pretend schoolbag with a book and pen. Add her own favourite item and say its name in any language.",
+      "scriptFocus": "Spot ك in كتاب and كرطابل. Writing is optional; pointing is plenty.",
+      "sessions": [
+        {
+          "id": "w15s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Name school, schoolbag and book while looking at pictures or real objects. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "school",
+            "schoolbag",
+            "book"
+          ]
+        },
+        {
+          "id": "w15s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add pen and I read. Open a picture book and pretend to read together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "pen",
+            "read",
+            "school"
+          ]
+        },
+        {
+          "id": "w15s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use school, schoolbag and book with hello and goodbye. A toy arrives at school, greets you and packs its book. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "school",
+            "schoolbag",
+            "book",
+            "hello",
+            "goodbye"
+          ]
+        },
+        {
+          "id": "w15s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Little Book. She may turn pages, point, or supply the repeated word ktab. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "school",
+            "schoolbag",
+            "book",
+            "pen",
+            "read"
+          ]
+        },
+        {
+          "id": "w15s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Let her show one thing from her bag and tell you about it with any Darja word she remembers. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "school",
+            "schoolbag",
+            "book",
+            "pen",
+            "read"
+          ]
+        }
+      ],
+      "storyId": "story-5"
+    },
+    {
+      "id": 16,
+      "stageId": 3,
+      "title": "Getting dressed",
+      "goal": "Name everyday clothes and use I wear.",
+      "wordIds": [
+        "trousers",
+        "shirt",
+        "shoes",
+        "dress",
+        "wear"
+      ],
+      "reviewWordIds": [
+        "red",
+        "blue"
+      ],
+      "phrase": "نلبس سروال.",
+      "phraseTransliteration": "nelbes serwal.",
+      "phraseEnglish": "I put on trousers.",
+      "phraseFrench": "Je mets un pantalon.",
+      "familyActivity": "Dress a doll or choose clothes from a basket. Let her decide what the doll wears and explain with one word.",
+      "scriptFocus": "Spot س in سروال and ص in صباط. The different sounds take time; no perfect imitation needed.",
+      "sessions": [
+        {
+          "id": "w16s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce trousers, top and shoes by holding them up or using pictures. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "trousers",
+            "shirt",
+            "shoes"
+          ]
+        },
+        {
+          "id": "w16s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add dress and I wear. Dress a toy and model nelbes plus the clothing word. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "dress",
+            "wear",
+            "trousers"
+          ]
+        },
+        {
+          "id": "w16s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Match trousers, top and shoes with red and blue. Describe a picture while she points to the colour. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "trousers",
+            "shirt",
+            "shoes",
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "id": "w16s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She chooses an outfit for a toy and tells you one thing it wears. Silly choices are welcome. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "trousers",
+            "shirt",
+            "shoes",
+            "dress",
+            "wear"
+          ]
+        },
+        {
+          "id": "w16s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Name one item while getting dressed. She can finish the phrase nelbes… if she wants. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "trousers",
+            "shirt",
+            "shoes",
+            "dress",
+            "wear"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "stageId": 3,
+      "title": "Things I can do",
+      "goal": "Understand and use five familiar action words.",
+      "wordIds": [
+        "eat",
+        "drink",
+        "draw",
+        "write",
+        "sleep"
+      ],
+      "reviewWordIds": [
+        "book",
+        "water"
+      ],
+      "phrase": "ناكل ونشرب.",
+      "phraseTransliteration": "nakol w neshreb.",
+      "phraseEnglish": "I eat and I drink.",
+      "phraseFrench": "Je mange et je bois.",
+      "familyActivity": "Take turns miming everyday actions. A correct gesture counts; saying the word is an invitation.",
+      "scriptFocus": "Notice ن at the start of نكتب and نرسم. In these examples it helps say I do something.",
+      "sessions": [
+        {
+          "id": "w17s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Mime I eat, I drink and I draw. She guesses by pointing to the matching picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eat",
+            "drink",
+            "draw"
+          ]
+        },
+        {
+          "id": "w17s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add I write and I sleep. Act out a silly day with the five actions. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "write",
+            "sleep",
+            "eat"
+          ]
+        },
+        {
+          "id": "w17s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix I eat, I drink and I draw with book and water. Choose the object that fits, or mime the action. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eat",
+            "drink",
+            "draw",
+            "book",
+            "water"
+          ]
+        },
+        {
+          "id": "w17s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She picks two actions for you to mime, then tries saying her own two-action sentence. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eat",
+            "drink",
+            "draw",
+            "write",
+            "sleep"
+          ]
+        },
+        {
+          "id": "w17s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "During a familiar activity, describe your own action in Darja and invite her to join once. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eat",
+            "drink",
+            "draw",
+            "write",
+            "sleep"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "stageId": 3,
+      "title": "Where is my ball?",
+      "goal": "Ask where and understand four position words.",
+      "wordIds": [
+        "where",
+        "on",
+        "under",
+        "in-front",
+        "behind"
+      ],
+      "reviewWordIds": [
+        "ball",
+        "chair"
+      ],
+      "phrase": "الكرة تحت الكرسي.",
+      "phraseTransliteration": "el-kora teḥt el-korsi.",
+      "phraseEnglish": "The ball is under the chair.",
+      "phraseFrench": "Le ballon est sous la chaise.",
+      "familyActivity": "Hide a ball in an easy, visible place. Ask win? and let her move the ball to give the answer.",
+      "scriptFocus": "Find the familiar ك in الكرة and الكرسي. Read the whole phrase only if she wants.",
+      "sessions": [
+        {
+          "id": "w18s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce where, on and under using a toy and a chair. Make the contrast obvious. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "where",
+            "on",
+            "under"
+          ]
+        },
+        {
+          "id": "w18s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add in front of and behind. Move a toy around a box while saying each place. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "in-front",
+            "behind",
+            "where"
+          ]
+        },
+        {
+          "id": "w18s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use where, on and under with ball and chair. Let her move the ball while you describe its place. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "where",
+            "on",
+            "under",
+            "ball",
+            "chair"
+          ]
+        },
+        {
+          "id": "w18s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Hiding Ball. Pause for a point or a guess before showing the next line. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "where",
+            "on",
+            "under",
+            "in-front",
+            "behind"
+          ]
+        },
+        {
+          "id": "w18s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Let her hide a toy in plain sight and become your guide. Celebrate finding it together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "where",
+            "on",
+            "under",
+            "in-front",
+            "behind"
+          ]
+        }
+      ],
+      "storyId": "story-6"
+    },
+    {
+      "id": 19,
+      "stageId": 4,
+      "title": "A garden adventure",
+      "goal": "Notice and name five things in a garden.",
+      "wordIds": [
+        "tree",
+        "flower",
+        "grass",
+        "soil",
+        "garden"
+      ],
+      "reviewWordIds": [
+        "green",
+        "small"
+      ],
+      "phrase": "نشوف وردة في الجنينة.",
+      "phraseTransliteration": "nshouf werda fi d-djnina.",
+      "phraseEnglish": "I see a flower in the garden.",
+      "phraseFrench": "Je vois une fleur dans le jardin.",
+      "familyActivity": "Look at a garden, balcony plant or picture. Let her choose a favourite detail to draw and label aloud.",
+      "scriptFocus": "Spot ج in شجرة and جنينة. It is often pronounced dj in Algiers speech.",
+      "sessions": [
+        {
+          "id": "w19s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show tree, flower and grass pictures. Let her match each to a drawing or nearby plant. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "tree",
+            "flower",
+            "grass"
+          ]
+        },
+        {
+          "id": "w19s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add soil and garden. Build a paper garden with the five picture cards. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "soil",
+            "garden",
+            "tree"
+          ]
+        },
+        {
+          "id": "w19s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit green and small with tree, flower and grass. Describe one garden picture together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "tree",
+            "flower",
+            "grass",
+            "green",
+            "small"
+          ]
+        },
+        {
+          "id": "w19s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She gives a toy a garden tour using nshouf plus one plant word. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "tree",
+            "flower",
+            "grass",
+            "soil",
+            "garden"
+          ]
+        },
+        {
+          "id": "w19s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Find one living plant together and tell a family member one Darja word about it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "tree",
+            "flower",
+            "grass",
+            "soil",
+            "garden"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "stageId": 4,
+      "title": "Sun, rain and wind",
+      "goal": "Recognise simple weather words and connect them to the day.",
+      "wordIds": [
+        "sun",
+        "rain",
+        "wind",
+        "hot",
+        "cold"
+      ],
+      "reviewWordIds": [
+        "water",
+        "shirt"
+      ],
+      "phrase": "اليوم راهو بارد.",
+      "phraseTransliteration": "lyoum rahou bared.",
+      "phraseEnglish": "It is cold today.",
+      "phraseFrench": "Il fait froid aujourd'hui.",
+      "familyActivity": "Make a paper weather wheel. She points to today's weather and chooses a matching picture or outfit.",
+      "scriptFocus": "Spot ش in شمس and ر in ريح. Seeing a familiar shape is enough.",
+      "sessions": [
+        {
+          "id": "w20s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce sun, rain and wind with gestures and pictures; make a soft wind sound. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "sun",
+            "rain",
+            "wind"
+          ]
+        },
+        {
+          "id": "w20s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add hot and cold. Match clothing pictures to pretend weather, then say the adjective. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "hot",
+            "cold",
+            "sun"
+          ]
+        },
+        {
+          "id": "w20s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix sun, rain and wind with water and top. Ask what a toy might need in the weather picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "sun",
+            "rain",
+            "wind",
+            "water",
+            "shirt"
+          ]
+        },
+        {
+          "id": "w20s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She chooses pretend weather for a toy's outing and tells you one word about it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "sun",
+            "rain",
+            "wind",
+            "hot",
+            "cold"
+          ]
+        },
+        {
+          "id": "w20s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Look out of the window together. Say one true weather word and let her agree or correct you. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "sun",
+            "rain",
+            "wind",
+            "hot",
+            "cold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "stageId": 4,
+      "title": "A trip together",
+      "goal": "Talk about walking, going, coming and two places or objects outside.",
+      "wordIds": [
+        "walk",
+        "go",
+        "come",
+        "car",
+        "shop"
+      ],
+      "reviewWordIds": [
+        "home",
+        "goodbye"
+      ],
+      "phrase": "نروح للحانوت مع بابا.",
+      "phraseTransliteration": "nrouḥ lel-ḥanout mʿa baba.",
+      "phraseEnglish": "I go to the shop with Dad.",
+      "phraseFrench": "Je vais au magasin avec Papa.",
+      "familyActivity": "Draw a route from home to a pretend shop. Move a toy along it, on foot or in a car; use any familiar caregiver.",
+      "scriptFocus": "Spot ح in حانوت and روح. Let the adult model the breathy sound gently.",
+      "sessions": [
+        {
+          "id": "w21s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Act out I walk, I go and I come with a toy. She moves it as she listens. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "walk",
+            "go",
+            "come"
+          ]
+        },
+        {
+          "id": "w21s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add car and shop. Choose how the toy travels to the pretend shop. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "car",
+            "shop",
+            "walk"
+          ]
+        },
+        {
+          "id": "w21s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit home and goodbye with I walk, I go and I come. Move a toy away from home and back again. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "walk",
+            "go",
+            "come",
+            "home",
+            "goodbye"
+          ]
+        },
+        {
+          "id": "w21s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read A Walk to the Shop. Put down the home, shop and apple pictures as the story unfolds. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "walk",
+            "go",
+            "come",
+            "car",
+            "shop"
+          ]
+        },
+        {
+          "id": "w21s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "On a normal outing, name where you are going. She can add nrouḥ or wave besslama. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "walk",
+            "go",
+            "come",
+            "car",
+            "shop"
+          ]
+        }
+      ],
+      "storyId": "story-7"
+    },
+    {
+      "id": 22,
+      "stageId": 4,
+      "title": "Little questions",
+      "goal": "Recognise five question words and enjoy asking one.",
+      "wordIds": [
+        "what",
+        "who",
+        "why",
+        "how",
+        "when"
+      ],
+      "reviewWordIds": [
+        "mum",
+        "ball"
+      ],
+      "phrase": "شكون هذا؟",
+      "phraseTransliteration": "shkoun hada?",
+      "phraseEnglish": "Who is this?",
+      "phraseFrench": "Qui est-ce ?",
+      "familyActivity": "Put familiar photos and objects in a mystery bag. Ask who for a person and what for a thing, then switch roles.",
+      "scriptFocus": "Spot و in واش and وقتاش. Questions can be understood by voice before print.",
+      "sessions": [
+        {
+          "id": "w22s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce what, who and why with a toy, a family photo and a simple pretend problem. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "what",
+            "who",
+            "why"
+          ]
+        },
+        {
+          "id": "w22s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add how and when. Show how to build a tower and point to a time picture for when. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "how",
+            "when",
+            "what"
+          ]
+        },
+        {
+          "id": "w22s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use what, who and why with mum and ball. Try who for the family picture and what for the toy; offer a simple picture-supported reason for why. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "what",
+            "who",
+            "why",
+            "mum",
+            "ball"
+          ]
+        },
+        {
+          "id": "w22s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She chooses a question card for you to answer. Give a short answer she can understand with a picture. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "what",
+            "who",
+            "why",
+            "how",
+            "when"
+          ]
+        },
+        {
+          "id": "w22s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Invite her to ask one Darja question about anything at home. It is fine to answer partly in English or French. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "what",
+            "who",
+            "why",
+            "how",
+            "when"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "stageId": 4,
+      "title": "Today and tomorrow",
+      "goal": "Connect five time words to familiar routines.",
+      "wordIds": [
+        "today",
+        "tomorrow",
+        "yesterday",
+        "now",
+        "later"
+      ],
+      "reviewWordIds": [
+        "play",
+        "read"
+      ],
+      "phrase": "اليوم نلعب. غدوة نقرا.",
+      "phraseTransliteration": "lyoum nelʿab. ghedwa neqra.",
+      "phraseEnglish": "Today I play. Tomorrow I read.",
+      "phraseFrench": "Aujourd'hui je joue. Demain je lis.",
+      "familyActivity": "Draw three boxes for yesterday, today and tomorrow. Place one routine picture in each; keep plans flexible.",
+      "scriptFocus": "Look at اليوم as a whole shape. Do not ask her to sound out every letter.",
+      "sessions": [
+        {
+          "id": "w23s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use yesterday, today and tomorrow cards beside pictures of familiar activities. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "today",
+            "tomorrow",
+            "yesterday"
+          ]
+        },
+        {
+          "id": "w23s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add now and later. Move a toy between a now mat and a later mat as you describe a plan. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "now",
+            "later",
+            "today"
+          ]
+        },
+        {
+          "id": "w23s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use today, tomorrow and yesterday with I play and I read. Match one familiar action to a time. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "today",
+            "tomorrow",
+            "yesterday",
+            "play",
+            "read"
+          ]
+        },
+        {
+          "id": "w23s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She chooses one thing for now and one for later, saying a word or placing the cards. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "today",
+            "tomorrow",
+            "yesterday",
+            "now",
+            "later"
+          ]
+        },
+        {
+          "id": "w23s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "At the end of the day, share one thing from today. Ask what she would enjoy tomorrow. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "today",
+            "tomorrow",
+            "yesterday",
+            "now",
+            "later"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "stageId": 4,
+      "title": "Ten little treasures",
+      "goal": "Count from six to ten and combine the two counting sets.",
+      "wordIds": [
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten"
+      ],
+      "reviewWordIds": [
+        "two",
+        "five"
+      ],
+      "phrase": "ستّة، سبعة، ثمانية، تسعة، عشرة.",
+      "phraseTransliteration": "setta, sebʿa, tmenya, tesʿa, ʿeshra.",
+      "phraseEnglish": "Six, seven, eight, nine, ten.",
+      "phraseFrench": "Six, sept, huit, neuf, dix.",
+      "familyActivity": "Lay out ten large objects in two groups of five. Count slowly together and let her move each one.",
+      "scriptFocus": "Explore ٦ ٧ ٨ ٩ ١٠ beside 6–10. Use the shapes as a matching game.",
+      "sessions": [
+        {
+          "id": "w24s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Count an existing row of five, then add six, seven and eight one at a time. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "six",
+            "seven",
+            "eight"
+          ]
+        },
+        {
+          "id": "w24s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add nine and ten. Fill two rows of five; stop to notice when both rows are full. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "nine",
+            "ten",
+            "six"
+          ]
+        },
+        {
+          "id": "w24s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix six, seven and eight with two and five. Match each number to a row of objects or fingers. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "six",
+            "seven",
+            "eight",
+            "two",
+            "five"
+          ]
+        },
+        {
+          "id": "w24s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read Ten Treasures. Let her check the collection by counting real objects or the pictures. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten"
+          ]
+        },
+        {
+          "id": "w24s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Count something useful together, such as ten blocks to put away. Stop if it becomes tiring. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten"
+          ]
+        }
+      ],
+      "storyId": "story-8"
+    },
+    {
+      "id": 25,
+      "stageId": 5,
+      "title": "Breakfast together",
+      "goal": "Name breakfast foods and use a warm meal expression.",
+      "wordIds": [
+        "eggs",
+        "cheese",
+        "oil",
+        "butter",
+        "enjoy-meal"
+      ],
+      "reviewWordIds": [
+        "bread",
+        "milk"
+      ],
+      "phrase": "نحب خبز وفرماج.",
+      "phraseTransliteration": "nḥebb khobz w fermadj.",
+      "phraseEnglish": "I want bread and cheese.",
+      "phraseFrench": "Je veux du pain et du fromage.",
+      "familyActivity": "Make a pretend breakfast menu from pictures. She orders, serves and says thanks; include only foods your household uses.",
+      "scriptFocus": "Notice ز in زيت and زبدة. These two food words begin with the same letter.",
+      "sessions": [
+        {
+          "id": "w25s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Name eggs, cheese and oil using pictures. Let her choose what belongs on a pretend table. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eggs",
+            "cheese",
+            "oil"
+          ]
+        },
+        {
+          "id": "w25s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add butter and beṣ-ṣaḥḥa. Practise the expression while serving a toy. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "butter",
+            "enjoy-meal",
+            "eggs"
+          ]
+        },
+        {
+          "id": "w25s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Combine eggs, cheese and oil with bread and milk. Make a pretend breakfast with two choices. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eggs",
+            "cheese",
+            "oil",
+            "bread",
+            "milk"
+          ]
+        },
+        {
+          "id": "w25s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She orders two foods using nḥebb and w. You repeat the order and she checks it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eggs",
+            "cheese",
+            "oil",
+            "butter",
+            "enjoy-meal"
+          ]
+        },
+        {
+          "id": "w25s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "At breakfast, name one food and use beṣ-ṣaḥḥa naturally. A smile is a response. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "eggs",
+            "cheese",
+            "oil",
+            "butter",
+            "enjoy-meal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "stageId": 5,
+      "title": "Little kitchen helper",
+      "goal": "Recognise five kitchen items and follow a simple request.",
+      "wordIds": [
+        "bowl",
+        "spoon",
+        "cup",
+        "plate",
+        "pot"
+      ],
+      "reviewWordIds": [
+        "please",
+        "give-me"
+      ],
+      "phrase": "عطيني كاس، من فضلك.",
+      "phraseTransliteration": "ʿṭini kas, men faḍlek.",
+      "phraseEnglish": "Give me a glass, please.",
+      "phraseFrench": "Donne-moi un verre, s'il te plaît.",
+      "familyActivity": "Set a toy table with unbreakable items. Use only cool, empty cookware and stay with her; the game is naming and helping.",
+      "scriptFocus": "Find ك in كاس. Compare its shape with the ك in كتاب.",
+      "sessions": [
+        {
+          "id": "w26s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show bowl, spoon and glass pictures or child-safe items. Ask her to pass one. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "bowl",
+            "spoon",
+            "cup"
+          ]
+        },
+        {
+          "id": "w26s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add plate and pot using toys or cool objects. Sort items for serving and cooking. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "plate",
+            "pot",
+            "bowl"
+          ]
+        },
+        {
+          "id": "w26s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit please and give me with bowl, spoon and glass. Take turns requesting and serving. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "bowl",
+            "spoon",
+            "cup",
+            "please",
+            "give-me"
+          ]
+        },
+        {
+          "id": "w26s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She asks you for one item, then checks that you chose correctly. Make one funny mistake. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "bowl",
+            "spoon",
+            "cup",
+            "plate",
+            "pot"
+          ]
+        },
+        {
+          "id": "w26s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Let her choose one small table-setting job and name the item she carries. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "bowl",
+            "spoon",
+            "cup",
+            "plate",
+            "pot"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "stageId": 5,
+      "title": "My morning",
+      "goal": "Describe a few steps of a familiar morning routine.",
+      "wordIds": [
+        "wake",
+        "wash-hands",
+        "brush-teeth",
+        "comb-hair",
+        "get-ready"
+      ],
+      "reviewWordIds": [
+        "today",
+        "later"
+      ],
+      "phrase": "نغسل يديّا ونغسل سناني.",
+      "phraseTransliteration": "neghsel yeddiya w neghsel snani.",
+      "phraseEnglish": "I wash my hands and brush my teeth.",
+      "phraseFrench": "Je me lave les mains et je me brosse les dents.",
+      "familyActivity": "Draw three morning pictures together. She arranges them in her own order and tells a toy what she does.",
+      "scriptFocus": "Find غ in نغسل. Let her hear the voiced sound; it need not be mastered today.",
+      "sessions": [
+        {
+          "id": "w27s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Mime getting up, washing hands and brushing teeth. Let her order those three cards. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "wake",
+            "wash-hands",
+            "brush-teeth"
+          ]
+        },
+        {
+          "id": "w27s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add combing hair and getting ready. Put the cards in the order that suits her morning. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "comb-hair",
+            "get-ready",
+            "wake"
+          ]
+        },
+        {
+          "id": "w27s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix getting up, washing hands and brushing teeth with today and later. Choose one action for now and one for later. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "wake",
+            "wash-hands",
+            "brush-teeth",
+            "today",
+            "later"
+          ]
+        },
+        {
+          "id": "w27s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read Lina's Morning. She can act out the steps instead of repeating the lines. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "wake",
+            "wash-hands",
+            "brush-teeth",
+            "comb-hair",
+            "get-ready"
+          ]
+        },
+        {
+          "id": "w27s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "During one real morning step, say the matching chunk together. One useful phrase is enough. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "wake",
+            "wash-hands",
+            "brush-teeth",
+            "comb-hair",
+            "get-ready"
+          ]
+        }
+      ],
+      "storyId": "story-9"
+    },
+    {
+      "id": 28,
+      "stageId": 5,
+      "title": "I did it!",
+      "goal": "Use five first-person past forms to talk about a little event.",
+      "wordIds": [
+        "went",
+        "saw",
+        "found",
+        "played",
+        "laughed"
+      ],
+      "reviewWordIds": [
+        "garden",
+        "ball"
+      ],
+      "phrase": "رحت للجنينة ولعبت.",
+      "phraseTransliteration": "rouḥt lel-djnina w lʿabt.",
+      "phraseEnglish": "I went to the garden and played.",
+      "phraseFrench": "Je suis allée au jardin et j'ai joué.",
+      "familyActivity": "Make a two-picture memory of something she enjoyed. Model one past-tense phrase and invite her version.",
+      "scriptFocus": "Notice ت at the end of رحت and شفت. These words tell what I did.",
+      "sessions": [
+        {
+          "id": "w28s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Show pictures for I went, I saw and I found. Move a toy through the mini adventure. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "went",
+            "saw",
+            "found"
+          ]
+        },
+        {
+          "id": "w28s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add I played and I laughed. Act first, then describe what you just did. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "played",
+            "laughed",
+            "went"
+          ]
+        },
+        {
+          "id": "w28s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Revisit garden and ball with I went, I saw and I found. Let her choose a sentence for a toy adventure. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "went",
+            "saw",
+            "found",
+            "garden",
+            "ball"
+          ]
+        },
+        {
+          "id": "w28s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She tells a two-part toy adventure using pictures and one or two past words. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "went",
+            "saw",
+            "found",
+            "played",
+            "laughed"
+          ]
+        },
+        {
+          "id": "w28s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Ask about one enjoyable moment today. Offer shoft or lʿabt if she wants a starting word. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "went",
+            "saw",
+            "found",
+            "played",
+            "laughed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "stageId": 5,
+      "title": "Join my ideas",
+      "goal": "Link familiar words and thoughts with a few useful connectors.",
+      "wordIds": [
+        "and",
+        "but",
+        "because",
+        "with",
+        "when-link"
+      ],
+      "reviewWordIds": [
+        "play",
+        "draw"
+      ],
+      "phrase": "نلعب مع ختي.",
+      "phraseTransliteration": "nelʿab mʿa khti.",
+      "phraseEnglish": "I play with my sister.",
+      "phraseFrench": "Je joue avec ma sœur.",
+      "familyActivity": "Build a silly scene with two toys and one object. Join words with and or with; longer sentences are optional.",
+      "scriptFocus": "See و joined to a following word. Listen for the short w sound between ideas.",
+      "sessions": [
+        {
+          "id": "w29s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use and, but and because with picture pairs. Keep the adult's example short and concrete. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "and",
+            "but",
+            "because"
+          ]
+        },
+        {
+          "id": "w29s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add with and when. Put two toys together for with and act an action for when. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "with",
+            "when-link",
+            "and"
+          ]
+        },
+        {
+          "id": "w29s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use and, but and because with I play and I draw. Model one short idea, then let her choose the action pictures. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "and",
+            "but",
+            "because",
+            "play",
+            "draw"
+          ]
+        },
+        {
+          "id": "w29s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She tells you who a toy plays with. Invite one extra detail only if she wants to continue. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "and",
+            "but",
+            "because",
+            "with",
+            "when-link"
+          ]
+        },
+        {
+          "id": "w29s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "At playtime, say one true sentence with mʿa. Invite a family member to join the same sentence. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "and",
+            "but",
+            "because",
+            "with",
+            "when-link"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "stageId": 5,
+      "title": "Help me understand",
+      "goal": "Ask for repetition or a slower voice without embarrassment.",
+      "wordIds": [
+        "understood",
+        "not-understood",
+        "repeat-f",
+        "slowly",
+        "meaning"
+      ],
+      "reviewWordIds": [
+        "please",
+        "help-me-f"
+      ],
+      "phrase": "ما فهمتش. عاودي بشويّة.",
+      "phraseTransliteration": "ma fhemtsh. ʿawdi beshwiyya.",
+      "phraseEnglish": "I didn't understand. Say it again slowly.",
+      "phraseFrench": "Je n'ai pas compris. Répète doucement.",
+      "familyActivity": "Let a toy mumble a silly message. She can ask again or ask what it means; the adult always responds kindly.",
+      "scriptFocus": "Notice ما…ش around فهمت. Hear the whole negative chunk without a grammar test.",
+      "sessions": [
+        {
+          "id": "w30s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce understood, didn't understand and say it again. You model a confused toy and help it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "understood",
+            "not-understood",
+            "repeat-f"
+          ]
+        },
+        {
+          "id": "w30s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add slowly and what does it mean? Try one deliberately quick phrase, then slow down when asked. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "slowly",
+            "meaning",
+            "understood"
+          ]
+        },
+        {
+          "id": "w30s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Combine please and help me with understood, did not understand and say it again. Choose what the toy needs. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "understood",
+            "not-understood",
+            "repeat-f",
+            "please",
+            "help-me-f"
+          ]
+        },
+        {
+          "id": "w30s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Patient Friend. Make the listener's question the most important line. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "understood",
+            "not-understood",
+            "repeat-f",
+            "slowly",
+            "meaning"
+          ]
+        },
+        {
+          "id": "w30s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Use a repair phrase during a real conversation today. Praise asking for help, not pretending to understand. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "understood",
+            "not-understood",
+            "repeat-f",
+            "slowly",
+            "meaning"
+          ]
+        }
+      ],
+      "storyId": "story-10"
+    },
+    {
+      "id": 31,
+      "stageId": 6,
+      "title": "More people I love",
+      "goal": "Name relatives and friends while sharing a simple family picture.",
+      "wordIds": [
+        "grandpa",
+        "aunt-dad",
+        "aunt-mum",
+        "friend-boy",
+        "friend-girl"
+      ],
+      "reviewWordIds": [
+        "mum",
+        "dad"
+      ],
+      "phrase": "هاذي خالتي.",
+      "phraseTransliteration": "hadi khalti.",
+      "phraseEnglish": "This is my aunt, my mother's sister.",
+      "phraseFrench": "Voici ma tante, la sœur de maman.",
+      "familyActivity": "Use real photos, drawings or invented characters. Explain the two aunt words through a simple family tree.",
+      "scriptFocus": "Compare خ in خالتي with ح from earlier. One has a dot above.",
+      "sessions": [
+        {
+          "id": "w31s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce grandfather, father's sister and mother's sister with a drawing that shows the connection. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "grandpa",
+            "aunt-dad",
+            "aunt-mum"
+          ]
+        },
+        {
+          "id": "w31s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add a boy friend and girl friend. Let her draw or choose the people she wants to include. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "friend-boy",
+            "friend-girl",
+            "grandpa"
+          ]
+        },
+        {
+          "id": "w31s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Mix grandfather and the two aunt cards with mum and dad. Put them on a paper family map. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "grandpa",
+            "aunt-dad",
+            "aunt-mum",
+            "mum",
+            "dad"
+          ]
+        },
+        {
+          "id": "w31s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She introduces two chosen people using a word or hadi plus a name. No family details need to be shared outside the home. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "grandpa",
+            "aunt-dad",
+            "aunt-mum",
+            "friend-boy",
+            "friend-girl"
+          ]
+        },
+        {
+          "id": "w31s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Ask a relative for the affectionate name they use at home, then add that version to your family's practice. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "grandpa",
+            "aunt-dad",
+            "aunt-mum",
+            "friend-boy",
+            "friend-girl"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "stageId": 6,
+      "title": "Mine and yours",
+      "goal": "Say what I have and describe simple ownership.",
+      "wordIds": [
+        "have",
+        "not-have",
+        "mine",
+        "yours",
+        "this-f"
+      ],
+      "reviewWordIds": [
+        "book",
+        "ball"
+      ],
+      "phrase": "عندي كرة. الكرة تاعي.",
+      "phraseTransliteration": "ʿandi kora. el-kora taʿi.",
+      "phraseEnglish": "I have a ball. The ball is mine.",
+      "phraseFrench": "J'ai un ballon. Le ballon est à moi.",
+      "familyActivity": "Give each toy one object. Ask who has what, then practise borrowing and returning with a warm thank-you.",
+      "scriptFocus": "Recognise عندي as a whole word and notice ع again. Writing remains optional.",
+      "sessions": [
+        {
+          "id": "w32s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use I have, I don't have and mine with two toys and two objects. Let her check the statements. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "have",
+            "not-have",
+            "mine"
+          ]
+        },
+        {
+          "id": "w32s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add yours and this feminine form. Hold up the ball and model hadi kora. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "yours",
+            "this-f",
+            "have"
+          ]
+        },
+        {
+          "id": "w32s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use I have, I do not have and mine with book and ball. Share the objects between two toys and describe what changes. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "have",
+            "not-have",
+            "mine",
+            "book",
+            "ball"
+          ]
+        },
+        {
+          "id": "w32s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She tells you one thing she has and one thing a toy has. A short phrase is enough. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "have",
+            "not-have",
+            "mine",
+            "yours",
+            "this-f"
+          ]
+        },
+        {
+          "id": "w32s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "During tidying, ask which item belongs to whom. Model mine and yours without turning it into a test. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "have",
+            "not-have",
+            "mine",
+            "yours",
+            "this-f"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "stageId": 6,
+      "title": "My choices matter",
+      "goal": "Express a preference, ability or need for help.",
+      "wordIds": [
+        "i-like-it",
+        "i-dont-like-it",
+        "i-can",
+        "i-cant",
+        "i-choose"
+      ],
+      "reviewWordIds": [
+        "draw",
+        "play"
+      ],
+      "phrase": "نقدر نرسم.",
+      "phraseTransliteration": "neqder nersom.",
+      "phraseEnglish": "I can draw.",
+      "phraseFrench": "Je peux dessiner.",
+      "familyActivity": "Offer two play choices. Honour her choice or her no, then model a short Darja response that fits it.",
+      "scriptFocus": "Find ق in نقدر. Some families pronounce this sound g; family pronunciation is welcome.",
+      "sessions": [
+        {
+          "id": "w33s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce I like it, I don't like it and I can using two toys and a familiar activity. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "i-like-it",
+            "i-dont-like-it",
+            "i-can"
+          ]
+        },
+        {
+          "id": "w33s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add I can't and I choose. Make a toy need help, then let her choose who can help it. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "i-cant",
+            "i-choose",
+            "i-like-it"
+          ]
+        },
+        {
+          "id": "w33s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Pair I like it, I do not like it and I can with I draw and I play. Ask which idea is true for her today. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "i-like-it",
+            "i-dont-like-it",
+            "i-can",
+            "draw",
+            "play"
+          ]
+        },
+        {
+          "id": "w33s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read The Picture I Choose. Let her make a different choice from the character. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "i-like-it",
+            "i-dont-like-it",
+            "i-can",
+            "i-cant",
+            "i-choose"
+          ]
+        },
+        {
+          "id": "w33s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Offer a real small choice today and wait for her answer. Help her express it with any familiar word. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "i-like-it",
+            "i-dont-like-it",
+            "i-can",
+            "i-cant",
+            "i-choose"
+          ]
+        }
+      ],
+      "storyId": "story-11"
+    },
+    {
+      "id": 34,
+      "stageId": 6,
+      "title": "A plan for tomorrow",
+      "goal": "Share a small future plan and understand waiting or meeting.",
+      "wordIds": [
+        "will-go",
+        "will-play",
+        "wait",
+        "see-each-other",
+        "god-willing"
+      ],
+      "reviewWordIds": [
+        "tomorrow",
+        "garden"
+      ],
+      "phrase": "غدوة راح نلعب.",
+      "phraseTransliteration": "ghedwa raḥ nelʿab.",
+      "phraseEnglish": "Tomorrow I will play.",
+      "phraseFrench": "Demain, je vais jouer.",
+      "familyActivity": "Make a pretend plan with a toy: when, where, and one action. Real plans can change; describe them as hopes.",
+      "scriptFocus": "Notice راح before نروح and نلعب. It helps these chunks talk about the future.",
+      "sessions": [
+        {
+          "id": "w34s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Use I will go, I will play and I wait with a toy and a tomorrow card. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "will-go",
+            "will-play",
+            "wait"
+          ]
+        },
+        {
+          "id": "w34s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add we meet and in sha Allah. Explain that the last expression is a family's way to express a hope, and is optional. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "see-each-other",
+            "god-willing",
+            "will-go"
+          ]
+        },
+        {
+          "id": "w34s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Combine tomorrow and garden with I will go, I will play and I wait. Choose one pretend plan. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "will-go",
+            "will-play",
+            "wait",
+            "tomorrow",
+            "garden"
+          ]
+        },
+        {
+          "id": "w34s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She tells a toy one thing she would like to do tomorrow. Offer a picture prompt and wait. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "will-go",
+            "will-play",
+            "wait",
+            "see-each-other",
+            "god-willing"
+          ]
+        },
+        {
+          "id": "w34s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Share one small plan for tomorrow. Let her choose the action word and add her own idea. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "will-go",
+            "will-play",
+            "wait",
+            "see-each-other",
+            "god-willing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "stageId": 6,
+      "title": "A call full of love",
+      "goal": "Handle a short family call and express connection.",
+      "wordIds": [
+        "phone-hello",
+        "hear-me-f",
+        "hear-you",
+        "miss-you",
+        "love-you"
+      ],
+      "reviewWordIds": [
+        "goodbye",
+        "fine"
+      ],
+      "phrase": "ألو! نسمعك. توحّشتك.",
+      "phraseTransliteration": "allo! nesmaʿek. twaḥḥeshtek.",
+      "phraseEnglish": "Hello! I can hear you. I miss you.",
+      "phraseFrench": "Allô ! Je t'entends. Tu me manques.",
+      "familyActivity": "Use two pretend phones first. If she wants, practise on a real call with a trusted relative; she can stop at any time.",
+      "scriptFocus": "Recognise نحبّك as a familiar whole chunk. The mark over ب tells us to hold it a little longer.",
+      "sessions": [
+        {
+          "id": "w35s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce phone hello, can you hear me and I hear you. Use a pretend call with clear turn-taking. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "phone-hello",
+            "hear-me-f",
+            "hear-you"
+          ]
+        },
+        {
+          "id": "w35s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add I miss you and I love you. Let her choose a comfortable expression, or simply wave. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "miss-you",
+            "love-you",
+            "phone-hello"
+          ]
+        },
+        {
+          "id": "w35s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use goodbye and fine with phone hello, can you hear me and I hear you. Make a tiny call together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "phone-hello",
+            "hear-me-f",
+            "hear-you",
+            "goodbye",
+            "fine"
+          ]
+        },
+        {
+          "id": "w35s4",
+          "title": "My little voice",
+          "kind": "speak",
+          "instructions": "She leads a pretend call: hello, one message, goodbye. You wait while she decides what to say. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "phone-hello",
+            "hear-me-f",
+            "hear-you",
+            "miss-you",
+            "love-you"
+          ]
+        },
+        {
+          "id": "w35s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Invite a brief call or an unsent practice recording for a chosen relative. Keep sharing under adult control. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "phone-hello",
+            "hear-me-f",
+            "hear-you",
+            "miss-you",
+            "love-you"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "stageId": 6,
+      "title": "Our Darja celebration",
+      "goal": "Show a few things I can say and feel proud of learning together.",
+      "wordIds": [
+        "learn",
+        "speak-darja",
+        "little-by-little",
+        "well-done",
+        "clever-f"
+      ],
+      "reviewWordIds": [
+        "hello",
+        "love-you"
+      ],
+      "phrase": "نتعلّم الدارجة شويّة شويّة.",
+      "phraseTransliteration": "netʿallem ed-darja shwiyya shwiyya.",
+      "phraseEnglish": "I am learning Darja little by little.",
+      "phraseFrench": "J'apprends la darja petit à petit.",
+      "familyActivity": "Let her choose favourite words, a story and a game for a family celebration. Revisit favourite weeks any time; finishing is not a fluency test.",
+      "scriptFocus": "Choose one favourite Arabic word to copy, decorate or simply recognise. There is no required reading milestone.",
+      "sessions": [
+        {
+          "id": "w36s1",
+          "title": "Listen & discover",
+          "kind": "listen",
+          "instructions": "Introduce I learn, I speak Darja and little by little. Talk about an attempt she is proud of. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "learn",
+            "speak-darja",
+            "little-by-little"
+          ]
+        },
+        {
+          "id": "w36s2",
+          "title": "Play with words",
+          "kind": "play",
+          "instructions": "Add well done and capable. Let two toys encourage each other with warm voices. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "well-done",
+            "clever-f",
+            "learn"
+          ]
+        },
+        {
+          "id": "w36s3",
+          "title": "Remember & mix",
+          "kind": "review",
+          "instructions": "Use I learn, I speak Darja and little by little with hello and I love you. Let her build her own tiny message. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "learn",
+            "speak-darja",
+            "little-by-little",
+            "hello",
+            "love-you"
+          ]
+        },
+        {
+          "id": "w36s4",
+          "title": "Story time",
+          "kind": "story",
+          "instructions": "Read Little by Little. Ask which moment reminds her of something she can do now. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "learn",
+            "speak-darja",
+            "little-by-little",
+            "well-done",
+            "clever-f"
+          ]
+        },
+        {
+          "id": "w36s5",
+          "title": "Together at home",
+          "kind": "family",
+          "instructions": "Make a tiny show-and-tell: a greeting, a choice and a favourite sentence. End by choosing the next game together. Keep this visit to 5–8 minutes; stop sooner if she is ready.",
+          "wordIds": [
+            "learn",
+            "speak-darja",
+            "little-by-little",
+            "well-done",
+            "clever-f"
+          ]
+        }
+      ],
+      "storyId": "story-12"
+    }
+  ],
+  "stories": [
+    {
+      "id": "story-1",
+      "title": "Here I Am",
+      "emoji": "🙋‍♀️",
+      "week": 3,
+      "lines": [
+        {
+          "arabic": "اسمي لينا.",
+          "transliteration": "esmi Lina.",
+          "english": "My name is Lina.",
+          "french": "Je m'appelle Lina.",
+          "emoji": "👧"
+        },
+        {
+          "arabic": "ماما: سلام، لينا!",
+          "transliteration": "mama: salam, Lina!",
+          "english": "Mum: Hello, Lina!",
+          "french": "Maman : Bonjour, Lina !",
+          "emoji": "👩"
+        },
+        {
+          "arabic": "لينا: سلام، ماما!",
+          "transliteration": "Lina: salam, mama!",
+          "english": "Lina: Hello, Mum!",
+          "french": "Lina : Bonjour, Maman !",
+          "emoji": "👋"
+        },
+        {
+          "arabic": "بابا: لينا؟",
+          "transliteration": "baba: Lina?",
+          "english": "Dad: Lina?",
+          "french": "Papa : Lina ?",
+          "emoji": "👨"
+        },
+        {
+          "arabic": "لينا: راني هنا!",
+          "transliteration": "Lina: rani hna!",
+          "english": "Lina: I am here!",
+          "french": "Lina : Je suis ici !",
+          "emoji": "🙋‍♀️"
+        },
+        {
+          "arabic": "بابا: إيه، لينا هنا!",
+          "transliteration": "baba: ih, Lina hna!",
+          "english": "Dad: Yes, Lina is here!",
+          "french": "Papa : Oui, Lina est ici !",
+          "emoji": "💛"
+        }
+      ],
+      "question": "Who says \"I am here\"?",
+      "answer": "Lina says it. You can say it about yourself too."
+    },
+    {
+      "id": "story-2",
+      "title": "The Thirsty Doll",
+      "emoji": "🧸",
+      "week": 6,
+      "lines": [
+        {
+          "arabic": "لينا: نحب نلعب.",
+          "transliteration": "Lina: nḥebb nelʿab.",
+          "english": "Lina: I want to play.",
+          "french": "Lina : Je veux jouer.",
+          "emoji": "👧"
+        },
+        {
+          "arabic": "الپوپية: راني عطشانة.",
+          "transliteration": "el-poupiya: rani ʿaṭshana.",
+          "english": "Doll: I am thirsty.",
+          "french": "La poupée : J'ai soif.",
+          "emoji": "🧸"
+        },
+        {
+          "arabic": "الپوپية: عطيني ما.",
+          "transliteration": "el-poupiya: ʿṭini ma.",
+          "english": "Doll: Give me water.",
+          "french": "La poupée : Donne-moi de l'eau.",
+          "emoji": "💧"
+        },
+        {
+          "arabic": "لينا: هاكي ما.",
+          "transliteration": "Lina: haki ma.",
+          "english": "Lina: Here is some water for you.",
+          "french": "Lina : Voilà de l'eau pour toi.",
+          "emoji": "🤲"
+        },
+        {
+          "arabic": "الپوپية: صحّيت!",
+          "transliteration": "el-poupiya: ṣaḥḥit!",
+          "english": "Doll: Thank you!",
+          "french": "La poupée : Merci !",
+          "emoji": "💛"
+        },
+        {
+          "arabic": "لينا: راني فرحانة!",
+          "transliteration": "Lina: rani farḥana!",
+          "english": "Lina: I am happy!",
+          "french": "Lina : Je suis contente !",
+          "emoji": "😊"
+        }
+      ],
+      "question": "What does the doll ask for?",
+      "answer": "The doll asks for water."
+    },
+    {
+      "id": "story-3",
+      "title": "The Ball at Home",
+      "emoji": "🏠",
+      "week": 9,
+      "lines": [
+        {
+          "arabic": "لينا: راني في الدار.",
+          "transliteration": "Lina: rani fi d-dar.",
+          "english": "Lina: I am at home.",
+          "french": "Lina : Je suis à la maison.",
+          "emoji": "🏠"
+        },
+        {
+          "arabic": "هاذا باب. هاذا شبّاك.",
+          "transliteration": "hada bab. hada shebback.",
+          "english": "This is a door. This is a window.",
+          "french": "Voici une porte. Voici une fenêtre.",
+          "emoji": "🚪"
+        },
+        {
+          "arabic": "هاذا كرسي. هاذي طابلة.",
+          "transliteration": "hada korsi. hadi ṭabla.",
+          "english": "This is a chair. This is a table.",
+          "french": "Voici une chaise. Voici une table.",
+          "emoji": "🪑"
+        },
+        {
+          "arabic": "لينا: نشوف كرة!",
+          "transliteration": "Lina: nshouf kora!",
+          "english": "Lina: I see a ball!",
+          "french": "Lina : Je vois un ballon !",
+          "emoji": "⚽"
+        },
+        {
+          "arabic": "بابا: إيه، كرة حمرا.",
+          "transliteration": "baba: ih, kora ḥamra.",
+          "english": "Dad: Yes, a red ball.",
+          "french": "Papa : Oui, un ballon rouge.",
+          "emoji": "🔴"
+        },
+        {
+          "arabic": "لينا: نحب نلعب!",
+          "transliteration": "Lina: nḥebb nelʿab!",
+          "english": "Lina: I want to play!",
+          "french": "Lina : Je veux jouer !",
+          "emoji": "😄"
+        }
+      ],
+      "question": "What does Lina want to do when she finds the ball?",
+      "answer": "She wants to play."
+    },
+    {
+      "id": "story-4",
+      "title": "The Bird and the Rabbit",
+      "emoji": "🐦",
+      "week": 12,
+      "lines": [
+        {
+          "arabic": "لينا: نشوف عصفور.",
+          "transliteration": "Lina: nshouf ʿaṣfour.",
+          "english": "Lina: I see a bird.",
+          "french": "Lina : Je vois un oiseau.",
+          "emoji": "🐦"
+        },
+        {
+          "arabic": "ونشوف أرنب.",
+          "transliteration": "w nshouf arneb.",
+          "english": "And I see a rabbit.",
+          "french": "Et je vois un lapin.",
+          "emoji": "🐇"
+        },
+        {
+          "arabic": "العصفور: سلام!",
+          "transliteration": "el-ʿaṣfour: salam!",
+          "english": "Bird: Hello!",
+          "french": "L'oiseau : Bonjour !",
+          "emoji": "👋"
+        },
+        {
+          "arabic": "الأرنب: سلام!",
+          "transliteration": "el-arneb: salam!",
+          "english": "Rabbit: Hello!",
+          "french": "Le lapin : Bonjour !",
+          "emoji": "🐇"
+        },
+        {
+          "arabic": "لينا: واحد، زوج!",
+          "transliteration": "Lina: waḥed, zoudj!",
+          "english": "Lina: One, two!",
+          "french": "Lina : Un, deux !",
+          "emoji": "2️⃣"
+        },
+        {
+          "arabic": "لينا: بالسلامة!",
+          "transliteration": "Lina: besslama!",
+          "english": "Lina: Goodbye!",
+          "french": "Lina : Au revoir !",
+          "emoji": "💛"
+        }
+      ],
+      "question": "Which two animals does Lina see?",
+      "answer": "She sees a bird and a rabbit."
+    },
+    {
+      "id": "story-5",
+      "title": "The Little Book",
+      "emoji": "📚",
+      "week": 15,
+      "lines": [
+        {
+          "arabic": "عندي كتاب صغير.",
+          "transliteration": "ʿandi ktab ṣghir.",
+          "english": "I have a little book.",
+          "french": "J'ai un petit livre.",
+          "emoji": "📕"
+        },
+        {
+          "arabic": "فيه عصفور وأرنب.",
+          "transliteration": "fih ʿaṣfour w arneb.",
+          "english": "There is a bird and a rabbit in it.",
+          "french": "Il y a un oiseau et un lapin dedans.",
+          "emoji": "🐦"
+        },
+        {
+          "arabic": "لينا: نحب نقرا.",
+          "transliteration": "Lina: nḥebb neqra.",
+          "english": "Lina: I want to read.",
+          "french": "Lina : Je veux lire.",
+          "emoji": "👧"
+        },
+        {
+          "arabic": "لينا: ختي، عاونيني من فضلك.",
+          "transliteration": "Lina: khti, ʿawnini men faḍlek.",
+          "english": "Lina: Sister, help me please.",
+          "french": "Lina : Ma sœur, aide-moi s'il te plaît.",
+          "emoji": "🤝"
+        },
+        {
+          "arabic": "ختي: إيه! نقراو مع بعضانا.",
+          "transliteration": "khti: ih! neqraw mʿa baʿḍana.",
+          "english": "My sister: Yes! We will read together.",
+          "french": "Ma sœur : Oui ! On va lire ensemble.",
+          "emoji": "📖"
+        },
+        {
+          "arabic": "لينا: صحّيت!",
+          "transliteration": "Lina: ṣaḥḥit!",
+          "english": "Lina: Thank you!",
+          "french": "Lina : Merci !",
+          "emoji": "😊"
+        }
+      ],
+      "question": "What does Lina ask her sister to help with?",
+      "answer": "She asks for help reading the book."
+    },
+    {
+      "id": "story-6",
+      "title": "The Hiding Ball",
+      "emoji": "🔎",
+      "week": 18,
+      "lines": [
+        {
+          "arabic": "لينا: وين الكرة؟",
+          "transliteration": "Lina: win el-kora?",
+          "english": "Lina: Where is the ball?",
+          "french": "Lina : Où est le ballon ?",
+          "emoji": "❓"
+        },
+        {
+          "arabic": "فوق الطابلة؟ لا.",
+          "transliteration": "fouq eṭ-ṭabla? la.",
+          "english": "On the table? No.",
+          "french": "Sur la table ? Non.",
+          "emoji": "🛋️"
+        },
+        {
+          "arabic": "مورا الباب؟ لا.",
+          "transliteration": "mora el-bab? la.",
+          "english": "Behind the door? No.",
+          "french": "Derrière la porte ? Non.",
+          "emoji": "🚪"
+        },
+        {
+          "arabic": "تحت الكرسي؟ إيه!",
+          "transliteration": "teḥt el-korsi? ih!",
+          "english": "Under the chair? Yes!",
+          "french": "Sous la chaise ? Oui !",
+          "emoji": "🪑"
+        },
+        {
+          "arabic": "الكرة تحت الكرسي!",
+          "transliteration": "el-kora teḥt el-korsi!",
+          "english": "The ball is under the chair!",
+          "french": "Le ballon est sous la chaise !",
+          "emoji": "⚽"
+        },
+        {
+          "arabic": "لينا: درك نلعب!",
+          "transliteration": "Lina: dork nelʿab!",
+          "english": "Lina: Now I will play!",
+          "french": "Lina : Maintenant, je joue !",
+          "emoji": "😄"
+        }
+      ],
+      "question": "Where is the ball hiding?",
+      "answer": "The ball is under the chair."
+    },
+    {
+      "id": "story-7",
+      "title": "A Walk to the Shop",
+      "emoji": "🏪",
+      "week": 21,
+      "lines": [
+        {
+          "arabic": "لينا: نروح للحانوت مع بابا.",
+          "transliteration": "Lina: nrouḥ lel-ḥanout mʿa baba.",
+          "english": "Lina: I go to the shop with Dad.",
+          "french": "Lina : Je vais au magasin avec Papa.",
+          "emoji": "👨‍👧"
+        },
+        {
+          "arabic": "نمشي ونشوف شجرة.",
+          "transliteration": "nemshi w nshouf shedjra.",
+          "english": "I walk and I see a tree.",
+          "french": "Je marche et je vois un arbre.",
+          "emoji": "🌳"
+        },
+        {
+          "arabic": "لينا: الحانوت هنا!",
+          "transliteration": "Lina: el-ḥanout hna!",
+          "english": "Lina: The shop is here!",
+          "french": "Lina : Le magasin est ici !",
+          "emoji": "🏪"
+        },
+        {
+          "arabic": "لينا: سلام! عطيني تفّاحة، من فضلك.",
+          "transliteration": "Lina: salam! ʿṭini teffaḥa, men faḍlek.",
+          "english": "Lina: Hello! Give me an apple, please.",
+          "french": "Lina : Bonjour ! Donne-moi une pomme, s'il te plaît.",
+          "emoji": "🍎"
+        },
+        {
+          "arabic": "بابا: هاذي تفّاحة حمرا.",
+          "transliteration": "baba: hadi teffaḥa ḥamra.",
+          "english": "Dad: This is a red apple.",
+          "french": "Papa : C'est une pomme rouge.",
+          "emoji": "🔴"
+        },
+        {
+          "arabic": "لينا: صحّيت! بالسلامة!",
+          "transliteration": "Lina: ṣaḥḥit! besslama!",
+          "english": "Lina: Thank you! Goodbye!",
+          "french": "Lina : Merci ! Au revoir !",
+          "emoji": "👋"
+        }
+      ],
+      "question": "What does Lina ask for at the shop?",
+      "answer": "She asks for an apple."
+    },
+    {
+      "id": "story-8",
+      "title": "Ten Treasures",
+      "emoji": "🔟",
+      "week": 24,
+      "lines": [
+        {
+          "arabic": "عندي خمسة حوايج صغار.",
+          "transliteration": "ʿandi khemsa ḥwayedj ṣghar.",
+          "english": "I have five little things.",
+          "french": "J'ai cinq petites choses.",
+          "emoji": "🎁"
+        },
+        {
+          "arabic": "لينا: واحد، زوج، ثلاثة، ربعة، خمسة.",
+          "transliteration": "Lina: waḥed, zoudj, tlata, rebʿa, khemsa.",
+          "english": "Lina: One, two, three, four, five.",
+          "french": "Lina : Un, deux, trois, quatre, cinq.",
+          "emoji": "5️⃣"
+        },
+        {
+          "arabic": "ماما تزيد حاجة.",
+          "transliteration": "mama tzid ḥadja.",
+          "english": "Mum adds one thing.",
+          "french": "Maman ajoute une chose.",
+          "emoji": "➕"
+        },
+        {
+          "arabic": "لينا: ستّة!",
+          "transliteration": "Lina: setta!",
+          "english": "Lina: Six!",
+          "french": "Lina : Six !",
+          "emoji": "6️⃣"
+        },
+        {
+          "arabic": "ماما تزيد ربعة حوايج.",
+          "transliteration": "mama tzid rebʿa ḥwayedj.",
+          "english": "Mum adds four things.",
+          "french": "Maman ajoute quatre choses.",
+          "emoji": "🎁"
+        },
+        {
+          "arabic": "لينا: سبعة، ثمانية، تسعة، عشرة!",
+          "transliteration": "Lina: sebʿa, tmenya, tesʿa, ʿeshra!",
+          "english": "Lina: Seven, eight, nine, ten!",
+          "french": "Lina : Sept, huit, neuf, dix !",
+          "emoji": "🔟"
+        },
+        {
+          "arabic": "عندي عشرة حوايج!",
+          "transliteration": "ʿandi ʿeshra ḥwayedj!",
+          "english": "I have ten things!",
+          "french": "J'ai dix choses !",
+          "emoji": "😊"
+        }
+      ],
+      "question": "How many treasures does Lina have at the end?",
+      "answer": "She has ten treasures."
+    },
+    {
+      "id": "story-9",
+      "title": "Lina's Morning",
+      "emoji": "🌅",
+      "week": 27,
+      "lines": [
+        {
+          "arabic": "اليوم ننوض بكري.",
+          "transliteration": "lyoum nnouḍ bekri.",
+          "english": "Today I get up early.",
+          "french": "Aujourd'hui, je me lève tôt.",
+          "emoji": "🌅"
+        },
+        {
+          "arabic": "نغسل يديّا.",
+          "transliteration": "neghsel yeddiya.",
+          "english": "I wash my hands.",
+          "french": "Je me lave les mains.",
+          "emoji": "🧼"
+        },
+        {
+          "arabic": "نغسل سناني.",
+          "transliteration": "neghsel snani.",
+          "english": "I brush my teeth.",
+          "french": "Je me brosse les dents.",
+          "emoji": "🪥"
+        },
+        {
+          "arabic": "نسرّح شعري.",
+          "transliteration": "nserraḥ shaʿri.",
+          "english": "I comb my hair.",
+          "french": "Je me coiffe.",
+          "emoji": "🪮"
+        },
+        {
+          "arabic": "نلبس ونوجّد.",
+          "transliteration": "nelbes w nwejjed.",
+          "english": "I get dressed and get ready.",
+          "french": "Je m'habille et je me prépare.",
+          "emoji": "🎒"
+        },
+        {
+          "arabic": "لينا: راني واجدة!",
+          "transliteration": "Lina: rani wajda!",
+          "english": "Lina: I am ready!",
+          "french": "Lina : Je suis prête !",
+          "emoji": "🙋‍♀️"
+        }
+      ],
+      "question": "What does Lina do before she gets ready?",
+      "answer": "She washes her hands, brushes her teeth and combs her hair."
+    },
+    {
+      "id": "story-10",
+      "title": "The Patient Friend",
+      "emoji": "🤝",
+      "week": 30,
+      "lines": [
+        {
+          "arabic": "صاحبتي تهدر معايا.",
+          "transliteration": "ṣaḥebti tehder mʿaya.",
+          "english": "My friend is talking to me.",
+          "french": "Mon amie me parle.",
+          "emoji": "👧"
+        },
+        {
+          "arabic": "لينا: ما فهمتش.",
+          "transliteration": "Lina: ma fhemtsh.",
+          "english": "Lina: I didn't understand.",
+          "french": "Lina : Je n'ai pas compris.",
+          "emoji": "🤔"
+        },
+        {
+          "arabic": "لينا: عاودي بشويّة، من فضلك.",
+          "transliteration": "Lina: ʿawdi beshwiyya, men faḍlek.",
+          "english": "Lina: Say it again slowly, please.",
+          "french": "Lina : Répète doucement, s'il te plaît.",
+          "emoji": "🐢"
+        },
+        {
+          "arabic": "صاحبتي: نروح للجنينة.",
+          "transliteration": "ṣaḥebti: nrouḥ lel-djnina.",
+          "english": "My friend: I am going to the garden.",
+          "french": "Mon amie : Je vais au jardin.",
+          "emoji": "🌳"
+        },
+        {
+          "arabic": "لينا: فهمت!",
+          "transliteration": "Lina: fhemt!",
+          "english": "Lina: I understood!",
+          "french": "Lina : J'ai compris !",
+          "emoji": "💡"
+        },
+        {
+          "arabic": "صاحبتي: نروحو مع بعضانا!",
+          "transliteration": "ṣaḥebti: nrouḥou mʿa baʿḍana!",
+          "english": "My friend: Let's go together!",
+          "french": "Mon amie : Allons-y ensemble !",
+          "emoji": "🤝"
+        }
+      ],
+      "question": "What helps Lina understand her friend?",
+      "answer": "Her friend says it again slowly."
+    },
+    {
+      "id": "story-11",
+      "title": "The Picture I Choose",
+      "emoji": "🖍️",
+      "week": 33,
+      "lines": [
+        {
+          "arabic": "عندي كتاب وستيلو.",
+          "transliteration": "ʿandi ktab w stilo.",
+          "english": "I have a book and a pen.",
+          "french": "J'ai un livre et un stylo.",
+          "emoji": "📖"
+        },
+        {
+          "arabic": "لينا: نقدر نرسم.",
+          "transliteration": "Lina: neqder nersom.",
+          "english": "Lina: I can draw.",
+          "french": "Lina : Je peux dessiner.",
+          "emoji": "🖊️"
+        },
+        {
+          "arabic": "نرسم عصفور ولا وردة؟",
+          "transliteration": "nersom ʿaṣfour wella werda?",
+          "english": "Shall I draw a bird or a flower?",
+          "french": "Je dessine un oiseau ou une fleur ?",
+          "emoji": "💭"
+        },
+        {
+          "arabic": "لينا: نختار وردة!",
+          "transliteration": "Lina: nekhtar werda!",
+          "english": "Lina: I choose a flower!",
+          "french": "Lina : Je choisis une fleur !",
+          "emoji": "🌸"
+        },
+        {
+          "arabic": "هاذي وردة حمرا.",
+          "transliteration": "hadi werda ḥamra.",
+          "english": "This is a red flower.",
+          "french": "C'est une fleur rouge.",
+          "emoji": "🔴"
+        },
+        {
+          "arabic": "لينا: تعجبني!",
+          "transliteration": "Lina: taʿdjebni!",
+          "english": "Lina: I like it!",
+          "french": "Lina : Elle me plaît !",
+          "emoji": "😍"
+        }
+      ],
+      "question": "What does Lina decide to draw?",
+      "answer": "She chooses to draw a flower."
+    },
+    {
+      "id": "story-12",
+      "title": "Little by Little",
+      "emoji": "🌱",
+      "week": 36,
+      "lines": [
+        {
+          "arabic": "لينا: ألو، جدّتي!",
+          "transliteration": "Lina: allo, djeddti!",
+          "english": "Lina: Hello, Grandma!",
+          "french": "Lina : Allô, Mamie !",
+          "emoji": "📱"
+        },
+        {
+          "arabic": "جدّتي: سلام، لينا!",
+          "transliteration": "djeddti: salam, Lina!",
+          "english": "Grandma: Hello, Lina!",
+          "french": "Mamie : Bonjour, Lina !",
+          "emoji": "👵"
+        },
+        {
+          "arabic": "لينا: اليوم لعبت ورسمت وردة.",
+          "transliteration": "Lina: lyoum lʿabt w rsemt werda.",
+          "english": "Lina: Today I played and drew a flower.",
+          "french": "Lina : Aujourd'hui, j'ai joué et dessiné une fleur.",
+          "emoji": "🌸"
+        },
+        {
+          "arabic": "جدّتي: يعطيك الصحّة!",
+          "transliteration": "djeddti: yaʿṭik eṣ-ṣaḥḥa!",
+          "english": "Grandma: Well done!",
+          "french": "Mamie : Bravo !",
+          "emoji": "🌟"
+        },
+        {
+          "arabic": "لينا: نتعلّم الدارجة شويّة شويّة.",
+          "transliteration": "Lina: netʿallem ed-darja shwiyya shwiyya.",
+          "english": "Lina: I am learning Darja little by little.",
+          "french": "Lina : J'apprends la darja petit à petit.",
+          "emoji": "🌱"
+        },
+        {
+          "arabic": "لينا: نحبّك، جدّتي!",
+          "transliteration": "Lina: nḥebbek, djeddti!",
+          "english": "Lina: I love you, Grandma!",
+          "french": "Lina : Je t'aime, Mamie !",
+          "emoji": "💖"
+        }
+      ],
+      "question": "How is Lina learning Darja?",
+      "answer": "Little by little, by speaking with her family."
+    }
+  ],
+  "pronunciationTips": [
+    {
+      "symbol": "ḥ / ح",
+      "explanation": "A breathier h than in English. Listen to your family and imitate gently; never force your throat. Ordinary h and ḥ are shown differently here.",
+      "exampleWordId": "milk"
+    },
+    {
+      "symbol": "ʿ / ع",
+      "explanation": "A sound English and French do not have. Let a familiar Darja speaker model it, then try a comfortable approximation. Hearing it comes before producing it.",
+      "exampleWordId": "eye"
+    },
+    {
+      "symbol": "kh / خ",
+      "explanation": "A soft rough sound like the ch in Scottish loch or German Bach. It is one sound, not k followed by h.",
+      "exampleWordId": "bread"
+    },
+    {
+      "symbol": "gh / غ",
+      "explanation": "A voiced sound somewhat like a French r. Listen to the beginning of ghe in neghsel; it is different from kh.",
+      "exampleWordId": "wash-hands"
+    },
+    {
+      "symbol": "q / ق",
+      "explanation": "A k-like sound made farther back in the mouth. Many Algerian families use g in some words. Follow the voice you want to learn from, without treating another regional form as wrong.",
+      "exampleWordId": "read"
+    },
+    {
+      "symbol": "sh / ش",
+      "explanation": "Like sh in English shoe or ch in French chat. Both letters together represent one sound.",
+      "exampleWordId": "listen"
+    },
+    {
+      "symbol": "dj / ج",
+      "explanation": "Like j in English jam or dj in French djinn. This is common in Algiers; other Algerian varieties can sound different.",
+      "exampleWordId": "grandpa"
+    },
+    {
+      "symbol": "ṣ / ص",
+      "explanation": "A fuller, darker s. Start by listening to the difference; an ordinary s is a useful first attempt.",
+      "exampleWordId": "shoes"
+    },
+    {
+      "symbol": "ṭ / ط",
+      "explanation": "A fuller, darker t. The dot is a reminder for adults, not something a child has to memorise.",
+      "exampleWordId": "girl"
+    },
+    {
+      "symbol": "Doubled letters",
+      "explanation": "Hold the sound a little longer in words such as ṣaḥḥit. No need to count beats; echo a warm, natural model.",
+      "exampleWordId": "thanks"
+    },
+    {
+      "symbol": "Short vowels",
+      "explanation": "Darja vowels can be very short. Our Latin spelling is a friendly reading aid, not formal IPA or one official Algerian spelling. A family recording is the best guide.",
+      "exampleWordId": "book"
+    }
+  ],
+  "parentGuidance": [
+    "Start at a complete beginner level. Use the learner's real interests and give them control of the game. Pointing, acting and choosing are real participation.",
+    "Offer one 5–8 minute session at a time, usually five short visits a week. Session 1 introduces three cards; session 2 adds two. The other visits reuse and combine them. A week can take longer than seven days.",
+    "Listen first, then invite a response. Say or play a word, show a picture or real object, wait, and accept a gesture. Speaking is an invitation; a quiet child may still understand a lot.",
+    "Use a trusted Central Algerian / Algiers speaker or your own family recordings as the pronunciation model. A device Arabic voice is an approximate helper: it may read Darja like Standard Arabic and is not an authentic Darja teacher.",
+    "Arabic, Latin pronunciation, English and French support the adult. Keep the script and pronunciation guide hidden when they distract from listening. Do not ask her to read in order to take part.",
+    "Our examples use feminine forms when the girl describes herself. Some requests also address a girl or woman; card notes give the masculine counterpart. I-action forms such as nelʿab are the same for a girl and a boy.",
+    "Darja has regional and family variation and no single everyday spelling. This course aims at Central Algerian speech without claiming one universal standard. Welcome the words used by your own family and record them when possible.",
+    "The 12 original mini stories recycle familiar language and include a few supported stretch phrases. Read them with pictures and translations; those extra phrases are listening exposure, not new memorisation requirements.",
+    "Ask the story question after enjoying the story. An answer in English or French, a point, or an acted response is useful. Show the answer together rather than scoring pronunciation.",
+    "Revisit yesterday, last week and a favourite older week. Remembered words need fewer visits; uncertain words need more friendly encounters. Completing a session records participation, not a claim of fluent speech.",
+    "Follow the six stages flexibly. Weeks 1–6 connect words with actions; 7–12 grow listening; 13–18 combine small phrases; 19–24 explore questions and time; 25–30 tell and repair; 31–36 connect with family.",
+    "Optional script noticing is gradual: familiar shapes first, then recurring endings and small word patterns. Tracing can be in the air or on paper. This is not a full Arabic literacy or tajweed course.",
+    "Use real routines: a snack, getting dressed, a garden walk, a family photo, an ordinary call. Two warm exchanges during the day can matter more than finishing extra screens.",
+    "Keep play safe and ordinary: child-safe props, cool empty cookware, food already suitable for her, and an adult for outings. Respect no, enough, and her choice about recording or talking to someone.",
+    "This is an authored starter curriculum with selected reference checks, not a native-speaker-certified language course. Before relying on a phrase as your household standard, ask a fluent family member to listen and record the version you use.",
+    "Celebrate trying, curiosity and asking for help. There is no need to rush, keep a perfect streak, imitate an accent perfectly, or finish the year on a fixed date."
+  ],
+  "sources": [
+    {
+      "title": "Learn with Aymen — Algiers Darja teaching context",
+      "url": "https://learnwithaymen.com/",
+      "note": "First-person teacher resource consulted for Algiers usage and the distinction between male and female address. No course lessons or recordings are redistributed."
+    },
+    {
+      "title": "Learn with Aymen — Greetings and courtesy",
+      "url": "https://learnwithaymen.com/phrases/greetings",
+      "note": "Checked common greeting forms, labas, ṣaḥḥit and feminine self-description. Activities, English/French wording and stories were independently authored."
+    },
+    {
+      "title": "Learn with Aymen — Adjectives",
+      "url": "https://learnwithaymen.com/phrases/describing-things",
+      "note": "Reference check for common descriptive words and masculine/feminine agreement."
+    },
+    {
+      "title": "Learn with Aymen — Everyday verbs",
+      "url": "https://learnwithaymen.com/phrases/verbs",
+      "note": "Reference check for common Algerian verb roots and q/g variation. The app presents child-sized first-person chunks."
+    },
+    {
+      "title": "Learn with Aymen — Food and drink",
+      "url": "https://learnwithaymen.com/phrases/food-and-drink",
+      "note": "Reference check for familiar Algerian food words and regional variation."
+    },
+    {
+      "title": "Learn with Aymen — How Derja is written",
+      "url": "https://learnwithaymen.com/spelling.php",
+      "note": "Reference for sounds and the lack of English equivalents. The app uses its own Latin spelling with ḥ and ʿ instead of Arabizi digits; it is not formal IPA."
+    },
+    {
+      "title": "Institut du monde arabe — Arabic language centre",
+      "url": "https://www.imarabe.org/fr/centre-langue-et-civilisation-arabes-clca",
+      "note": "Institutional context: dialectal Arabic and Standard Arabic are distinct teaching offerings. The app teaches family Darja and does not claim a formal language level."
+    }
+  ]
+}

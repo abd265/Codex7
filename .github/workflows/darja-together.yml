@@ -1,0 +1,72 @@
+name: Build Darja Together IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, codex/darja-together]
+    paths:
+      - 'DarjaTogether/**'
+      - '.github/workflows/darja-together.yml'
+  pull_request:
+    paths:
+      - 'DarjaTogether/**'
+      - '.github/workflows/darja-together.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: DarjaTogether
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Xcode toolchain
+        run: xcodebuild -version
+      - name: Test IPA platform validator
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Test learning model and progress
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Build and launch iPhone simulator
+        run: bash scripts/build_simulator.sh
+      - name: Exercise learning screens and save progress
+        run: bash scripts/test_ui.sh
+      - name: Build physical-iPhone IPA
+        run: bash scripts/build_device.sh
+      - name: Upload IPA and installation guide
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-iPhone-IPA
+          path: |
+            DarjaTogether/artifacts/DarjaTogether-unsigned.ipa
+            DarjaTogether/artifacts/DarjaTogether-unsigned.ipa.sha256
+            DarjaTogether/artifacts/ipa-validation.json
+            DarjaTogether/artifacts/INSTALL.md
+            DarjaTogether/artifacts/build-info.json
+          if-no-files-found: error
+      - name: Upload build checks and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-build-checks
+          path: |
+            DarjaTogether/artifacts/*.log
+            DarjaTogether/artifacts/*.txt
+            DarjaTogether/artifacts/*.png
+            DarjaTogether/artifacts/*.mp4
+            DarjaTogether/artifacts/*validation.json
+            DarjaTogether/artifacts/ui-screenshots/**
+          if-no-files-found: warn
+      - name: Upload native UI test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-UI-tests
+          path: DarjaTogether/artifacts/DarjaTogether-ui.xcresult
+          if-no-files-found: ignore
