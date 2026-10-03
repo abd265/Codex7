@@ -83,7 +83,7 @@ struct AlgeriaSkyline:View {
             Circle().fill(DarjaTheme.gold).frame(width:62,height:62).offset(x:g.size.width*0.22,y:-42)
             HStack(alignment:.bottom,spacing:7){ForEach(0..<9){i in
                 VStack(spacing:8){RoundedRectangle(cornerRadius:10).fill(DarjaTheme.teal.opacity(0.18)).frame(width:8,height:17);RoundedRectangle(cornerRadius:8).fill(DarjaTheme.teal.opacity(0.12)).frame(width:11,height:22)}.padding(9).frame(maxWidth:.infinity).frame(height:CGFloat([55,79,68,101,84,61,94,72,47][i])).background(i % 2 == 0 ? Color.white.opacity(0.72):Color(hex:0xEADABD),in:UnevenRoundedRectangle(topLeadingRadius:12,topTrailingRadius:12))
-            }
+            }}
         }
     }.frame(height:112).accessibilityHidden(true)}
 }

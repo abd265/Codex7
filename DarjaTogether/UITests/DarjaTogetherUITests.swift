@@ -91,4 +91,46 @@ final class DarjaTogetherUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Swap roles! Now you are the café host. Ask your partner what they would like."].waitForExistence(timeout: 5))
         capture("A Darja cafe conversation", app: app)
     }
+
+    func testParentPINPersistsAndRecordingStartsDisabled() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting", "--screenshot-home"]
+        app.launch()
+        tap(app.buttons["parentButton"], in: app)
+        tap(app.secureTextFields["parentPIN"], in: app)
+        app.secureTextFields["parentPIN"].typeText("1234")
+        tap(app.secureTextFields["confirmPIN"], in: app)
+        app.secureTextFields["confirmPIN"].typeText("1234")
+        tap(app.buttons["unlockParents"], in: app)
+        XCTAssertTrue(app.staticTexts["Small steps, real connection."].waitForExistence(timeout: 8))
+        capture("Parent space with fresh progress", app: app)
+        tap(app.buttons["Done"], in: app)
+        app.terminate()
+
+        app.launchArguments = ["--uitesting", "--preserve-progress"]
+        app.launch()
+        tap(app.buttons["parentButton"], in: app)
+        XCTAssertFalse(app.secureTextFields["confirmPIN"].exists, "The saved parent PIN should already be configured")
+        tap(app.secureTextFields["parentPIN"], in: app)
+        app.secureTextFields["parentPIN"].typeText("9999")
+        tap(app.buttons["unlockParents"], in: app)
+        XCTAssertTrue(app.staticTexts["That PIN did not match. Try again."].waitForExistence(timeout: 5))
+        tap(app.secureTextFields["parentPIN"], in: app)
+        app.secureTextFields["parentPIN"].typeText("1234")
+        tap(app.buttons["unlockParents"], in: app)
+        XCTAssertTrue(app.staticTexts["Small steps, real connection."].waitForExistence(timeout: 8))
+
+        let microphone = app.switches["Allow local voice recording"]
+        for _ in 0..<8 {
+            if microphone.exists && microphone.isHittable { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(microphone.exists)
+        XCTAssertEqual(microphone.value as? String, "0", "Recording must remain off until a parent opts in")
+        capture("Parent-controlled recording is off", app: app)
+        tap(app.buttons["Done"], in: app)
+        tap(app.buttons["parentButton"], in: app)
+        XCTAssertTrue(app.secureTextFields["parentPIN"].waitForExistence(timeout: 5), "Closing the parent panel must lock it")
+    }
+
 }
