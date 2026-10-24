@@ -47,7 +47,7 @@ shasum -a 256 artifacts/DarjaTogether-unsigned.ipa > artifacts/DarjaTogether-uns
 cp Docs/INSTALL.md artifacts/INSTALL.md
 python3 - <<'PY'
 from pathlib import Path
-import datetime, hashlib, json, os, plistlib
+import datetime, hashlib, json, os, plistlib, zipfile
 ipa = Path("artifacts/DarjaTogether-unsigned.ipa")
 info = plistlib.loads(Path("build/device/Build/Products/Release-iphoneos/DarjaTogether.app/Info.plist").read_bytes())
 digest = hashlib.sha256()
@@ -65,6 +65,10 @@ metadata = {
     "signing": "Unsigned; sign during installation with Sideloadly or AltStore Classic",
     "physicalDeviceTested": False,
 }
+notice = Path("DarjaTogether/Resources/THIRD-PARTY-NOTICES.txt").read_bytes()
+with zipfile.ZipFile(ipa) as archive:
+    assert archive.read("Payload/DarjaTogether.app/THIRD-PARTY-NOTICES.txt") == notice, "Bundled license notices mismatch"
+metadata["thirdPartyNotices"] = {"file": "THIRD-PARTY-NOTICES.txt", "bytes": len(notice), "sha256": hashlib.sha256(notice).hexdigest()}
 if os.getenv("DARJA_REQUIRE_SPEECH_MODEL") == "1":
     metadata["speech"] = {
         "backend": "DarjaF5 / MLX / Vocos",
@@ -75,6 +79,9 @@ if os.getenv("DARJA_REQUIRE_SPEECH_MODEL") == "1":
         "numericalParity": json.loads(Path("artifacts/native-parity-validation.json").read_text()),
         "bundleValidation": json.loads(Path("artifacts/ipa-speech-validation.json").read_text()),
     }
+    evidence = Path("artifacts/native-evidence-validation.json")
+    if evidence.exists():
+        metadata["speech"]["verificationProvenance"] = json.loads(evidence.read_text())
 Path("artifacts/build-info.json").write_text(json.dumps(metadata, indent=2) + "\n")
 PY
 echo "Ready: artifacts/DarjaTogether-unsigned.ipa"

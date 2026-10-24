@@ -87,6 +87,7 @@ xcodebuild test \
   -resultBundlePath "$result_path" \
   -only-testing:DarjaTogetherUITests \
   -parallel-testing-enabled NO \
+  ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild-ui-tests.log
 test_status=${PIPESTATUS[0]}

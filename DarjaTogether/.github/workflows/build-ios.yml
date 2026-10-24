@@ -6,18 +6,24 @@ on:
       speech_mode:
         description: Compile the native engine first, or build the complete model-bundled IPA
         type: choice
-        options: [compile, bundled]
+        options: [compile, bundled, verified-release]
         default: bundled
+      native_evidence_run:
+        description: Prior run with passed native speech checks (verified-release only)
+        type: string
+        default: '40045776022'
   push:
     branches: [main, master]
   pull_request:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   # Native Mac and physical-iPhone compilation was verified before enabling bundled builds.
-  DARJA_SPEECH_MODE: ${{ inputs.speech_mode || 'bundled' }}
+  DARJA_SPEECH_MODE: ${{ inputs.speech_mode || (contains(github.event.head_commit.message, '[reuse-verified-speech]') && 'verified-release' || 'bundled') }}
+  DARJA_VERIFIED_SPEECH_RUN: ${{ inputs.native_evidence_run || '40045776022' }}
 
 jobs:
   build:
@@ -25,6 +31,8 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -38,26 +46,45 @@ jobs:
           mkdir -p artifacts
           swift test 2>&1 | tee artifacts/swift-test.log
       - name: Compile native F5 for Mac and physical iPhone
+        if: env.DARJA_SPEECH_MODE != 'verified-release'
         run: bash scripts/compile_native_speech.sh
       - name: Prepare the verified native speech model
-        if: env.DARJA_SPEECH_MODE == 'bundled'
+        if: env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release'
+        env:
+          DARJA_REUSE_NATIVE_EVIDENCE: ${{ env.DARJA_SPEECH_MODE == 'verified-release' && '1' || '0' }}
         run: bash scripts/prepare_speech_bundle.sh
       - name: Synthesize actual Darja speech with the native engine
         if: env.DARJA_SPEECH_MODE == 'bundled'
         run: bash scripts/test_native_speech.sh
+      - name: Retrieve previously verified native speech evidence
+        if: env.DARJA_SPEECH_MODE == 'verified-release'
+        uses: actions/download-artifact@v4
+        with:
+          name: DarjaTogether-build-checks
+          path: build/verified-native-checks
+          repository: ${{ github.repository }}
+          run-id: ${{ env.DARJA_VERIFIED_SPEECH_RUN }}
+          github-token: ${{ github.token }}
+      - name: Verify unchanged native source and exact model bytes
+        if: env.DARJA_SPEECH_MODE == 'verified-release'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          xcodebuild -resolvePackageDependencies -project DarjaTogether.xcodeproj -scheme DarjaTogether -clonedSourcePackagesDirPath "$PWD/build/source-packages"
+          python scripts/verify_native_speech_evidence.py build/verified-native-checks --run "$DARJA_VERIFIED_SPEECH_RUN"
       - name: Build and launch iPhone simulator
-        if: env.DARJA_SPEECH_MODE == 'bundled'
+        if: env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release'
         run: bash scripts/build_simulator.sh
       - name: Exercise learning screens and save progress
-        if: env.DARJA_SPEECH_MODE == 'bundled'
+        if: env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release'
         run: bash scripts/test_ui.sh
       - name: Build physical-iPhone IPA with bundled speech model
-        if: env.DARJA_SPEECH_MODE == 'bundled'
+        if: env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release'
         env:
           DARJA_REQUIRE_SPEECH_MODEL: '1'
         run: bash scripts/build_device.sh
       - name: Upload IPA and installation guide
-        if: env.DARJA_SPEECH_MODE == 'bundled'
+        if: env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release'
         uses: actions/upload-artifact@v4
         with:
           name: DarjaTogether-iPhone-IPA
@@ -72,6 +99,7 @@ jobs:
             artifacts/native-speech-validation.json
             artifacts/native-parity-validation.json
             artifacts/ipa-speech-validation.json
+            artifacts/native-evidence-validation.json
           if-no-files-found: error
       - name: Upload build checks and screenshots
         if: always()
@@ -92,7 +120,7 @@ jobs:
             artifacts/*.resolved
           if-no-files-found: warn
       - name: Upload native UI test results
-        if: always() && env.DARJA_SPEECH_MODE == 'bundled'
+        if: always() && (env.DARJA_SPEECH_MODE == 'bundled' || env.DARJA_SPEECH_MODE == 'verified-release')
         uses: actions/upload-artifact@v4
         with:
           name: DarjaTogether-UI-tests

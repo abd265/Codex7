@@ -22,6 +22,7 @@ xcodebuild build \
   -destination 'platform=macOS,arch=arm64' \
   -derivedDataPath build/speech-macos \
   -clonedSourcePackagesDirPath "$PWD/build/source-packages" \
+  ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild-speech-macos.log
 test -x build/speech-macos/Build/Products/Release/DarjaF5Smoke
