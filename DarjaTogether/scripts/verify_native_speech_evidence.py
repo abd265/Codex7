@@ -76,6 +76,7 @@ def main():
         "DarjaTogether/scripts/build_device.sh", "DarjaTogether/scripts/prepare_speech_bundle.sh",
         "DarjaTogether/scripts/codex7-workflow.yml", "DarjaTogether/scripts/verify_native_speech_evidence.py",
         "DarjaTogether/scripts/test_native_evidence.py",
+        "DarjaTogether/UITests/DarjaTogetherUITests.swift",
     }
     changed = set(subprocess.check_output(["git", "diff", "--name-only", source, os.environ["GITHUB_SHA"]], text=True).splitlines())
     assert changed <= allowed, "Native evidence cannot be reused after unverified source changes: " + str(sorted(changed - allowed))
