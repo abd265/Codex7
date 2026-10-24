@@ -49,7 +49,15 @@ final class DarjaTogetherUITests: XCTestCase {
                 XCTAssertFalse(app.buttons["lessonNext"].exists)
                 capture("A gentle retry", app: app)
             }
-            tap(app.buttons["answer-" + id], in: app)
+            let answerCard = app.buttons["answer-" + id]
+            XCTAssertTrue(answerCard.waitForExistence(timeout: 12))
+            if !answerCard.isHittable { app.swipeUp() }
+            XCTAssertTrue(answerCard.isHittable)
+            // Exercise the card's empty padded region, outside the emoji itself.
+            answerCard.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.15)).tap()
+            let foundAnswer = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "You found it!")).firstMatch
+            XCTAssertTrue(foundAnswer.waitForExistence(timeout: 8), "The full answer card must accept a tap")
+            if index == 2 { capture("Answer card responds outside the picture", app: app) }
             tap(app.buttons["lessonNext"], in: app)
             tap(app.buttons["speakingAttempt"], in: app)
             tap(app.buttons["lessonNext"], in: app)

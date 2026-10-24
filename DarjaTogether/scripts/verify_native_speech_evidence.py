@@ -79,6 +79,20 @@ def main():
         "DarjaTogether/UITests/DarjaTogetherUITests.swift",
     }
     changed = set(subprocess.check_output(["git", "diff", "--name-only", source, os.environ["GITHUB_SHA"]], text=True).splitlines())
+    ui_hit_area_proof = []
+    lesson_path = "DarjaTogether/DarjaTogether/LessonView.swift"
+    if lesson_path in changed:
+        original = subprocess.check_output(["git", "show", source + ":" + lesson_path])
+        candidate = Path("DarjaTogether/LessonView.swift").read_bytes()
+        before = b'lineWidth:2))}.buttonStyle(.plain).accessibilityLabel(choice.english)'
+        after = b'lineWidth:2)).contentShape(RoundedRectangle(cornerRadius:23))}.buttonStyle(.plain).accessibilityLabel(choice.english)'
+        assert original.count(before) == 1
+        assert candidate == original.replace(before, after, 1), "Only the exact answer-card hit-area modifier may change; all lesson actions and speech inputs must be identical"
+        allowed.add(lesson_path)
+        ui_hit_area_proof.append({"file": lesson_path, "exactModifierOnly": True,
+            "modifier": ".contentShape(RoundedRectangle(cornerRadius:23))",
+            "originalSHA256": hashlib.sha256(original).hexdigest(),
+            "releaseSHA256": hashlib.sha256(candidate).hexdigest()})
     assert changed <= allowed, "Native evidence cannot be reused after unverified source changes: " + str(sorted(changed - allowed))
     current = json.loads(Path("artifacts/speech-model-validation.json").read_text())
     previous = json.loads((args.evidence / "speech-model-validation.json").read_text())
@@ -128,7 +142,8 @@ def main():
               "unchangedNativeSource": True, "exactModelAssetsVerified": True,
               "sameToolchainAndDependencyPins": True, "restoredSafetensorsMetadataOrder": restored,
               "nativeChecksPassed": sorted(required), "changedSourcePaths": sorted(changed),
-              "reason": "Correct simulator UI-test architecture and add license notices; native speech source and weights are identical."}
+              "verifiedUIHitAreaOnlyChanges": ui_hit_area_proof,
+              "reason": "Correct simulator interactions and the exact answer-card hit area, and add license notices; native speech source, lesson actions, speech inputs, and weights are identical."}
     Path("artifacts/native-evidence-validation.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
 
