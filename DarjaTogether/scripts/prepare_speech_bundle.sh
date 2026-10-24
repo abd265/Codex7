@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+mkdir -p artifacts build
+test -f scripts/speech-requirements.txt
+python3 -m venv build/speech-conversion-venv
+converter="$PWD/build/speech-conversion-venv/bin/python"
+"$converter" -m pip install --disable-pip-version-check -r scripts/speech-requirements.txt
+"$converter" scripts/download_darja_model.py build/speech-source 2>&1 | tee artifacts/speech-download.log
+"$converter" scripts/prepare_darja_speech_assets.py --model-dir build/speech-source 2>&1 | tee artifacts/speech-prepare.log
+"$converter" scripts/convert_darja_model.py build/speech-source DarjaTogether/Resources/SpeechModel 2>&1 | tee artifacts/speech-conversion.log
+"$converter" scripts/validate_speech_bundle.py DarjaTogether/Resources/SpeechModel > artifacts/speech-model-validation.json
+# Remove only this build's input checkpoint after the complete inference bundle
+# has passed validation. Its immutable download manifest remains available.
+"$converter" - <<'PY'
+from pathlib import Path
+root = Path("build/speech-source").resolve()
+checkpoint = (root / "model_last.pt").resolve()
+assert checkpoint.parent == root and root.is_relative_to(Path("build").resolve())
+if checkpoint.is_file():
+    checkpoint.unlink()
+PY

@@ -6,8 +6,9 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDE = {"artifacts", "build", ".build", ".git", "__pycache__", ".DS_Store"}
-BINARY = {".png", ".jpg", ".jpeg", ".wav", ".m4a", ".mp3", ".pdf"}
+EXCLUDE = {"artifacts", "build", ".build", ".git", "__pycache__", ".DS_Store", "SpeechModel"}
+BINARY = {".png", ".jpg", ".jpeg", ".wav", ".m4a", ".mp3", ".pdf", ".npy"}
+MODEL_SUFFIXES = {".pt", ".pth", ".ckpt", ".safetensors", ".onnx", ".partial"}
 
 def main():
     entries = []
@@ -15,6 +16,10 @@ def main():
         relative = path.relative_to(ROOT)
         if not path.is_file() or any(part in EXCLUDE for part in relative.parts):
             continue
+        if path.suffix.lower() in MODEL_SUFFIXES:
+            raise SystemExit(f"Model/checkpoint outside an excluded directory: {relative}. Store it in artifacts or SpeechModel.")
+        if path.stat().st_size > 50 * 1024 * 1024:
+            raise SystemExit(f"Refusing to stage a file larger than 50 MiB: {relative}")
         data = path.read_bytes()
         item = {"path": "DarjaTogether/" + relative.as_posix(), "mode": "100755" if path.suffix == ".sh" else "100644", "type": "blob"}
         item["git_sha"] = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()

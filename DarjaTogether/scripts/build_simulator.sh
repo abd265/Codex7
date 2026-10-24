@@ -16,6 +16,7 @@ xcodebuild build \
   -sdk iphonesimulator \
   -destination 'generic/platform=iOS Simulator' \
   -derivedDataPath build/simulator \
+  -clonedSourcePackagesDirPath "$PWD/build/source-packages" \
   ARCHS="$simulator_arch" ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild-simulator.log

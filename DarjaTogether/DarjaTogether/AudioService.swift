@@ -3,8 +3,9 @@ import Combine
 import AVFoundation
 import CryptoKit
 import UIKit
+import DarjaF5
 
-/// Audio stays on this device. Device Arabic speech is an approximation, not a Darja tutor.
+/// Family recordings and Algerian F5 speech are processed and played on this device.
 @MainActor
 final class AudioService: NSObject, ObservableObject {
     @Published private(set) var isSpeaking = false
@@ -13,6 +14,22 @@ final class AudioService: NSObject, ObservableObject {
     @Published private(set) var isRequestingPermission = false
     @Published private(set) var status = "Family voices are best for Darja. Device Arabic speech is an approximation."
     @Published private(set) var voiceLabel = "Device Arabic voice · not authentic Darja"
+    @Published private(set) var isGeneratingSpeech = false
+    @Published private(set) var synthesisProgress: Double = 0
+    @Published private(set) var modelDiagnostic = ""
+    @Published var useDarjaModel = UserDefaults.standard.object(forKey: "useAlgerianF5Voice") as? Bool ?? true {
+        didSet {
+            UserDefaults.standard.set(useDarjaModel, forKey: "useAlgerianF5Voice")
+            stopAll()
+            status = useDarjaModel ? "Algerian Darja speech is generated on this device." : "Approximate device Arabic voice selected."
+        }
+    }
+
+    var nativeModelInstalled: Bool { DarjaVoiceSupport.modelDirectory != nil }
+    var arabicSourceLabel: String { useDarjaModel ? "Algerian Darja model · offline" : "Device Arabic voice · not authentic Darja" }
+    private let darjaEngine = DarjaF5Engine()
+    private var synthesisTask: Task<Void, Never>?
+    private var isGeneratedPlayback = false
 
     private let synthesizer = AVSpeechSynthesizer()
     private var currentUtteranceID: ObjectIdentifier?
@@ -34,6 +51,8 @@ final class AudioService: NSObject, ObservableObject {
             .appendingPathComponent("Recordings", isDirectory: true)
         super.init()
         synthesizer.delegate = self
+        voiceLabel = arabicSourceLabel
+        status = "Tap to hear Algerian Darja. The first phrase takes a moment to prepare."
         // An interrupted app process can leave an unfinished clip; never retain it as a voice example.
         if let leftovers = try? FileManager.default.contentsOfDirectory(at: recordingsDirectory, includingPropertiesForKeys: nil) {
             for url in leftovers where url.lastPathComponent.hasPrefix("pending-") && url.pathExtension == "m4a" {
@@ -49,7 +68,18 @@ final class AudioService: NSObject, ObservableObject {
             }
         })
         observers.append(NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: .main) { [weak self] _ in
-            Task { @MainActor [weak self] in self?.stopAll() }
+            Task { @MainActor [weak self] in
+                self?.stopAll()
+                if let engine = self?.darjaEngine { await engine.unload() }
+            }
+        })
+        observers.append(NotificationCenter.default.addObserver(forName: UIApplication.didReceiveMemoryWarningNotification, object: nil, queue: .main) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.stopAll()
+                self.status = "Voice paused to free memory. Tap again when ready."
+                await self.darjaEngine.unload()
+            }
         })
         observers.append(NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: .main) { [weak self] notification in
             let reason = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt
@@ -63,11 +93,12 @@ final class AudioService: NSObject, ObservableObject {
 
     deinit {
         recordingLimit?.cancel()
+        synthesisTask?.cancel()
         observers.forEach { NotificationCenter.default.removeObserver($0) }
     }
 
     func sourceLabel(for word: DarjaWord) -> String {
-        hasRecording(wordId: "family-" + word.id) ? "Family voice · recorded on this device" : "Device Arabic voice · not authentic Darja"
+        hasRecording(wordId: "family-" + word.id) ? "Family voice · recorded on this device" : arabicSourceLabel
     }
 
     func speak(_ word: DarjaWord, helperLanguage: HelperLanguage = .english) {
@@ -77,13 +108,25 @@ final class AudioService: NSObject, ObservableObject {
             voiceLabel = "Family voice · recorded on this device"
             playRecording(wordId: familyKey)
         } else {
-            speakArabic(word.arabic)
+            // These two curriculum meanings share an unvocalized spelling.
+            // Keep their displayed text and use their taught vowels for synthesis.
+            let pronunciation: String
+            switch word.id {
+            case "white": pronunciation = "بْيَضْ"
+            case "eggs": pronunciation = "بِيضْ"
+            default: pronunciation = word.arabic
+            }
+            speakArabic(pronunciation)
         }
     }
 
     func speakArabic(_ text: String) {
         stopAll()
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        if useDarjaModel {
+            speakDarja(DarjaVoiceSupport.spokenText(text))
+            return
+        }
         let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix("ar") }
         guard let voice = voices.first(where: { $0.language == "ar-DZ" }) ?? voices.first else {
             status = "No Arabic voice is installed. Use a family recording, or add an Arabic voice in iPhone Accessibility settings."
@@ -92,6 +135,87 @@ final class AudioService: NSObject, ObservableObject {
         voiceLabel = "Device Arabic voice · not authentic Darja"
         status = "This device voice may say Darja differently. Listen to a family voice when you can."
         speak(text, voice: voice)
+    }
+
+    private func speakDarja(_ text: String) {
+        voiceLabel = arabicSourceLabel
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--uitesting") || arguments.contains(where: { $0.hasPrefix("--screenshot-") }) {
+            status = "Speech generation is disabled during screen automation; the native voice has a separate synthesis test."
+            return
+        }
+        guard let directory = DarjaVoiceSupport.modelDirectory else {
+            status = "The Algerian voice files are missing. Ask a parent to install the complete app build."
+            modelDiagnostic = "SpeechModel bundle is incomplete."
+            return
+        }
+        let cached = DarjaVoiceSupport.cachedURL(for: text)
+        if FileManager.default.fileExists(atPath: cached.path) {
+            playGeneratedAudio(cached)
+            return
+        }
+        let generation = actionGeneration
+        isGeneratingSpeech = true
+        synthesisProgress = 0
+        status = "Preparing your Algerian voice…"
+        modelDiagnostic = ""
+        synthesisTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let reference = try String(contentsOf: directory.appendingPathComponent("reference.txt"), encoding: .utf8)
+                let samples = try await self.darjaEngine.generate(
+                    text: text, modelDirectory: directory,
+                    referenceAudioURL: directory.appendingPathComponent("reference.wav"),
+                    referenceText: reference,
+                    progress: { [weak self] progress in
+                        Task { @MainActor [weak self] in
+                            guard let self, self.actionGeneration == generation else { return }
+                            self.synthesisProgress = progress
+                            self.status = "Preparing your Algerian voice… \(Int(progress * 100))%"
+                        }
+                    })
+                try Task.checkCancellation()
+                guard self.actionGeneration == generation else { return }
+                let url = try DarjaVoiceSupport.save(samples: samples, for: text)
+                self.isGeneratingSpeech = false
+                self.synthesisTask = nil
+                self.playGeneratedAudio(url)
+            } catch {
+                guard self.actionGeneration == generation else { return }
+                self.isGeneratingSpeech = false
+                self.synthesisTask = nil
+                if error is CancellationError { return }
+                self.modelDiagnostic = error.localizedDescription
+                self.status = "The Algerian voice could not start. Try again, or ask a parent to check Voice settings."
+            }
+        }
+    }
+
+    private func playGeneratedAudio(_ url: URL) {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
+            try session.setActive(true)
+            let audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer.delegate = self
+            guard audioPlayer.prepareToPlay(), audioPlayer.play() else { throw CocoaError(.fileReadCorruptFile) }
+            player = audioPlayer
+            isGeneratedPlayback = true
+            isSpeaking = true
+            voiceLabel = arabicSourceLabel
+            status = "Listening to the Algerian model voice. Your family can help check pronunciation."
+        } catch {
+            isGeneratedPlayback = false
+            isSpeaking = false
+            status = "This generated phrase could not play. Try clearing the voice cache in Parent space."
+            deactivateSession()
+        }
+    }
+
+    func clearGeneratedVoiceCache() {
+        stopAll()
+        do { try DarjaVoiceSupport.clearCache(); status = "Generated speech cache cleared. Family recordings are kept." }
+        catch { status = "The speech cache could not be cleared. Please try again." }
     }
 
     func speakHelper(_ text: String, language: HelperLanguage) {
@@ -254,7 +378,18 @@ final class AudioService: NSObject, ObservableObject {
 
     func stopAll() {
         actionGeneration += 1
-        if recorder != nil { stopRecording() }
+        synthesisTask?.cancel()
+        synthesisTask = nil
+        isGeneratingSpeech = false
+        synthesisProgress = 0
+        isGeneratedPlayback = false
+        if recorder != nil {
+            // Leaving a screen or being interrupted must not replace a good
+            // family example with an unfinished take. The explicit Stop button saves.
+            recorder?.delegate = nil
+            recorder?.stop()
+            finishRecording(successfully: false)
+        }
         currentUtteranceID = nil
         synthesizer.stopSpeaking(at: .immediate)
         player?.stop()
@@ -335,6 +470,8 @@ extension AudioService: AVAudioPlayerDelegate {
         Task { @MainActor [weak self] in
             guard let self, let current = self.player, ObjectIdentifier(current) == finishedPlayerID else { return }
             self.isPlayingRecording = false
+            self.isSpeaking = false
+            self.isGeneratedPlayback = false
             self.player = nil
             self.deactivateSession()
         }
@@ -345,6 +482,8 @@ extension AudioService: AVAudioPlayerDelegate {
         Task { @MainActor [weak self] in
             guard let self, let current = self.player, ObjectIdentifier(current) == failedPlayerID else { return }
             self.isPlayingRecording = false
+            self.isSpeaking = false
+            self.isGeneratedPlayback = false
             self.player = nil
             self.status = "This recording could not play. You can record it again."
             self.deactivateSession()

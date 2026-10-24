@@ -6,6 +6,10 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
   exit 1
 fi
 mkdir -p artifacts build
+if [[ "${DARJA_REQUIRE_SPEECH_MODEL:-0}" == "1" ]]; then
+  python3 scripts/validate_speech_bundle.py DarjaTogether/Resources/SpeechModel > artifacts/speech-model-validation.json
+  test -s artifacts/native-speech-validation.json
+fi
 python3 scripts/generate_project.py
 xcodebuild -version > artifacts/xcode-version-device.txt
 xcodebuild build \
@@ -15,6 +19,7 @@ xcodebuild build \
   -sdk iphoneos \
   -destination 'generic/platform=iOS' \
   -derivedDataPath build/device \
+  -clonedSourcePackagesDirPath "$PWD/build/source-packages" \
   ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild-device.log
@@ -34,23 +39,40 @@ ditto "$app_path" "$package_dir/Payload/DarjaTogether.app"
 rm -f artifacts/DarjaTogether-unsigned.ipa
 ditto -c -k --keepParent "$package_dir/Payload" artifacts/DarjaTogether-unsigned.ipa
 python3 scripts/validate_ipa.py artifacts/DarjaTogether-unsigned.ipa | tee artifacts/ipa-validation.json
+if [[ "${DARJA_REQUIRE_SPEECH_MODEL:-0}" == "1" ]]; then
+  python3 scripts/validate_speech_bundle.py DarjaTogether/Resources/SpeechModel --ipa artifacts/DarjaTogether-unsigned.ipa > artifacts/ipa-speech-validation.json
+fi
 shasum -a 256 artifacts/DarjaTogether-unsigned.ipa > artifacts/DarjaTogether-unsigned.ipa.sha256
 cp Docs/INSTALL.md artifacts/INSTALL.md
 python3 - <<'PY'
 from pathlib import Path
-import datetime, hashlib, json, os
+import datetime, hashlib, json, os, plistlib
 ipa = Path("artifacts/DarjaTogether-unsigned.ipa")
+info = plistlib.loads(Path("build/device/Build/Products/Release-iphoneos/DarjaTogether.app/Info.plist").read_bytes())
+digest = hashlib.sha256()
+with ipa.open("rb") as stream:
+    for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
+        digest.update(block)
 repository, run_id = os.getenv("GITHUB_REPOSITORY"), os.getenv("GITHUB_RUN_ID")
 metadata = {
-    "app": "Darja Together", "version": "1.0", "bundle": "com.darjatogether.learn",
+    "app": "Darja Together", "version": info["CFBundleShortVersionString"], "bundle": "com.darjatogether.learn",
     "architecture": "arm64", "platform": "iOS device", "minimumIOS": "17.0",
     "sourceCommit": os.getenv("GITHUB_SHA"),
     "buildURL": f"https://github.com/{repository}/actions/runs/{run_id}" if repository and run_id else None,
     "createdUTC": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-    "ipa": ipa.name, "sha256": hashlib.sha256(ipa.read_bytes()).hexdigest(), "bytes": ipa.stat().st_size,
+    "ipa": ipa.name, "sha256": digest.hexdigest(), "bytes": ipa.stat().st_size,
     "signing": "Unsigned; sign during installation with Sideloadly or AltStore Classic",
     "physicalDeviceTested": False,
 }
+if os.getenv("DARJA_REQUIRE_SPEECH_MODEL") == "1":
+    metadata["speech"] = {
+        "backend": "DarjaF5 / MLX / Vocos",
+        "bundled": True,
+        "modelRepository": "touati-kamel/f5tts-algerian-darja",
+        "modelRevision": "0589d128f0d0de70780a1e46cc425eb8cfa05d6b",
+        "nativeSynthesis": json.loads(Path("artifacts/native-speech-validation.json").read_text()),
+        "bundleValidation": json.loads(Path("artifacts/ipa-speech-validation.json").read_text()),
+    }
 Path("artifacts/build-info.json").write_text(json.dumps(metadata, indent=2) + "\n")
 PY
 echo "Ready: artifacts/DarjaTogether-unsigned.ipa"

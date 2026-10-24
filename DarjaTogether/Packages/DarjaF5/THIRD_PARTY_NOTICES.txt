@@ -1,0 +1,21 @@
+DarjaF5 adapts native inference for touati-kamel/f5tts-algerian-darja.
+Model weights are separate and retain their own upstream license notices.
+
+F5-TTS Swift: Copyright (c) 2024 Lucas Newman. MIT.
+https://github.com/lucasnewman/f5-tts-swift
+Pinned source: 36899100db60159022fa20620facfa0404871c64
+Adapted files: DiT.swift, Modules.swift.
+Full license: Licenses/F5-TTS-Swift-MIT.txt
+
+Vocos Swift: Copyright (c) 2024 Lucas Newman. MIT.
+https://github.com/lucasnewman/vocos-swift
+Pinned source: 021e7af9d0c0aff9f7b62bf9839c37554287f3af
+Adapted files: Vocos.swift, AudioUtilities.swift.
+Full license: Licenses/Vocos-Swift-MIT.txt
+
+Changes: local-only loading, exact Arabic architecture, scalar tokenization,
+Darja normalization, bounded sampling, cancellation, reference duration,
+periodic Hann and centered ISTFT with squared-window normalization.
+
+MLX Swift is an external MIT dependency pinned to 0.21.2.
+https://github.com/ml-explore/mlx-swift/tree/0.21.2

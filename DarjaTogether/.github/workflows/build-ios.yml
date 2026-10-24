@@ -2,6 +2,12 @@ name: Build Darja Together IPA
 
 on:
   workflow_dispatch:
+    inputs:
+      speech_mode:
+        description: Compile the native engine first, or build the complete model-bundled IPA
+        type: choice
+        options: [compile, bundled]
+        default: compile
   push:
     branches: [main, master]
   pull_request:
@@ -9,36 +15,64 @@ on:
 permissions:
   contents: read
 
+env:
+  # Promote the push default only after the checkpoint-specific native compile.
+  DARJA_SPEECH_MODE: ${{ inputs.speech_mode || 'compile' }}
+
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Show Xcode toolchain
         run: xcodebuild -version
-      - name: Verify IPA platform validator
+      - name: Test build validators
         run: python3 -m unittest discover -s scripts -p 'test_*.py'
-      - name: Test learning model
-        run: swift test
+      - name: Test learning model and progress
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          swift test 2>&1 | tee artifacts/swift-test.log
+      - name: Compile native F5 for Mac and physical iPhone
+        run: bash scripts/compile_native_speech.sh
+      - name: Prepare the verified native speech model
+        if: env.DARJA_SPEECH_MODE == 'bundled'
+        run: bash scripts/prepare_speech_bundle.sh
+      - name: Synthesize actual Darja speech with the native engine
+        if: env.DARJA_SPEECH_MODE == 'bundled'
+        run: bash scripts/test_native_speech.sh
       - name: Build and launch iPhone simulator
+        if: env.DARJA_SPEECH_MODE == 'bundled'
         run: bash scripts/build_simulator.sh
       - name: Exercise learning screens and save progress
+        if: env.DARJA_SPEECH_MODE == 'bundled'
         run: bash scripts/test_ui.sh
-      - name: Build unsigned physical-iPhone IPA
+      - name: Build physical-iPhone IPA with bundled speech model
+        if: env.DARJA_SPEECH_MODE == 'bundled'
+        env:
+          DARJA_REQUIRE_SPEECH_MODEL: '1'
         run: bash scripts/build_device.sh
       - name: Upload IPA and installation guide
+        if: env.DARJA_SPEECH_MODE == 'bundled'
         uses: actions/upload-artifact@v4
         with:
           name: DarjaTogether-iPhone-IPA
+          compression-level: 0
           path: |
             artifacts/DarjaTogether-unsigned.ipa
             artifacts/DarjaTogether-unsigned.ipa.sha256
             artifacts/ipa-validation.json
             artifacts/INSTALL.md
             artifacts/build-info.json
+            artifacts/speech-model-validation.json
+            artifacts/native-speech-validation.json
+            artifacts/ipa-speech-validation.json
           if-no-files-found: error
-      - name: Upload build logs and simulator screenshots
+      - name: Upload build checks and screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -48,6 +82,17 @@ jobs:
             artifacts/*.txt
             artifacts/*.png
             artifacts/*.mp4
+            artifacts/*.wav
             artifacts/*validation.json
+            artifacts/speech-gpu.json
+            artifacts/speech-metal-device.json
             artifacts/ui-screenshots/**
+            artifacts/*.resolved
           if-no-files-found: warn
+      - name: Upload native UI test results
+        if: always() && env.DARJA_SPEECH_MODE == 'bundled'
+        uses: actions/upload-artifact@v4
+        with:
+          name: DarjaTogether-UI-tests
+          path: DarjaTogether/artifacts/DarjaTogether-ui.xcresult
+          if-no-files-found: ignore

@@ -83,6 +83,7 @@ xcodebuild test \
   -destination "platform=iOS Simulator,id=$simulator_id" \
   -destination-timeout 120 \
   -derivedDataPath build/simulator \
+  -clonedSourcePackagesDirPath "$PWD/build/source-packages" \
   -resultBundlePath "$result_path" \
   -only-testing:DarjaTogetherUITests \
   -parallel-testing-enabled NO \

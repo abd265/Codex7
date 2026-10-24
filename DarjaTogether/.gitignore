@@ -1,5 +1,11 @@
 artifacts/
+build/
 .build/
 .DS_Store
 *.xcuserstate
 xcuserdata/
+DarjaTogether/Resources/SpeechModel/
+*.pt
+*.pth
+*.safetensors
+*.partial

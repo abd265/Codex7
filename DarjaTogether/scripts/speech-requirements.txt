@@ -1,0 +1,6 @@
+# Python 3.12. The Mac build uses standard PyPI wheels; torch only converts
+# checked checkpoint data and does not run the native iPhone speech engine.
+torch==2.14.1
+safetensors==0.8.0
+numpy==2.5.4
+scipy==1.18.1

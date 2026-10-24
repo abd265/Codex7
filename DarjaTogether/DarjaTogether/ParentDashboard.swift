@@ -47,12 +47,13 @@ struct ParentDashboardView:View {
             Text("A gentle goal, not a lockout. First lessons usually take 5–8 minutes. Skip a day without losing rewards.").font(.caption).foregroundStyle(DarjaTheme.muted)
         }
         Section("Voice & your family’s Darja") {
+            NavigationLink("Algerian voice"){DarjaVoiceSettingsView()}
             Toggle("Allow local voice recording",isOn:$store.preferences.microphoneEnabled).onChange(of:store.preferences.microphoneEnabled){_,enabled in if !enabled{audio.stopAll()}}
             Text("Recording is off by default. iOS asks for microphone permission on first use. Recordings stay in this app on the device; they are not sent for analysis. A new recording replaces that word’s previous clip.").font(.caption).foregroundStyle(DarjaTheme.muted)
             NavigationLink("Family voice studio"){FamilyVoiceStudioView()}
             NavigationLink("Our family’s words"){FamilyWordsView()}
             Text("The base pack uses Central/Algiers-style Darja with feminine examples where relevant. Family variants are welcome. There are no separate regional audio packs in this build.").font(.caption).foregroundStyle(DarjaTheme.muted)
-            Text("The built-in Arabic voice is synthetic and may use formal-Arabic pronunciation. Record a family example in the voice studio to replace it for that word.").font(.caption).foregroundStyle(DarjaTheme.muted)
+            Text("The offline Algerian voice covers words, stories and conversations. Record a family example in the voice studio to replace it for that word.").font(.caption).foregroundStyle(DarjaTheme.muted)
         }
         Section("Teaching guide") {NavigationLink("How to use the 36-week journey"){ParentGuideView()};NavigationLink("Observe a learning milestone"){AssessmentGuideView()}}
         Section("Privacy & controls") {
@@ -63,7 +64,7 @@ struct ParentDashboardView:View {
             Button("Reset learning progress",role:.destructive){reset=true}
         }
         if let error=store.storageError {Section("Storage notice"){Text(error).foregroundStyle(DarjaTheme.coral)}}
-        Section {Text("Darja Together 1.0 · Made for family learning").font(.caption).foregroundStyle(DarjaTheme.muted)}
+        Section {Text("Darja Together 1.1 · Made for family learning").font(.caption).foregroundStyle(DarjaTheme.muted)}
     }.scrollContentBackground(.hidden).background(DarjaTheme.cream).navigationTitle("Parent space").navigationBarTitleDisplayMode(.inline).confirmationDialog("Reset stars, saved words, completed lessons and review history?",isPresented:$reset,titleVisibility:.visible){Button("Reset progress",role:.destructive){store.resetProgress()};Button("Cancel",role:.cancel){}}message:{Text("Family vocabulary, voice clips, settings and the parent PIN will be kept.")}}
 }
 
