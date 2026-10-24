@@ -148,7 +148,13 @@ final class DarjaTogetherUITests: XCTestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 5), .completed)
         capture("Parent restored offline Algerian voice", app: app)
         tap(app.buttons["Clear generated speech cache"], in: app)
-        XCTAssertTrue(app.staticTexts["Generated speech cache cleared. Family recordings are kept."].waitForExistence(timeout: 5))
+        let cacheConfirmation = app.staticTexts["Generated speech cache cleared. Family recordings are kept."]
+        for _ in 0..<6 {
+            if cacheConfirmation.exists && cacheConfirmation.isHittable { break }
+            app.swipeDown()
+        }
+        XCTAssertTrue(cacheConfirmation.waitForExistence(timeout: 5))
+        XCTAssertTrue(cacheConfirmation.isHittable)
         capture("Generated cache cleared without removing family recordings", app: app)
         tap(app.navigationBars["Algerian voice"].buttons["Parent space"], in: app)
         tap(app.buttons["Done"], in: app)
