@@ -9,6 +9,7 @@ mkdir -p artifacts build
 if [[ "${DARJA_REQUIRE_SPEECH_MODEL:-0}" == "1" ]]; then
   python3 scripts/validate_speech_bundle.py DarjaTogether/Resources/SpeechModel > artifacts/speech-model-validation.json
   test -s artifacts/native-speech-validation.json
+  test -s artifacts/native-parity-validation.json
 fi
 python3 scripts/generate_project.py
 xcodebuild -version > artifacts/xcode-version-device.txt
@@ -30,7 +31,7 @@ xcrun lipo -info "$app_path/DarjaTogether" | tee artifacts/device-architecture.t
 xcrun vtool -show-build "$app_path/DarjaTogether" | tee artifacts/device-platform.txt
 # Validates Info.plist and actual Mach-O load commands. ARM64 by itself also
 # describes Apple Silicon simulator apps, so architecture alone is insufficient.
-python3 scripts/validate_ipa.py "$app_path" > artifacts/device-validation.json
+python3 scripts/validate_ipa.py "$app_path" --require-metal > artifacts/device-validation.json
 package_dir="$(mktemp -d "$PWD/build/device-ipa.XXXXXX")"
 trap 'rm -rf "$package_dir"' EXIT
 mkdir -p "$package_dir/Payload"
@@ -38,7 +39,7 @@ ditto "$app_path" "$package_dir/Payload/DarjaTogether.app"
 # Remove only this generated output so a previous archive cannot leave stale files.
 rm -f artifacts/DarjaTogether-unsigned.ipa
 ditto -c -k --keepParent "$package_dir/Payload" artifacts/DarjaTogether-unsigned.ipa
-python3 scripts/validate_ipa.py artifacts/DarjaTogether-unsigned.ipa | tee artifacts/ipa-validation.json
+python3 scripts/validate_ipa.py artifacts/DarjaTogether-unsigned.ipa --require-metal | tee artifacts/ipa-validation.json
 if [[ "${DARJA_REQUIRE_SPEECH_MODEL:-0}" == "1" ]]; then
   python3 scripts/validate_speech_bundle.py DarjaTogether/Resources/SpeechModel --ipa artifacts/DarjaTogether-unsigned.ipa > artifacts/ipa-speech-validation.json
 fi
@@ -71,6 +72,7 @@ if os.getenv("DARJA_REQUIRE_SPEECH_MODEL") == "1":
         "modelRepository": "touati-kamel/f5tts-algerian-darja",
         "modelRevision": "0589d128f0d0de70780a1e46cc425eb8cfa05d6b",
         "nativeSynthesis": json.loads(Path("artifacts/native-speech-validation.json").read_text()),
+        "numericalParity": json.loads(Path("artifacts/native-parity-validation.json").read_text()),
         "bundleValidation": json.loads(Path("artifacts/ipa-speech-validation.json").read_text()),
     }
 Path("artifacts/build-info.json").write_text(json.dumps(metadata, indent=2) + "\n")

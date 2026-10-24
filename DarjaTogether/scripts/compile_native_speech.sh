@@ -39,6 +39,6 @@ xcodebuild build \
   ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee artifacts/xcodebuild-speech-ios.log
-python3 scripts/validate_ipa.py build/device/Build/Products/Release-iphoneos/DarjaTogether.app > artifacts/speech-compile-validation.json
+python3 scripts/validate_ipa.py build/device/Build/Products/Release-iphoneos/DarjaTogether.app --require-metal > artifacts/speech-compile-validation.json
 resolution="DarjaTogether.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
 if [[ -f "$resolution" ]]; then cp "$resolution" artifacts/speech-Package.resolved; fi

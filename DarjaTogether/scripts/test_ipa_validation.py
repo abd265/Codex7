@@ -3,7 +3,7 @@
 import plistlib
 import struct
 import unittest
-from validate_ipa import ARM64, MACH64, device_binary, validate
+from validate_ipa import ARM64, MACH64, device_binary, validate, validate_metal_resources
 
 
 def executable(platform=2, cpu=ARM64):
@@ -24,6 +24,13 @@ def manifest(platform="iPhoneOS"):
 
 
 class DeviceBinaryValidationTests(unittest.TestCase):
+    def test_metal_resource_must_be_embedded_and_nonempty(self):
+        path = "Payload/DarjaTogether.app/mlx-swift_Cmlx.bundle/default.metallib"
+        self.assertEqual(validate_metal_resources([(path, 1024)])[0]["bytes"], 1024)
+        for files in ([], [("default.metallib", 1024)], [(path, 0)]):
+            with self.subTest(files=files), self.assertRaises(ValueError):
+                validate_metal_resources(files)
+
     def test_accepts_arm64_ios_device(self):
         self.assertEqual(device_binary(executable())["platform"], "iOS device")
 

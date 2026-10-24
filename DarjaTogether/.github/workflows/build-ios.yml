@@ -7,7 +7,7 @@ on:
         description: Compile the native engine first, or build the complete model-bundled IPA
         type: choice
         options: [compile, bundled]
-        default: compile
+        default: bundled
   push:
     branches: [main, master]
   pull_request:
@@ -16,8 +16,8 @@ permissions:
   contents: read
 
 env:
-  # Promote the push default only after the checkpoint-specific native compile.
-  DARJA_SPEECH_MODE: ${{ inputs.speech_mode || 'compile' }}
+  # Native Mac and physical-iPhone compilation was verified before enabling bundled builds.
+  DARJA_SPEECH_MODE: ${{ inputs.speech_mode || 'bundled' }}
 
 jobs:
   build:
@@ -70,6 +70,7 @@ jobs:
             artifacts/build-info.json
             artifacts/speech-model-validation.json
             artifacts/native-speech-validation.json
+            artifacts/native-parity-validation.json
             artifacts/ipa-speech-validation.json
           if-no-files-found: error
       - name: Upload build checks and screenshots
@@ -86,6 +87,7 @@ jobs:
             artifacts/*validation.json
             artifacts/speech-gpu.json
             artifacts/speech-metal-device.json
+            artifacts/speech-parity-manifest.json
             artifacts/ui-screenshots/**
             artifacts/*.resolved
           if-no-files-found: warn
@@ -94,5 +96,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DarjaTogether-UI-tests
-          path: DarjaTogether/artifacts/DarjaTogether-ui.xcresult
+          path: artifacts/DarjaTogether-ui.xcresult
           if-no-files-found: ignore

@@ -17,9 +17,12 @@ final class AudioService: NSObject, ObservableObject {
     @Published private(set) var isGeneratingSpeech = false
     @Published private(set) var synthesisProgress: Double = 0
     @Published private(set) var modelDiagnostic = ""
-    @Published var useDarjaModel = UserDefaults.standard.object(forKey: "useAlgerianF5Voice") as? Bool ?? true {
+    private static var voicePreferenceKey: String {
+        ProcessInfo.processInfo.arguments.contains("--uitesting") ? "uiTestingUseAlgerianF5Voice" : "useAlgerianF5Voice"
+    }
+    @Published var useDarjaModel = UserDefaults.standard.object(forKey: AudioService.voicePreferenceKey) as? Bool ?? true {
         didSet {
-            UserDefaults.standard.set(useDarjaModel, forKey: "useAlgerianF5Voice")
+            UserDefaults.standard.set(useDarjaModel, forKey: Self.voicePreferenceKey)
             stopAll()
             status = useDarjaModel ? "Algerian Darja speech is generated on this device." : "Approximate device Arabic voice selected."
         }
@@ -51,6 +54,7 @@ final class AudioService: NSObject, ObservableObject {
             .appendingPathComponent("Recordings", isDirectory: true)
         super.init()
         synthesizer.delegate = self
+        if arguments.contains("--uitesting") && !arguments.contains("--preserve-progress") { useDarjaModel = true }
         voiceLabel = arabicSourceLabel
         status = "Tap to hear Algerian Darja. The first phrase takes a moment to prepare."
         // An interrupted app process can leave an unfinished clip; never retain it as a voice example.
@@ -216,6 +220,11 @@ final class AudioService: NSObject, ObservableObject {
         stopAll()
         do { try DarjaVoiceSupport.clearCache(); status = "Generated speech cache cleared. Family recordings are kept." }
         catch { status = "The speech cache could not be cleared. Please try again." }
+    }
+
+    func stopListening() {
+        stopAll()
+        status = "Voice stopped. Tap a sound when you are ready."
     }
 
     func speakHelper(_ text: String, language: HelperLanguage) {

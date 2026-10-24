@@ -77,15 +77,32 @@ def validate(info_data, executable, label):
     return result
 
 
+def validate_metal_resources(files):
+    """Require the resource that MLX opens on an actual Metal-backed device."""
+    suffixes = ("mlx-swift_Cmlx.bundle/default.metallib",
+                "mlx-swift_Cmlx.bundle/Contents/Resources/default.metallib")
+    matches = [{"path": name, "bytes": size} for name, size in files
+               if any(name == suffix or name.endswith("/" + suffix) for suffix in suffixes)]
+    need(matches, "Missing bundled MLX default.metallib; iPhone GPU inference cannot run")
+    need(all(item["bytes"] > 0 for item in matches), "Bundled MLX default.metallib is empty")
+    return matches
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("path", type=Path, help="DarjaTogether .app directory or .ipa archive")
+    parser.add_argument("--require-metal", action="store_true", help="Require MLX's compiled GPU resource")
     args = parser.parse_args()
     if args.path.is_dir():
         result = validate(
             (args.path / "Info.plist").read_bytes(),
             (args.path / "DarjaTogether").read_bytes(), args.path,
         )
+        if args.require_metal:
+            result["metalResources"] = validate_metal_resources(
+                (path.relative_to(args.path).as_posix(), path.stat().st_size)
+                for path in args.path.rglob("default.metallib") if path.is_file()
+            )
     else:
         with ZipFile(args.path) as archive:
             need(archive.testzip() is None, "Corrupt IPA archive")
@@ -98,6 +115,11 @@ def main():
                 archive.read("Payload/DarjaTogether.app/Info.plist"),
                 archive.read("Payload/DarjaTogether.app/DarjaTogether"), args.path,
             )
+            if args.require_metal:
+                result["metalResources"] = validate_metal_resources(
+                    (item.filename, item.file_size) for item in archive.infolist()
+                    if item.filename.startswith("Payload/DarjaTogether.app/") and not item.is_dir()
+                )
     print(json.dumps(result, indent=2))
 
 

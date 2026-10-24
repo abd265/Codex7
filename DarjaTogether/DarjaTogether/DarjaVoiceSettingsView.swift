@@ -7,6 +7,7 @@ struct DarjaVoiceSettingsView: View {
         Form {
             Section("Algerian pronunciation") {
                 Toggle("Use the offline Algerian voice", isOn: $audio.useDarjaModel)
+                    .accessibilityIdentifier("useOfflineDarjaVoice")
                 LabeledContent("Voice files", value: audio.nativeModelInstalled ? "Installed" : "Missing")
                 Text("This voice uses an Algerian-trained speech model on your device. It covers words, stories and conversation prompts. Family word recordings always take priority.")
                     .font(.footnote)
@@ -54,13 +55,13 @@ struct SpeechActivityBanner: View {
                 HStack {
                     Text("Preparing your Algerian voice…").font(.caption)
                     Spacer()
-                    Button("Stop") { audio.stopAll() }
+                    Button("Stop") { audio.stopListening() }
                 }
             }
             .tint(DarjaTheme.teal)
             .accessibilityIdentifier("speechGeneration")
         } else if audio.isSpeaking || audio.isPlayingRecording {
-            Button { audio.stopAll() } label: { Label("Stop listening", systemImage: "stop.circle") }
+            Button { audio.stopListening() } label: { Label("Stop listening", systemImage: "stop.circle") }
         }
     }
 }

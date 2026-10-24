@@ -4,3 +4,6 @@ torch==2.14.1
 safetensors==0.8.0
 numpy==2.5.4
 scipy==1.18.1
+einops==0.8.2
+x-transformers==1.31.14
+packaging==25.0
